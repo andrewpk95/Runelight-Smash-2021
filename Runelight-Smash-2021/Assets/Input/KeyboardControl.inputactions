@@ -8,7 +8,7 @@
                 {
                     "name": "Jump",
                     "type": "Button",
-                    "id": "0593d91c-ed87-49cf-a0e4-d05a2a47ad8d",
+                    "id": "f79b3d2e-7266-4614-b449-f3db2f43de7f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -17,22 +17,11 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "cf308899-d1ea-45f3-aa39-8b05308506c3",
+                    "id": "77afc153-5bd2-461d-8694-19f23d9fcca3",
                     "path": "<Keyboard>/space",
-                    "interactions": "",
+                    "interactions": "Tap(duration=0.07)",
                     "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b855870f-5ba4-4510-8df2-8908cb946203",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard & Mouse",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -40,5 +29,22 @@
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "Keyboard & Mouse",
+            "bindingGroup": "Keyboard & Mouse",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }
