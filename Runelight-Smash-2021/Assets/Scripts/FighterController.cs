@@ -5,6 +5,11 @@ using UnityEngine.InputSystem;
 
 public class FighterController : MonoBehaviour
 {
+    public float DASH_BUFFER_DURATION = 0.2f;
+
+    private float dashBufferedDirection;
+    private Coroutine dashCoroutine;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +20,61 @@ public class FighterController : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void HandleMovement(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            if (dashCoroutine != null)
+            {
+                StopCoroutine(dashCoroutine);
+            }
+
+            float direction = input.ReadValue<float>();
+
+            if (direction > 0)
+            {
+                if (dashBufferedDirection > 0)
+                {
+                    Debug.Log("Dash Right");
+                    dashBufferedDirection = 0.0f;
+                }
+                else
+                {
+                    Debug.Log("Move Right");
+                    dashBufferedDirection = direction;
+                    dashCoroutine = StartCoroutine(DashBuffer());
+                }
+            }
+            else if (direction < 0)
+            {
+                if (dashBufferedDirection < 0)
+                {
+                    Debug.Log("Dash Left");
+                    dashBufferedDirection = 0.0f;
+                }
+                else
+                {
+                    Debug.Log("Move Left");
+                    dashBufferedDirection = direction;
+                    dashCoroutine = StartCoroutine(DashBuffer());
+                }
+            }
+        }
+        if (input.canceled)
+        {
+            {
+                Debug.Log("Stop");
+            }
+        }
+    }
+
+    IEnumerator DashBuffer()
+    {
+        yield return new WaitForSeconds(DASH_BUFFER_DURATION);
+        dashBufferedDirection = 0.0f;
+        Debug.Log("Buffer Over");
     }
 
     public void HandleJump(InputAction.CallbackContext input)
