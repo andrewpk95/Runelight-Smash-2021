@@ -217,6 +217,8 @@ GameObject:
   - component: {fileID: 2025968842}
   - component: {fileID: 2025968843}
   - component: {fileID: 2025968841}
+  - component: {fileID: 2025968845}
+  - component: {fileID: 2025968844}
   m_Layer: 0
   m_Name: Fighter
   m_TagString: Untagged
@@ -236,7 +238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1100c5662317f34ebbf7286879c1b76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DASH_BUFFER_DURATION: 0.2
 --- !u!4 &2025968842
 Transform:
   m_ObjectHideFlags: 0
@@ -278,8 +279,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968841}
-        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+      - m_Target: {fileID: 2025968845}
+        m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
         m_MethodName: HandleJump
         m_Mode: 0
         m_Arguments:
@@ -294,8 +295,8 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968841}
-        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+      - m_Target: {fileID: 2025968845}
+        m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
         m_MethodName: HandleGroundMovement
         m_Mode: 0
         m_Arguments:
@@ -310,8 +311,8 @@ MonoBehaviour:
     m_ActionName: Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968841}
-        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+      - m_Target: {fileID: 2025968845}
+        m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
         m_MethodName: HandleCrouch
         m_Mode: 0
         m_Arguments:
@@ -326,8 +327,8 @@ MonoBehaviour:
     m_ActionName: Player/Crouch[/Keyboard/s]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968841}
-        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+      - m_Target: {fileID: 2025968844}
+        m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
         m_MethodName: HandleDoubleJump
         m_Mode: 0
         m_Arguments:
@@ -342,8 +343,8 @@ MonoBehaviour:
     m_ActionName: Airborne/DoubleJump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968841}
-        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+      - m_Target: {fileID: 2025968844}
+        m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
         m_MethodName: HandleAirMovement
         m_Mode: 0
         m_Arguments:
@@ -358,8 +359,8 @@ MonoBehaviour:
     m_ActionName: Airborne/Movement[/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968841}
-        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+      - m_Target: {fileID: 2025968844}
+        m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
         m_MethodName: HandleFastFall
         m_Mode: 0
         m_Arguments:
@@ -374,8 +375,8 @@ MonoBehaviour:
     m_ActionName: Airborne/FastFall[/Keyboard/s]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968841}
-        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+      - m_Target: {fileID: 2025968845}
+        m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
         m_MethodName: HandleShield
         m_Mode: 0
         m_Arguments:
@@ -390,8 +391,8 @@ MonoBehaviour:
     m_ActionName: Grounded/Shield[/Keyboard/shift]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968841}
-        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+      - m_Target: {fileID: 2025968844}
+        m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
         m_MethodName: HandleAirDodge
         m_Mode: 0
         m_Arguments:
@@ -406,8 +407,8 @@ MonoBehaviour:
     m_ActionName: Airborne/AirDodge[/Keyboard/shift]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968841}
-        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+      - m_Target: {fileID: 2025968845}
+        m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
         m_MethodName: HandleGrab
         m_Mode: 0
         m_Arguments:
@@ -422,8 +423,8 @@ MonoBehaviour:
     m_ActionName: Grounded/Grab[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968841}
-        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+      - m_Target: {fileID: 2025968844}
+        m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
         m_MethodName: HandleZAir
         m_Mode: 0
         m_Arguments:
@@ -441,3 +442,28 @@ MonoBehaviour:
   m_DefaultActionMap: Grounded
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &2025968844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4cb1090aa47ead459d86f0210e82e4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2025968845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c82f8aa7afdec9944bbf4803366e47a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DASH_BUFFER_DURATION: 0.2
