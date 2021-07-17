@@ -372,6 +372,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c07fe02e-aaf8-4a69-8e5b-f551059fbf73
     m_ActionName: Airborne/FastFall[/Keyboard/s]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968841}
+        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+        m_MethodName: HandleShield
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 88b1b4ca-dcb5-4329-ad96-7515113ad8a9
+    m_ActionName: Grounded/Shield[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968841}
+        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+        m_MethodName: HandleAirDodge
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 49811574-1efd-416a-bd80-b8af3e33c71c
+    m_ActionName: Airborne/AirDodge[/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard & Mouse
   m_DefaultActionMap: Grounded

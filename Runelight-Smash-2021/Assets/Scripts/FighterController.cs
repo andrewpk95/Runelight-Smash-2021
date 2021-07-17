@@ -14,6 +14,8 @@ public class FighterController : MonoBehaviour
     private float dashBufferedDirection;
     private Coroutine dashCoroutine;
 
+    private bool isShielding = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +41,11 @@ public class FighterController : MonoBehaviour
 
             if (direction > 0)
             {
-                if (dashBufferedDirection > 0)
+                if (isShielding)
+                {
+                    Debug.Log("Roll Right");
+                }
+                else if (dashBufferedDirection > 0)
                 {
                     Debug.Log("Dash Right");
                     dashBufferedDirection = 0.0f;
@@ -53,7 +59,11 @@ public class FighterController : MonoBehaviour
             }
             else if (direction < 0)
             {
-                if (dashBufferedDirection < 0)
+                if (isShielding)
+                {
+                    Debug.Log("Roll Left");
+                }
+                else if (dashBufferedDirection < 0)
                 {
                     Debug.Log("Dash Left");
                     dashBufferedDirection = 0.0f;
@@ -84,11 +94,14 @@ public class FighterController : MonoBehaviour
     {
         if (input.performed)
         {
-
+            if (isShielding)
+            {
+                Debug.Log("Spot Dodge");
+            }
+            else
             {
                 Debug.Log("Crouch");
             }
-
         }
     }
 
@@ -111,6 +124,20 @@ public class FighterController : MonoBehaviour
         {
             Debug.Log("Full Hop");
             Jump(1.0f);
+        }
+    }
+
+    public void HandleShield(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            Debug.Log("Shield");
+            isShielding = true;
+        }
+        if (input.canceled)
+        {
+            Debug.Log("Shield Release");
+            isShielding = false;
         }
     }
 
@@ -165,6 +192,14 @@ public class FighterController : MonoBehaviour
         if (input.performed)
         {
             Debug.Log("Double Jump");
+        }
+    }
+
+    public void HandleAirDodge(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            Debug.Log("Air Dodge");
         }
     }
 }

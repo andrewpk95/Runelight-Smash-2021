@@ -28,6 +28,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press"
+                },
+                {
+                    "name": "Shield",
+                    "type": "Button",
+                    "id": "88b1b4ca-dcb5-4329-ad96-7515113ad8a9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -85,6 +93,17 @@
                     "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d3399c49-277f-4268-869e-c672bae4a315",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Shield",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -112,6 +131,14 @@
                     "name": "FastFall",
                     "type": "Button",
                     "id": "c07fe02e-aaf8-4a69-8e5b-f551059fbf73",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "AirDodge",
+                    "type": "Button",
+                    "id": "49811574-1efd-416a-bd80-b8af3e33c71c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -170,6 +197,17 @@
                     "processors": "",
                     "groups": "Keyboard & Mouse",
                     "action": "FastFall",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9d5299c4-c00b-4c30-9a31-d85bf78df8c7",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "AirDodge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
