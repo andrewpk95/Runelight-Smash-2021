@@ -77,6 +77,14 @@ public class FighterController : MonoBehaviour
         Debug.Log("Buffer Over");
     }
 
+    public void HandleCrouch(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            Debug.Log("Crouch");
+        }
+    }
+
     public void HandleJump(InputAction.CallbackContext input)
     {
         if (input.started)
