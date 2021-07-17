@@ -236,6 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1100c5662317f34ebbf7286879c1b76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DASH_BUFFER_DURATION: 0.2
 --- !u!4 &2025968842
 Transform:
   m_ObjectHideFlags: 0
@@ -291,8 +292,88 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f79b3d2e-7266-4614-b449-f3db2f43de7f
     m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968841}
+        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+        m_MethodName: HandleGroundMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 60f8cacf-117c-45a1-9e7f-7f0814709625
+    m_ActionName: Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968841}
+        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+        m_MethodName: HandleCrouch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c128e4f3-7f55-40ff-8618-7f3db6901ed2
+    m_ActionName: Player/Crouch[/Keyboard/s]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968841}
+        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+        m_MethodName: HandleDoubleJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9184af8c-3b11-46ec-8d5b-8a2b44b05ee7
+    m_ActionName: Airborne/DoubleJump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968841}
+        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+        m_MethodName: HandleAirMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5f842b02-13f3-4075-808b-73215d1d248c
+    m_ActionName: Airborne/Movement[/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968841}
+        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+        m_MethodName: HandleFastFall
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c07fe02e-aaf8-4a69-8e5b-f551059fbf73
+    m_ActionName: Airborne/FastFall[/Keyboard/s]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard & Mouse
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: Grounded
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

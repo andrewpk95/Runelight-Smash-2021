@@ -2,7 +2,7 @@
     "name": "KeyboardControl",
     "maps": [
         {
-            "name": "Player",
+            "name": "Grounded",
             "id": "36a65580-a396-44e3-9091-fcb6d7425f17",
             "actions": [
                 {
@@ -83,6 +83,93 @@
                     "processors": "",
                     "groups": "Keyboard & Mouse",
                     "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Airborne",
+            "id": "3adec105-9002-4076-ae18-aecf31125f29",
+            "actions": [
+                {
+                    "name": "DoubleJump",
+                    "type": "Button",
+                    "id": "9184af8c-3b11-46ec-8d5b-8a2b44b05ee7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Movement",
+                    "type": "Value",
+                    "id": "5f842b02-13f3-4075-808b-73215d1d248c",
+                    "expectedControlType": "Analog",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "FastFall",
+                    "type": "Button",
+                    "id": "c07fe02e-aaf8-4a69-8e5b-f551059fbf73",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0d4362b0-6fa7-4d3e-a33b-d90b7892f708",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "DoubleJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "c4c9bf86-0445-4d68-be82-7b46d56549eb",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "db64d66a-5ec4-4dae-b5d6-6fb3d5f68e12",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "0c6def3e-4040-4cf9-8bc7-99940e85b20a",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "1f939dcb-2fb7-4488-a700-a3f0e634ddc2",
+                    "path": "<Keyboard>/s",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "FastFall",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
