@@ -36,6 +36,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Grab",
+                    "type": "Button",
+                    "id": "6a00ddb4-80dc-4bc8-80c2-e3e2ccf694a0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -104,6 +112,17 @@
                     "action": "Shield",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c67a02f3-67d9-4b84-a050-41c62cb678d5",
+                    "path": "<Keyboard>/e",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -139,6 +158,14 @@
                     "name": "AirDodge",
                     "type": "Button",
                     "id": "49811574-1efd-416a-bd80-b8af3e33c71c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ZAir",
+                    "type": "Button",
+                    "id": "6956136d-2354-416c-a3ac-44cc77ac4734",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -208,6 +235,17 @@
                     "processors": "",
                     "groups": "Keyboard & Mouse",
                     "action": "AirDodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "361944b5-2422-40b6-b5ab-4f7e32d27db2",
+                    "path": "<Keyboard>/e",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "ZAir",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

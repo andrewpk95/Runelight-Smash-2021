@@ -141,6 +141,14 @@ public class FighterController : MonoBehaviour
         }
     }
 
+    public void HandleGrab(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            Debug.Log("Grab");
+        }
+    }
+
     // Mock jump simulation
     private void Jump(float duration)
     {
@@ -200,6 +208,14 @@ public class FighterController : MonoBehaviour
         if (input.performed)
         {
             Debug.Log("Air Dodge");
+        }
+    }
+
+    public void HandleZAir(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            Debug.Log("Zair");
         }
     }
 }
