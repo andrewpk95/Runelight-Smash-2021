@@ -19,6 +19,16 @@ public class KeyboardAirborneActionHandler : MonoBehaviour
 
     }
 
+    // Mock Handler to toggle edge grab
+    public void HandleEdgeGrab(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            Debug.Log("Edge Grab");
+            fighterController.EdgeGrab();
+        }
+    }
+
     public void HandleAirMovement(InputAction.CallbackContext input)
     {
         if (input.performed)

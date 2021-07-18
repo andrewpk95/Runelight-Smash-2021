@@ -220,6 +220,7 @@ GameObject:
   - component: {fileID: 2025968845}
   - component: {fileID: 2025968844}
   - component: {fileID: 2025968846}
+  - component: {fileID: 2025968847}
   m_Layer: 0
   m_Name: Fighter
   m_TagString: Untagged
@@ -239,6 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1100c5662317f34ebbf7286879c1b76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGrounded: 1
 --- !u!4 &2025968842
 Transform:
   m_ObjectHideFlags: 0
@@ -486,6 +488,102 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e6b375e8-2d36-4b1c-a888-ce8512c0ff28
     m_ActionName: Grounded/Attack[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
+        m_MethodName: HandleJumpGetup
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f389ec3f-00a6-4e68-85c5-78c6c51d7659
+    m_ActionName: EdgeGrab/JumpGetup[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
+        m_MethodName: HandleMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 13811a88-26b2-44bc-a9f2-7e931d4caaba
+    m_ActionName: EdgeGrab/Movement[/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
+        m_MethodName: HandleLetGo
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 450f9bb4-a7d4-4ef8-8dd4-14adefdeafc3
+    m_ActionName: EdgeGrab/LetGo[/Keyboard/s]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
+        m_MethodName: HandleRollGetup
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b71ae4c7-7096-405b-97ba-8de8349f7b2d
+    m_ActionName: EdgeGrab/RollGetup[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
+        m_MethodName: HandleAttackGetup
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f46b2ca6-007d-466b-8869-b6497d0be87e
+    m_ActionName: EdgeGrab/AttackGetup[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968844}
+        m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
+        m_MethodName: HandleEdgeGrab
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a9f55573-8cd3-4a2f-a0b1-4470c3258ab1
+    m_ActionName: Airborne/MockEdgeGrab[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard & Mouse
   m_DefaultActionMap: Grounded
@@ -529,3 +627,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX_DRAG_DURATION: 0.1
+--- !u!114 &2025968847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c555e6e26ee784daf30ffbc7a9bd11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

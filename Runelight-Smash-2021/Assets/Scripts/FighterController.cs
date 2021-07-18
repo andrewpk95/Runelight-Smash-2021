@@ -7,7 +7,7 @@ public class FighterController : MonoBehaviour
 {
     private PlayerInput playerInput;
 
-    private bool isGrounded = true;
+    public bool isGrounded = true;
 
     // Start is called before the first frame update
     void Start()
@@ -27,5 +27,17 @@ public class FighterController : MonoBehaviour
         playerInput.SwitchCurrentActionMap("Grounded");
         isGrounded = true;
         Debug.Log("Landed");
+    }
+
+    // Mock edge grab simulation
+    public void EdgeGrab()
+    {
+        playerInput.SwitchCurrentActionMap("EdgeGrab");
+    }
+
+    public void ReleaseEdge()
+    {
+        playerInput.SwitchCurrentActionMap("Grounded");
+        isGrounded = true;
     }
 }

@@ -9,8 +9,6 @@ public class KeyboardGroundActionHandler : MonoBehaviour
 
     private FighterController fighterController;
 
-    private bool isGrounded = true;
-
     private float dashBufferedDirection;
     private Coroutine dashCoroutine;
 
@@ -101,7 +99,7 @@ public class KeyboardGroundActionHandler : MonoBehaviour
 
     public void HandleJump(InputAction.CallbackContext input)
     {
-        if (!isGrounded)
+        if (!fighterController.isGrounded)
         {
             return;
         }
