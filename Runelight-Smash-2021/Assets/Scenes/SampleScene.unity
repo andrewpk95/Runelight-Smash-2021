@@ -118,6 +118,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -204,3 +206,436 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2025968840
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2025968842}
+  - component: {fileID: 2025968843}
+  - component: {fileID: 2025968841}
+  - component: {fileID: 2025968845}
+  - component: {fileID: 2025968844}
+  - component: {fileID: 2025968846}
+  - component: {fileID: 2025968847}
+  m_Layer: 0
+  m_Name: Fighter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2025968841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1100c5662317f34ebbf7286879c1b76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGrounded: 1
+--- !u!4 &2025968842
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.7178132, y: -0.17015924, z: -0.46036637}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2025968843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: bc3128d6d2cb3e64cb5dee08dabcd3b4, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968845}
+        m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
+        m_MethodName: HandleJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f79b3d2e-7266-4614-b449-f3db2f43de7f
+    m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968845}
+        m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
+        m_MethodName: HandleGroundMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 60f8cacf-117c-45a1-9e7f-7f0814709625
+    m_ActionName: Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968845}
+        m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
+        m_MethodName: HandleCrouch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c128e4f3-7f55-40ff-8618-7f3db6901ed2
+    m_ActionName: Player/Crouch[/Keyboard/s]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968844}
+        m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
+        m_MethodName: HandleDoubleJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9184af8c-3b11-46ec-8d5b-8a2b44b05ee7
+    m_ActionName: Airborne/DoubleJump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968844}
+        m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
+        m_MethodName: HandleAirMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5f842b02-13f3-4075-808b-73215d1d248c
+    m_ActionName: Airborne/Movement[/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968844}
+        m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
+        m_MethodName: HandleFastFall
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c07fe02e-aaf8-4a69-8e5b-f551059fbf73
+    m_ActionName: Airborne/FastFall[/Keyboard/s]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968845}
+        m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
+        m_MethodName: HandleShield
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 88b1b4ca-dcb5-4329-ad96-7515113ad8a9
+    m_ActionName: Grounded/Shield[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968844}
+        m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
+        m_MethodName: HandleAirDodge
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 49811574-1efd-416a-bd80-b8af3e33c71c
+    m_ActionName: Airborne/AirDodge[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968845}
+        m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
+        m_MethodName: HandleGrab
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6a00ddb4-80dc-4bc8-80c2-e3e2ccf694a0
+    m_ActionName: Grounded/Grab[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968844}
+        m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
+        m_MethodName: HandleZAir
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6956136d-2354-416c-a3ac-44cc77ac4734
+    m_ActionName: Airborne/ZAir[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968846}
+        m_TargetAssemblyTypeName: MouseAttackActionHandler, Assembly-CSharp
+        m_MethodName: HandleLeftClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fcc6591e-dc63-4156-86d5-40b6d16c9084
+    m_ActionName: Grounded/LeftClick[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968846}
+        m_TargetAssemblyTypeName: MouseAttackActionHandler, Assembly-CSharp
+        m_MethodName: HandleRightClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 08bce42f-df06-46f5-923e-77f7cfaed130
+    m_ActionName: Grounded/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968846}
+        m_TargetAssemblyTypeName: MouseAttackActionHandler, Assembly-CSharp
+        m_MethodName: HandleDrag
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e6b375e8-2d36-4b1c-a888-ce8512c0ff28
+    m_ActionName: Grounded/Attack[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
+        m_MethodName: HandleJumpGetup
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f389ec3f-00a6-4e68-85c5-78c6c51d7659
+    m_ActionName: EdgeGrab/JumpGetup[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
+        m_MethodName: HandleMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 13811a88-26b2-44bc-a9f2-7e931d4caaba
+    m_ActionName: EdgeGrab/Movement[/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
+        m_MethodName: HandleLetGo
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 450f9bb4-a7d4-4ef8-8dd4-14adefdeafc3
+    m_ActionName: EdgeGrab/LetGo[/Keyboard/s]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
+        m_MethodName: HandleRollGetup
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b71ae4c7-7096-405b-97ba-8de8349f7b2d
+    m_ActionName: EdgeGrab/RollGetup[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
+        m_MethodName: HandleAttackGetup
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f46b2ca6-007d-466b-8869-b6497d0be87e
+    m_ActionName: EdgeGrab/AttackGetup[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968844}
+        m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
+        m_MethodName: HandleEdgeGrab
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a9f55573-8cd3-4a2f-a0b1-4470c3258ab1
+    m_ActionName: Airborne/MockEdgeGrab[/Keyboard/q]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard & Mouse
+  m_DefaultActionMap: Grounded
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &2025968844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4cb1090aa47ead459d86f0210e82e4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2025968845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c82f8aa7afdec9944bbf4803366e47a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DASH_BUFFER_DURATION: 0.2
+--- !u!114 &2025968846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a308c65431c1745b56e230eb413601, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MAX_DRAG_DURATION: 0.1
+--- !u!114 &2025968847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c555e6e26ee784daf30ffbc7a9bd11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
