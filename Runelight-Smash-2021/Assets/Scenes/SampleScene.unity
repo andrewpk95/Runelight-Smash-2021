@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 2025968841}
   - component: {fileID: 2025968845}
   - component: {fileID: 2025968844}
+  - component: {fileID: 2025968846}
   m_Layer: 0
   m_Name: Fighter
   m_TagString: Untagged
@@ -437,6 +438,54 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6956136d-2354-416c-a3ac-44cc77ac4734
     m_ActionName: Airborne/ZAir[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968846}
+        m_TargetAssemblyTypeName: MouseAttackActionHandler, Assembly-CSharp
+        m_MethodName: HandleLeftClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fcc6591e-dc63-4156-86d5-40b6d16c9084
+    m_ActionName: Grounded/LeftClick[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968846}
+        m_TargetAssemblyTypeName: MouseAttackActionHandler, Assembly-CSharp
+        m_MethodName: HandleRightClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 08bce42f-df06-46f5-923e-77f7cfaed130
+    m_ActionName: Grounded/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968846}
+        m_TargetAssemblyTypeName: MouseAttackActionHandler, Assembly-CSharp
+        m_MethodName: HandleDrag
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e6b375e8-2d36-4b1c-a888-ce8512c0ff28
+    m_ActionName: Grounded/Attack[/Mouse/delta]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard & Mouse
   m_DefaultActionMap: Grounded
@@ -467,3 +516,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DASH_BUFFER_DURATION: 0.2
+--- !u!114 &2025968846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a308c65431c1745b56e230eb413601, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MAX_DRAG_DURATION: 0.1
