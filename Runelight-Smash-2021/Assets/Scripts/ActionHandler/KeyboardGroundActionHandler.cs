@@ -48,6 +48,10 @@ public class KeyboardGroundActionHandler : MonoBehaviour
                     Debug.Log("Move Left");
                 }
             }
+            else
+            {
+                Debug.Log("Stop");
+            }
         }
         if (input.canceled)
         {
