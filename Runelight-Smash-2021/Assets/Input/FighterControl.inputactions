@@ -1,5 +1,5 @@
 {
-    "name": "KeyboardControl",
+    "name": "FighterControl",
     "maps": [
         {
             "name": "Grounded",
@@ -18,6 +18,14 @@
                     "type": "Value",
                     "id": "60f8cacf-117c-45a1-9e7f-7f0814709625",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Dash(Keyboard)",
+                    "type": "Button",
+                    "id": "31ce819c-a45f-465a-ae28-484d99f5d852",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 },
@@ -62,7 +70,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Attack",
+                    "name": "MouseMove",
                     "type": "Value",
                     "id": "e6b375e8-2d36-4b1c-a888-ce8512c0ff28",
                     "expectedControlType": "Vector2",
@@ -311,7 +319,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
-                    "action": "Attack",
+                    "action": "MouseMove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -347,6 +355,39 @@
                     "action": "Smash",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "30ed42c2-5590-4a12-b4a5-586670115441",
+                    "path": "1DAxis",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash(Keyboard)",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "b4ec3014-4bb9-4133-8def-17c294eaa965",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Dash(Keyboard)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "50ad8710-85ad-4513-b8e4-a3c27c7bac94",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Dash(Keyboard)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

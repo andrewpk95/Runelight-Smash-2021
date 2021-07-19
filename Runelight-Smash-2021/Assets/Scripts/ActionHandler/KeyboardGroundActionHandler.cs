@@ -24,11 +24,6 @@ public class KeyboardGroundActionHandler : MonoBehaviour
     {
         if (input.performed)
         {
-            if (dashCoroutine != null)
-            {
-                StopCoroutine(dashCoroutine);
-            }
-
             Vector2 direction = input.ReadValue<Vector2>();
 
             if (direction.x > 0)
@@ -37,16 +32,9 @@ public class KeyboardGroundActionHandler : MonoBehaviour
                 {
                     Debug.Log("Roll Right");
                 }
-                else if (dashBufferedDirection > 0)
-                {
-                    Debug.Log("Dash Right");
-                    dashBufferedDirection = 0.0f;
-                }
                 else
                 {
                     Debug.Log("Move Right");
-                    dashBufferedDirection = direction.x;
-                    dashCoroutine = StartCoroutine(DashBuffer());
                 }
             }
             else if (direction.x < 0)
@@ -55,16 +43,9 @@ public class KeyboardGroundActionHandler : MonoBehaviour
                 {
                     Debug.Log("Roll Left");
                 }
-                else if (dashBufferedDirection < 0)
-                {
-                    Debug.Log("Dash Left");
-                    dashBufferedDirection = 0.0f;
-                }
                 else
                 {
                     Debug.Log("Move Left");
-                    dashBufferedDirection = direction.x;
-                    dashCoroutine = StartCoroutine(DashBuffer());
                 }
             }
         }
@@ -72,6 +53,51 @@ public class KeyboardGroundActionHandler : MonoBehaviour
         {
             {
                 Debug.Log("Stop");
+            }
+        }
+    }
+
+    // TODO: Change to Custom Composite Interaction
+    public void HandleDash(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            if (isShielding)
+            {
+                return;
+            }
+            if (dashCoroutine != null)
+            {
+                StopCoroutine(dashCoroutine);
+            }
+
+            float direction = input.ReadValue<float>();
+
+            if (direction > 0)
+            {
+                if (dashBufferedDirection > 0)
+                {
+                    Debug.Log("Dash Right");
+                    dashBufferedDirection = 0.0f;
+                }
+                else
+                {
+                    dashBufferedDirection = direction;
+                    dashCoroutine = StartCoroutine(DashBuffer());
+                }
+            }
+            else if (direction < 0)
+            {
+                if (dashBufferedDirection < 0)
+                {
+                    Debug.Log("Dash Left");
+                    dashBufferedDirection = 0.0f;
+                }
+                else
+                {
+                    dashBufferedDirection = direction;
+                    dashCoroutine = StartCoroutine(DashBuffer());
+                }
             }
         }
     }

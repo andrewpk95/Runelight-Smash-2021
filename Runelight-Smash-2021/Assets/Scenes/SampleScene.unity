@@ -584,6 +584,34 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a9f55573-8cd3-4a2f-a0b1-4470c3258ab1
     m_ActionName: Airborne/MockEdgeGrab[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8e7cbbcd-77c0-4e86-9590-226ddc380786
+    m_ActionName: Grounded/Attack(Button)[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ce88b1c8-f9a8-4cd8-ab00-5eb771b22210
+    m_ActionName: Grounded/Special(Button)[/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a3970728-888c-4896-942b-e48ecc10a096
+    m_ActionName: Grounded/Smash[/XInputControllerWindows/rightStick]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968845}
+        m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
+        m_MethodName: HandleDash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 31ce819c-a45f-465a-ae28-484d99f5d852
+    m_ActionName: Grounded/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard & Mouse
   m_DefaultActionMap: Grounded
