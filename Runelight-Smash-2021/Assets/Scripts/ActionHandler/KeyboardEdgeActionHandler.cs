@@ -23,15 +23,15 @@ public class KeyboardEdgeActionHandler : MonoBehaviour
     {
         if (input.performed)
         {
-            float direction = input.ReadValue<float>();
+            Vector2 direction = input.ReadValue<Vector2>();
 
             // For now, assume always hanging at the left side
-            if (direction > 0)
+            if (direction.x > 0)
             {
                 Debug.Log("Normal Getup");
                 fighterController.ReleaseEdge();
             }
-            else if (direction < 0)
+            else if (direction.x < 0)
             {
                 Debug.Log("Let Go (Normal)");
                 fighterController.ReleaseEdge();

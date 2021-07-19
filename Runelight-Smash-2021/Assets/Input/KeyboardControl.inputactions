@@ -17,9 +17,9 @@
                     "name": "Movement",
                     "type": "Value",
                     "id": "60f8cacf-117c-45a1-9e7f-7f0814709625",
-                    "expectedControlType": "Analog",
+                    "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": "Press"
+                    "interactions": ""
                 },
                 {
                     "name": "Crouch",
@@ -68,9 +68,44 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Attack(Button)",
+                    "type": "Button",
+                    "id": "8e7cbbcd-77c0-4e86-9590-226ddc380786",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Special(Button)",
+                    "type": "Button",
+                    "id": "ce88b1c8-f9a8-4cd8-ab00-5eb771b22210",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Smash",
+                    "type": "Value",
+                    "id": "a3970728-888c-4896-942b-e48ecc10a096",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
+                {
+                    "name": "",
+                    "id": "2ba14180-3dac-4d08-af02-36341d7c2f28",
+                    "path": "<XInputController>/buttonWest",
+                    "interactions": "Tap(duration=0.07)",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
                 {
                     "name": "",
                     "id": "77afc153-5bd2-461d-8694-19f23d9fcca3",
@@ -83,9 +118,31 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "1D Axis",
-                    "id": "23a622f7-3a0f-4fb7-a4a0-802e1118ade3",
-                    "path": "1DAxis",
+                    "name": "",
+                    "id": "832ea755-22fc-4b89-94f3-215f6a7cd12e",
+                    "path": "<XInputController>/buttonNorth",
+                    "interactions": "Tap(duration=0.07)",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a0375d3c-070c-4ade-9003-d5d0e0932095",
+                    "path": "<XInputController>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "26dfb128-5ef8-4236-8088-cf3dea65a491",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -94,8 +151,30 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
-                    "id": "c73d881c-e118-4032-855d-1a235912c0e6",
+                    "name": "up",
+                    "id": "21cbf161-2f0b-4895-9649-ad9f373ca806",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "1e262f99-b82b-4e0e-b94d-2ca60d573331",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "55c3f2ca-51bf-4928-a10f-61fb3b0a9152",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -105,8 +184,8 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "positive",
-                    "id": "c3bb808c-51dd-41a6-935d-586c0951cf42",
+                    "name": "right",
+                    "id": "895f6a75-f570-45af-8171-a4390b38342f",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -128,6 +207,17 @@
                 },
                 {
                     "name": "",
+                    "id": "fe249296-423a-42cd-aeb7-113f2e770851",
+                    "path": "<XInputController>/leftStick/down",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d3399c49-277f-4268-869e-c672bae4a315",
                     "path": "<Keyboard>/shift",
                     "interactions": "Press",
@@ -139,11 +229,55 @@
                 },
                 {
                     "name": "",
+                    "id": "da9ea810-9919-40d0-b0c5-a40bf1aaaea0",
+                    "path": "<XInputController>/leftTrigger",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Shield",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "26ab418f-2fc7-4ca5-81d2-c451498cf7c0",
+                    "path": "<XInputController>/rightTrigger",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Shield",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c67a02f3-67d9-4b84-a050-41c62cb678d5",
                     "path": "<Keyboard>/e",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
+                    "action": "Grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b7377b87-6a05-4d9b-b728-dcc5e87c8a9a",
+                    "path": "<XInputController>/leftShoulder",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0083bef4-2bc2-4863-854e-3cd0336ea49e",
+                    "path": "<XInputController>/rightShoulder",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
                     "action": "Grab",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -180,6 +314,39 @@
                     "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "339ac88d-11b6-478c-ae75-6aa55a1bc54b",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Attack(Button)",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d9f6fa90-5944-4b81-9969-f0b7694dbab4",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Special(Button)",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ad8601d3-e464-404a-b51d-630a1f7474af",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Smash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -199,7 +366,7 @@
                     "name": "Movement",
                     "type": "Value",
                     "id": "5f842b02-13f3-4075-808b-73215d1d248c",
-                    "expectedControlType": "Analog",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 },
@@ -249,9 +416,42 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "1D Axis",
-                    "id": "c4c9bf86-0445-4d68-be82-7b46d56549eb",
-                    "path": "1DAxis",
+                    "name": "",
+                    "id": "6eac5022-789a-4230-9c51-731a6ff67f06",
+                    "path": "<XInputController>/buttonWest",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "DoubleJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6fcad192-9c10-474c-8642-560ad7a01696",
+                    "path": "<XInputController>/buttonNorth",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "DoubleJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d9b4d3b1-d92d-43a2-8b8c-c46b19a0e542",
+                    "path": "<XInputController>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "5efe7c55-1747-4212-bef0-be028c55c09c",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -260,8 +460,30 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
-                    "id": "db64d66a-5ec4-4dae-b5d6-6fb3d5f68e12",
+                    "name": "up",
+                    "id": "e922422f-09b5-45d9-966e-fae6e6e0c8ff",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "c21b3711-20c1-4a30-aaad-06e9a6f39054",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "3d000ccc-344e-4301-8918-e009e20bb3c5",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -271,8 +493,8 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "positive",
-                    "id": "0c6def3e-4040-4cf9-8bc7-99940e85b20a",
+                    "name": "right",
+                    "id": "78850aa2-dc09-4f08-bb68-06a4c587faa2",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -294,11 +516,44 @@
                 },
                 {
                     "name": "",
+                    "id": "6ab7b5ae-5158-4b7e-be87-aab6e24d9274",
+                    "path": "<XInputController>/leftStick/down",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "FastFall",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "9d5299c4-c00b-4c30-9a31-d85bf78df8c7",
                     "path": "<Keyboard>/shift",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
+                    "action": "AirDodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f61e76c9-0aa3-4250-8333-bdf740007d6b",
+                    "path": "<XInputController>/leftTrigger",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "AirDodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "40ac1dff-dab6-4aa8-bfc2-05a6bb656297",
+                    "path": "<XInputController>/rightTrigger",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
                     "action": "AirDodge",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -316,11 +571,44 @@
                 },
                 {
                     "name": "",
+                    "id": "23f4a3fd-e58b-4a81-80a5-873d661dd352",
+                    "path": "<XInputController>/leftShoulder",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "ZAir",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c1f73f8f-a540-4324-8af4-e59aa8526435",
+                    "path": "<XInputController>/rightShoulder",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "ZAir",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "761d8c94-dca6-48ea-b2b3-b5e7327c2e1c",
                     "path": "<Keyboard>/q",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
+                    "action": "MockEdgeGrab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fd6a9001-3bae-4ef0-934d-2cb833cec539",
+                    "path": "<XInputController>/start",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
                     "action": "MockEdgeGrab",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -343,7 +631,7 @@
                     "name": "Movement",
                     "type": "Value",
                     "id": "13811a88-26b2-44bc-a9f2-7e931d4caaba",
-                    "expectedControlType": "Analog",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 },
@@ -385,9 +673,42 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "1D Axis",
-                    "id": "a7464459-786f-4dca-823d-d2fa280cf366",
-                    "path": "1DAxis",
+                    "name": "",
+                    "id": "994b1915-a56f-4e9e-8ef9-9e2e764da1a8",
+                    "path": "<XInputController>/leftTrigger",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "RollGetup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f9f943b9-f4ad-47d7-8937-94a2ad214c51",
+                    "path": "<XInputController>/rightTrigger",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "RollGetup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "af6dbe60-4924-4b9a-ab8b-c76535515c98",
+                    "path": "<XInputController>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "69e9db1a-bccf-462d-a08b-6e534004cbcd",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -396,8 +717,30 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
-                    "id": "3c8cf642-60ab-4fac-bff4-7b5c903d7efd",
+                    "name": "up",
+                    "id": "68a68e4b-f70b-4f62-a555-e0241e1e5768",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "2c1a1d82-2735-41fe-9fb3-c9a960e3e12e",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "5a58b91d-e45c-4513-ad90-96c5dc99f4ac",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -407,8 +750,8 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "positive",
-                    "id": "348b3bff-48ad-473f-aed9-c119bcb79838",
+                    "name": "right",
+                    "id": "18f36354-8e98-4277-bf31-b40c44bc95a1",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -424,6 +767,17 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
+                    "action": "LetGo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7740f2a3-6176-464f-8e0a-d9d1d01d6aa9",
+                    "path": "<XInputController>/leftStick/down",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
                     "action": "LetGo",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -463,11 +817,77 @@
                 },
                 {
                     "name": "",
+                    "id": "993332ab-d6cc-4207-b271-799f640ad93b",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "AttackGetup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a527fb66-dccc-4358-9715-c8c5cfe1df95",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "AttackGetup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d621f070-81ad-4df2-9d89-24adb458800d",
+                    "path": "<XInputController>/leftShoulder",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "AttackGetup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "684d7a2f-d195-45ff-a075-dabc1769731e",
+                    "path": "<XInputController>/rightShoulder",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "AttackGetup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "eb9f893b-e66b-4f6b-80fa-9f149cabeab0",
                     "path": "<Keyboard>/space",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
+                    "action": "JumpGetup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a8bbd3c8-714e-460a-b118-f8e0655fc3b2",
+                    "path": "<XInputController>/buttonWest",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "JumpGetup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "11aaa734-5ad5-4490-8264-5c3cebc2f6c4",
+                    "path": "<XInputController>/buttonNorth",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "XBox",
                     "action": "JumpGetup",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -487,6 +907,17 @@
                 },
                 {
                     "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "XBox",
+            "bindingGroup": "XBox",
+            "devices": [
+                {
+                    "devicePath": "<XInputController>",
                     "isOptional": false,
                     "isOR": false
                 }

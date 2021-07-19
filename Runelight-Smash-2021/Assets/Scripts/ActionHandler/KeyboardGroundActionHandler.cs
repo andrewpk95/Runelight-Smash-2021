@@ -29,9 +29,9 @@ public class KeyboardGroundActionHandler : MonoBehaviour
                 StopCoroutine(dashCoroutine);
             }
 
-            float direction = input.ReadValue<float>();
+            Vector2 direction = input.ReadValue<Vector2>();
 
-            if (direction > 0)
+            if (direction.x > 0)
             {
                 if (isShielding)
                 {
@@ -45,11 +45,11 @@ public class KeyboardGroundActionHandler : MonoBehaviour
                 else
                 {
                     Debug.Log("Move Right");
-                    dashBufferedDirection = direction;
+                    dashBufferedDirection = direction.x;
                     dashCoroutine = StartCoroutine(DashBuffer());
                 }
             }
-            else if (direction < 0)
+            else if (direction.x < 0)
             {
                 if (isShielding)
                 {
@@ -63,7 +63,7 @@ public class KeyboardGroundActionHandler : MonoBehaviour
                 else
                 {
                     Debug.Log("Move Left");
-                    dashBufferedDirection = direction;
+                    dashBufferedDirection = direction.x;
                     dashCoroutine = StartCoroutine(DashBuffer());
                 }
             }

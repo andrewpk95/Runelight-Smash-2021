@@ -33,13 +33,13 @@ public class KeyboardAirborneActionHandler : MonoBehaviour
     {
         if (input.performed)
         {
-            float direction = input.ReadValue<float>();
+            Vector2 direction = input.ReadValue<Vector2>();
 
-            if (direction > 0)
+            if (direction.x > 0)
             {
                 Debug.Log("Move Right");
             }
-            else if (direction < 0)
+            else if (direction.x < 0)
             {
                 Debug.Log("Move Left");
             }
