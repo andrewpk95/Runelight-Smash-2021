@@ -20,47 +20,6 @@ public class KeyboardGroundActionHandler : MonoBehaviour
         fighterController = GetComponent<FighterController>();
     }
 
-    public void HandleGroundMovement(InputAction.CallbackContext input)
-    {
-        if (input.performed)
-        {
-            Vector2 direction = input.ReadValue<Vector2>();
-
-            if (direction.x > 0)
-            {
-                if (isShielding)
-                {
-                    Debug.Log("Roll Right");
-                }
-                else
-                {
-                    Debug.Log("Move Right");
-                }
-            }
-            else if (direction.x < 0)
-            {
-                if (isShielding)
-                {
-                    Debug.Log("Roll Left");
-                }
-                else
-                {
-                    Debug.Log("Move Left");
-                }
-            }
-            else
-            {
-                Debug.Log("Stop");
-            }
-        }
-        if (input.canceled)
-        {
-            {
-                Debug.Log("Stop");
-            }
-        }
-    }
-
     // TODO: Change to Custom Composite Interaction
     public void HandleDash(InputAction.CallbackContext input)
     {

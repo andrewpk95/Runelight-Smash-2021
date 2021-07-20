@@ -242,6 +242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGrounded: 1
+  isShielding: 0
 --- !u!4 &2025968842
 Transform:
   m_ObjectHideFlags: 0
@@ -299,8 +300,8 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968845}
-        m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
+      - m_Target: {fileID: 2025968848}
+        m_TargetAssemblyTypeName: FighterActionHandler, Assembly-CSharp
         m_MethodName: HandleGroundMovement
         m_Mode: 0
         m_Arguments:

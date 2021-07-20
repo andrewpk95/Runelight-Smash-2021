@@ -9,6 +9,7 @@ public class FighterController : MonoBehaviour
     private FighterActionHandler fighterActionHandler;
 
     public bool isGrounded = true;
+    public bool isShielding = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,8 @@ public class FighterController : MonoBehaviour
         fighterActionHandler.jumpStartEvent.AddListener(HandleJumpStart);
         fighterActionHandler.shortHopEvent.AddListener(HandleShortHop);
         fighterActionHandler.fullHopEvent.AddListener(HandleFullHop);
+        fighterActionHandler.movementEvent.AddListener(HandleMovement);
+        fighterActionHandler.rollEvent.AddListener(HandleRoll);
     }
 
     private void HandleJumpStart()
@@ -41,6 +44,23 @@ public class FighterController : MonoBehaviour
     {
         Debug.Log("Full Hop");
         Jump(1.0f);
+    }
+
+    private void HandleMovement(Vector2 direction)
+    {
+        Debug.Log($"Move {direction}");
+    }
+
+    private void HandleRoll(float direction)
+    {
+        if (direction < 0)
+        {
+            Debug.Log("Roll Left");
+        }
+        if (direction > 0)
+        {
+            Debug.Log("Roll Right");
+        }
     }
 
     // Mock jump simulation
