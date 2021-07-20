@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class FighterController : MonoBehaviour
 {
     private PlayerInput playerInput;
+    private FighterActionHandler fighterActionHandler;
 
     public bool isGrounded = true;
 
@@ -13,6 +14,33 @@ public class FighterController : MonoBehaviour
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+        fighterActionHandler = GetComponent<FighterActionHandler>();
+
+        BindActionEvents();
+    }
+
+    private void BindActionEvents()
+    {
+        fighterActionHandler.jumpStartEvent.AddListener(HandleJumpStart);
+        fighterActionHandler.shortHopEvent.AddListener(HandleShortHop);
+        fighterActionHandler.fullHopEvent.AddListener(HandleFullHop);
+    }
+
+    private void HandleJumpStart()
+    {
+        Debug.Log("Jump Start");
+    }
+
+    private void HandleShortHop()
+    {
+        Debug.Log("Short Hop");
+        Jump(0.5f);
+    }
+
+    private void HandleFullHop()
+    {
+        Debug.Log("Full Hop");
+        Jump(1.0f);
     }
 
     // Mock jump simulation

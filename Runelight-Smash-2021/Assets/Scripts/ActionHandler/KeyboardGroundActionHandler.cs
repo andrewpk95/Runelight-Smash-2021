@@ -127,29 +127,6 @@ public class KeyboardGroundActionHandler : MonoBehaviour
         }
     }
 
-    public void HandleJump(InputAction.CallbackContext input)
-    {
-        if (!fighterController.isGrounded)
-        {
-            return;
-        }
-        if (input.started)
-        {
-            Debug.Log("Jump Started");
-        }
-        if (input.performed)
-        {
-            Debug.Log("Short Hop");
-            // TODO: Use Event System to trigger character action
-            fighterController.Jump(0.5f);
-        }
-        if (input.canceled)
-        {
-            Debug.Log("Full Hop");
-            fighterController.Jump(1.0f);
-        }
-    }
-
     public void HandleShield(InputAction.CallbackContext input)
     {
         if (input.performed)

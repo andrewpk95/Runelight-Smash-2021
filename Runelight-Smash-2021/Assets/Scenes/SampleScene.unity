@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 2025968844}
   - component: {fileID: 2025968846}
   - component: {fileID: 2025968847}
+  - component: {fileID: 2025968848}
   m_Layer: 0
   m_Name: Fighter
   m_TagString: Untagged
@@ -282,8 +283,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968845}
-        m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
+      - m_Target: {fileID: 2025968848}
+        m_TargetAssemblyTypeName: FighterActionHandler, Assembly-CSharp
         m_MethodName: HandleJump
         m_Mode: 0
         m_Arguments:
@@ -665,5 +666,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6c555e6e26ee784daf30ffbc7a9bd11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2025968848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d49d2c1e66e19db41a6cfd8389a24bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
