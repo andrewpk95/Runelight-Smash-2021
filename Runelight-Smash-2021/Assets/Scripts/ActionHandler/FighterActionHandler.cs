@@ -8,7 +8,9 @@ public class JumpStartEvent : UnityEvent { }
 public class ShortHopEvent : UnityEvent { }
 public class FullHopEvent : UnityEvent { }
 public class MovementEvent : UnityEvent<Vector2> { }
-public class RollEvent : UnityEvent<float> { }
+public class ShieldEvent : UnityEvent<bool> { }
+public class RollEvent : UnityEvent<Vector2> { }
+public class GrabEvent : UnityEvent { }
 
 public class FighterActionHandler : MonoBehaviour
 {
@@ -17,6 +19,8 @@ public class FighterActionHandler : MonoBehaviour
     public FullHopEvent fullHopEvent = new FullHopEvent();
     public MovementEvent movementEvent = new MovementEvent();
     public RollEvent rollEvent = new RollEvent();
+    public ShieldEvent shieldEvent = new ShieldEvent();
+    public GrabEvent grabEvent = new GrabEvent();
 
     // TODO: Decouple FighterActionHandler from FighterController
     private FighterController fighterController;
@@ -55,7 +59,7 @@ public class FighterActionHandler : MonoBehaviour
 
             if (fighterController.isShielding)
             {
-                rollEvent.Invoke(direction.x);
+                rollEvent.Invoke(direction);
             }
             else
             {
@@ -67,6 +71,26 @@ public class FighterActionHandler : MonoBehaviour
             {
                 movementEvent.Invoke(Vector2.zero);
             }
+        }
+    }
+
+    public void HandleShield(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            shieldEvent.Invoke(true);
+        }
+        if (input.canceled)
+        {
+            shieldEvent.Invoke(false);
+        }
+    }
+
+    public void HandleGrab(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            grabEvent.Invoke();
         }
     }
 }

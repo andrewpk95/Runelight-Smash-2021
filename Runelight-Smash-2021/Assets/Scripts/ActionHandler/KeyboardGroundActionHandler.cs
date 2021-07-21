@@ -12,8 +12,6 @@ public class KeyboardGroundActionHandler : MonoBehaviour
     private float dashBufferedDirection;
     private Coroutine dashCoroutine;
 
-    private bool isShielding = false;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +23,7 @@ public class KeyboardGroundActionHandler : MonoBehaviour
     {
         if (input.performed)
         {
-            if (isShielding)
+            if (fighterController.isShielding)
             {
                 return;
             }
@@ -69,42 +67,5 @@ public class KeyboardGroundActionHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(DASH_BUFFER_DURATION);
         dashBufferedDirection = 0.0f;
-    }
-
-    public void HandleCrouch(InputAction.CallbackContext input)
-    {
-        if (input.performed)
-        {
-            if (isShielding)
-            {
-                Debug.Log("Spot Dodge");
-            }
-            else
-            {
-                Debug.Log("Crouch");
-            }
-        }
-    }
-
-    public void HandleShield(InputAction.CallbackContext input)
-    {
-        if (input.performed)
-        {
-            Debug.Log("Shield");
-            isShielding = true;
-        }
-        if (input.canceled)
-        {
-            Debug.Log("Shield Release");
-            isShielding = false;
-        }
-    }
-
-    public void HandleGrab(InputAction.CallbackContext input)
-    {
-        if (input.performed)
-        {
-            Debug.Log("Grab");
-        }
     }
 }

@@ -27,6 +27,8 @@ public class FighterController : MonoBehaviour
         fighterActionHandler.fullHopEvent.AddListener(HandleFullHop);
         fighterActionHandler.movementEvent.AddListener(HandleMovement);
         fighterActionHandler.rollEvent.AddListener(HandleRoll);
+        fighterActionHandler.shieldEvent.AddListener(HandleShield);
+        fighterActionHandler.grabEvent.AddListener(HandleGrab);
     }
 
     private void HandleJumpStart()
@@ -51,16 +53,31 @@ public class FighterController : MonoBehaviour
         Debug.Log($"Move {direction}");
     }
 
-    private void HandleRoll(float direction)
+    private void HandleRoll(Vector2 direction)
     {
-        if (direction < 0)
+        if (Vector2.Angle(direction, Vector2.left) <= 45.0f)
         {
             Debug.Log("Roll Left");
         }
-        if (direction > 0)
+        else if (Vector2.Angle(direction, Vector2.right) <= 45.0f)
         {
             Debug.Log("Roll Right");
         }
+        else if (Vector2.Angle(direction, Vector2.down) <= 45.0f)
+        {
+            Debug.Log("Spot Dodge");
+        }
+    }
+
+    private void HandleShield(bool shield)
+    {
+        Debug.Log($"Shield {shield}");
+        isShielding = shield;
+    }
+
+    private void HandleGrab()
+    {
+        Debug.Log("Grab");
     }
 
     // Mock jump simulation
