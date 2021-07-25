@@ -100,6 +100,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Snap",
+                    "type": "Value",
+                    "id": "f7e99d04-2aa6-4915-849e-4071b3a506f8",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -388,6 +396,17 @@
                     "action": "Dash(Keyboard)",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "f179a233-a78e-4dc4-801c-e71802cd7d92",
+                    "path": "<XInputController>/leftStick",
+                    "interactions": "AnalogTap",
+                    "processors": "StickDeadzone",
+                    "groups": "XBox",
+                    "action": "Snap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

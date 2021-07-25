@@ -50,7 +50,7 @@ public class FighterController : MonoBehaviour
 
     private void HandleMovement(Vector2 direction)
     {
-        Debug.Log($"Move {direction}");
+        // Debug.Log($"Move {direction}");
     }
 
     private void HandleRoll(Vector2 direction)

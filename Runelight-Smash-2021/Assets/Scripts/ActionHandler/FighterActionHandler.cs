@@ -74,6 +74,14 @@ public class FighterActionHandler : MonoBehaviour
         }
     }
 
+    public void HandleSnap(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            Debug.Log("Snap!!!!!!!!!!!!!!!!!!!");
+        }
+    }
+
     public void HandleShield(InputAction.CallbackContext input)
     {
         if (input.performed)

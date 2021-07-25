@@ -629,7 +629,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: f7e99d04-2aa6-4915-849e-4071b3a506f8
-    m_ActionName: Grounded/Snap[/XInputControllerWindows/leftStick]
+    m_ActionName: Grounded/Snap
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard & Mouse
   m_DefaultActionMap: Grounded
