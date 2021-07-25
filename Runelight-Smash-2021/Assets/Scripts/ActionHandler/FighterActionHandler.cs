@@ -11,6 +11,7 @@ public class MovementEvent : UnityEvent<Vector2> { }
 public class ShieldEvent : UnityEvent<bool> { }
 public class RollEvent : UnityEvent<Vector2> { }
 public class GrabEvent : UnityEvent { }
+public class DashEvent : UnityEvent<bool> { }
 
 public class FighterActionHandler : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class FighterActionHandler : MonoBehaviour
     public RollEvent rollEvent = new RollEvent();
     public ShieldEvent shieldEvent = new ShieldEvent();
     public GrabEvent grabEvent = new GrabEvent();
+    public DashEvent dashEvent = new DashEvent();
 
     // TODO: Decouple FighterActionHandler from FighterController
     private FighterController fighterController;
@@ -78,7 +80,16 @@ public class FighterActionHandler : MonoBehaviour
     {
         if (input.performed)
         {
-            Debug.Log("Snap!!!!!!!!!!!!!!!!!!!");
+            Vector2 direction = input.ReadValue<Vector2>();
+
+            if (Vector2.Angle(direction, Vector2.left) <= 45.0f)
+            {
+                dashEvent.Invoke(true);
+            }
+            else if (Vector2.Angle(direction, Vector2.right) <= 45.0f)
+            {
+                dashEvent.Invoke(false);
+            }
         }
     }
 

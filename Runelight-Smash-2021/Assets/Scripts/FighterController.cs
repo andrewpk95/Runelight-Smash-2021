@@ -29,6 +29,7 @@ public class FighterController : MonoBehaviour
         fighterActionHandler.rollEvent.AddListener(HandleRoll);
         fighterActionHandler.shieldEvent.AddListener(HandleShield);
         fighterActionHandler.grabEvent.AddListener(HandleGrab);
+        fighterActionHandler.dashEvent.AddListener(HandleDash);
     }
 
     private void HandleJumpStart()
@@ -78,6 +79,13 @@ public class FighterController : MonoBehaviour
     private void HandleGrab()
     {
         Debug.Log("Grab");
+    }
+
+    private void HandleDash(bool isLeft)
+    {
+        string direction = isLeft ? "Left" : "Right";
+
+        Debug.Log($"Dash {direction}");
     }
 
     // Mock jump simulation
