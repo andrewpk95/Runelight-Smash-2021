@@ -6,13 +6,87 @@ using UnityEngine.InputSystem;
 public class FighterController : MonoBehaviour
 {
     private PlayerInput playerInput;
+    private FighterActionHandler fighterActionHandler;
 
     public bool isGrounded = true;
+    public bool isShielding = false;
 
     // Start is called before the first frame update
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+        fighterActionHandler = GetComponent<FighterActionHandler>();
+
+        BindActionEvents();
+    }
+
+    private void BindActionEvents()
+    {
+        fighterActionHandler.jumpEvent.AddListener(HandleJump); ;
+        fighterActionHandler.movementEvent.AddListener(HandleMovement);
+        fighterActionHandler.rollEvent.AddListener(HandleRoll);
+        fighterActionHandler.shieldEvent.AddListener(HandleShield);
+        fighterActionHandler.grabEvent.AddListener(HandleGrab);
+        fighterActionHandler.dashEvent.AddListener(HandleDash);
+    }
+
+    private void HandleJump(JumpEventType jumpEventType)
+    {
+        switch (jumpEventType)
+        {
+            case JumpEventType.Start:
+                Debug.Log("Jump Start");
+                break;
+            case JumpEventType.ShortHop:
+                Debug.Log("Short Hop");
+                Jump(0.5f);
+                break;
+            case JumpEventType.FullHop:
+                Debug.Log("Full Hop");
+                Jump(1.0f);
+                break;
+            case JumpEventType.DoubleJump:
+                break;
+        }
+    }
+
+    private void HandleMovement(Vector2 direction)
+    {
+        // Debug.Log($"Move {direction}");
+    }
+
+    private void HandleRoll(Vector2 direction)
+    {
+        if (Vector2.Angle(direction, Vector2.left) <= 45.0f)
+        {
+            Debug.Log("Roll Left");
+        }
+        else if (Vector2.Angle(direction, Vector2.right) <= 45.0f)
+        {
+            Debug.Log("Roll Right");
+        }
+        else if (Vector2.Angle(direction, Vector2.down) <= 45.0f)
+        {
+            Debug.Log("Spot Dodge");
+        }
+    }
+
+    private void HandleShield(bool shield)
+    {
+        Debug.Log($"Shield {shield}");
+        isShielding = shield;
+    }
+
+    private void HandleGrab()
+    {
+        Debug.Log("Grab");
+    }
+
+    private void HandleDash(bool isLeft)
+    {
+        string direction = isLeft ? "Left" : "Right";
+
+        Debug.Log($"Dash {direction}");
     }
 
     // Mock jump simulation
