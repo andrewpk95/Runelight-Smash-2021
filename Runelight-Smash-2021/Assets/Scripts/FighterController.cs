@@ -22,9 +22,7 @@ public class FighterController : MonoBehaviour
 
     private void BindActionEvents()
     {
-        fighterActionHandler.jumpStartEvent.AddListener(HandleJumpStart);
-        fighterActionHandler.shortHopEvent.AddListener(HandleShortHop);
-        fighterActionHandler.fullHopEvent.AddListener(HandleFullHop);
+        fighterActionHandler.jumpEvent.AddListener(HandleJump); ;
         fighterActionHandler.movementEvent.AddListener(HandleMovement);
         fighterActionHandler.rollEvent.AddListener(HandleRoll);
         fighterActionHandler.shieldEvent.AddListener(HandleShield);
@@ -32,21 +30,24 @@ public class FighterController : MonoBehaviour
         fighterActionHandler.dashEvent.AddListener(HandleDash);
     }
 
-    private void HandleJumpStart()
+    private void HandleJump(JumpEventType jumpEventType)
     {
-        Debug.Log("Jump Start");
-    }
-
-    private void HandleShortHop()
-    {
-        Debug.Log("Short Hop");
-        Jump(0.5f);
-    }
-
-    private void HandleFullHop()
-    {
-        Debug.Log("Full Hop");
-        Jump(1.0f);
+        switch (jumpEventType)
+        {
+            case JumpEventType.Start:
+                Debug.Log("Jump Start");
+                break;
+            case JumpEventType.ShortHop:
+                Debug.Log("Short Hop");
+                Jump(0.5f);
+                break;
+            case JumpEventType.FullHop:
+                Debug.Log("Full Hop");
+                Jump(1.0f);
+                break;
+            case JumpEventType.DoubleJump:
+                break;
+        }
     }
 
     private void HandleMovement(Vector2 direction)

@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class JumpStartEvent : UnityEvent { }
-public class ShortHopEvent : UnityEvent { }
-public class FullHopEvent : UnityEvent { }
+public class JumpEvent : UnityEvent<JumpEventType> { }
 public class MovementEvent : UnityEvent<Vector2> { }
 public class ShieldEvent : UnityEvent<bool> { }
 public class RollEvent : UnityEvent<Vector2> { }
@@ -15,9 +13,7 @@ public class DashEvent : UnityEvent<bool> { }
 
 public class FighterActionHandler : MonoBehaviour
 {
-    public JumpStartEvent jumpStartEvent = new JumpStartEvent();
-    public ShortHopEvent shortHopEvent = new ShortHopEvent();
-    public FullHopEvent fullHopEvent = new FullHopEvent();
+    public JumpEvent jumpEvent = new JumpEvent();
     public MovementEvent movementEvent = new MovementEvent();
     public RollEvent rollEvent = new RollEvent();
     public ShieldEvent shieldEvent = new ShieldEvent();
@@ -37,19 +33,23 @@ public class FighterActionHandler : MonoBehaviour
     {
         if (!fighterController.isGrounded)
         {
+            if (input.started)
+            {
+                jumpEvent.Invoke(JumpEventType.DoubleJump);
+            }
             return;
         }
         if (input.started)
         {
-            jumpStartEvent.Invoke();
+            jumpEvent.Invoke(JumpEventType.Start);
         }
         if (input.performed)
         {
-            shortHopEvent.Invoke();
+            jumpEvent.Invoke(JumpEventType.ShortHop);
         }
         if (input.canceled)
         {
-            fullHopEvent.Invoke();
+            jumpEvent.Invoke(JumpEventType.FullHop);
         }
     }
 
