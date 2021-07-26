@@ -22,16 +22,18 @@ public class FighterActionHandler : MonoBehaviour
 
     // TODO: Decouple FighterActionHandler from FighterController
     private FighterController fighterController;
+    private ControllableUnit controllableUnit;
 
     // Start is called before the first frame update
     void Start()
     {
         fighterController = GetComponent<FighterController>();
+        controllableUnit = GetComponent<ControllableUnit>();
     }
 
     public void HandleJump(InputAction.CallbackContext input)
     {
-        if (!fighterController.isGrounded)
+        if (!controllableUnit.isGrounded)
         {
             if (input.started)
             {
