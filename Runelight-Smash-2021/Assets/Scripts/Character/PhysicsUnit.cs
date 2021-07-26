@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PhysicsUnit : BaseUnit
 {
@@ -11,9 +12,12 @@ public class PhysicsUnit : BaseUnit
     public float gravity = 20.0f;
     public float maxFallSpeed = 5.0f;
 
-    protected bool isGrounded { get { return _isGrounded; } }
+    public bool isGrounded { get { return _isGrounded; } }
     [SerializeField]
     private bool _isGrounded;
+
+    // Events
+    public UnityEvent onLandEvent = new UnityEvent();
 
     protected override void FixedUpdate()
     {
@@ -35,17 +39,20 @@ public class PhysicsUnit : BaseUnit
             return;
         }
 
-        _isGrounded = Physics2D.OverlapCircle(feetPosition.position, groundCheckRadius, groundLayerMask);
+        bool isOnGround = Physics2D.OverlapCircle(feetPosition.position, groundCheckRadius, groundLayerMask);
 
-        if (isGrounded)
+        if (!isGrounded && isOnGround)
         {
             OnLand();
         }
+
+        _isGrounded = isOnGround;
     }
 
     protected virtual void OnLand()
     {
         velocity.y = 0;
+        onLandEvent.Invoke();
     }
 
     private void ApplyGravity()

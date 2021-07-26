@@ -63,7 +63,6 @@ public class KeyboardEdgeActionHandler : MonoBehaviour
         if (input.performed)
         {
             Debug.Log("Jump Getup");
-            fighterController.Jump(1.0f);
         }
     }
 

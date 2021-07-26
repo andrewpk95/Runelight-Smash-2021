@@ -504,7 +504,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1100c5662317f34ebbf7286879c1b76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrounded: 1
   isShielding: 0
 --- !u!4 &2025968842
 Transform:
@@ -1008,7 +1007,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2025968840}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f13c1e38d70fef4aa646b907bca812f, type: 3}
+  m_Script: {fileID: 11500000, guid: aae89de9137d5044aa000b24825fa273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0}
@@ -1020,3 +1019,20 @@ MonoBehaviour:
   gravity: 20
   maxFallSpeed: 5
   _isGrounded: 0
+  onLandEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  maxWalkSpeed: 5
+  walkAccelerationRate: 15
+  groundDecelerationRate: 20
+  maxAirSpeed: 3
+  airAccelerationRate: 8
+  airDecelerationRate: 10
+  shortHopHeight: 1.5
+  fullHopHeight: 3
+  doubleJumpHeight: 3
+  maxDoubleJumpCount: 1
+  canJumpChangeDirection: 1
+  onJumpEvent:
+    m_PersistentCalls:
+      m_Calls: []

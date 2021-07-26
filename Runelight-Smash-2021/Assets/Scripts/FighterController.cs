@@ -7,8 +7,8 @@ public class FighterController : MonoBehaviour
 {
     private PlayerInput playerInput;
     private FighterActionHandler fighterActionHandler;
+    private ControllableUnit controllableUnit;
 
-    public bool isGrounded = true;
     public bool isShielding = false;
 
     // Start is called before the first frame update
@@ -16,43 +16,32 @@ public class FighterController : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         fighterActionHandler = GetComponent<FighterActionHandler>();
+        controllableUnit = GetComponent<ControllableUnit>();
 
         BindActionEvents();
     }
 
     private void BindActionEvents()
     {
-        fighterActionHandler.jumpEvent.AddListener(HandleJump); ;
+        fighterActionHandler.jumpEvent.AddListener(HandleJump);
         fighterActionHandler.movementEvent.AddListener(HandleMovement);
         fighterActionHandler.rollEvent.AddListener(HandleRoll);
         fighterActionHandler.shieldEvent.AddListener(HandleShield);
         fighterActionHandler.grabEvent.AddListener(HandleGrab);
         fighterActionHandler.dashEvent.AddListener(HandleDash);
+
+        controllableUnit.onJumpEvent.AddListener(Jump);
+        controllableUnit.onLandEvent.AddListener(Land);
     }
 
     private void HandleJump(JumpEventType jumpEventType)
     {
-        switch (jumpEventType)
-        {
-            case JumpEventType.Start:
-                Debug.Log("Jump Start");
-                break;
-            case JumpEventType.ShortHop:
-                Debug.Log("Short Hop");
-                Jump(0.5f);
-                break;
-            case JumpEventType.FullHop:
-                Debug.Log("Full Hop");
-                Jump(1.0f);
-                break;
-            case JumpEventType.DoubleJump:
-                break;
-        }
+        controllableUnit.SetJumpInput(jumpEventType);
     }
 
     private void HandleMovement(Vector2 direction)
     {
-        // Debug.Log($"Move {direction}");
+        controllableUnit.SetJoystickInput(direction);
     }
 
     private void HandleRoll(Vector2 direction)
@@ -90,16 +79,14 @@ public class FighterController : MonoBehaviour
     }
 
     // Mock jump simulation
-    public void Jump(float duration)
+    public void Jump()
     {
-        isGrounded = false;
-        playerInput.SwitchCurrentActionMap("Airborne");
+        // playerInput.SwitchCurrentActionMap("Airborne");
     }
 
     public void Land()
     {
         playerInput.SwitchCurrentActionMap("Grounded");
-        isGrounded = true;
         Debug.Log("Landed");
     }
 
@@ -112,6 +99,5 @@ public class FighterController : MonoBehaviour
     public void ReleaseEdge()
     {
         playerInput.SwitchCurrentActionMap("Grounded");
-        isGrounded = true;
     }
 }
