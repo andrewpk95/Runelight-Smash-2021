@@ -86,7 +86,7 @@ public class FighterController : MonoBehaviour
 
     public void Land()
     {
-        playerInput.SwitchCurrentActionMap("Grounded");
+        // playerInput.SwitchCurrentActionMap("Grounded");
         Debug.Log("Landed");
     }
 
