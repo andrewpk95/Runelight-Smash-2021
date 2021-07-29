@@ -22,6 +22,7 @@ public class ControllableUnit : PhysicsUnit
 
     // Jump Variables
     protected bool isJumpSquatting;
+    protected bool isJumping = false;
     public float shortHopHeight = 1.5f;
     public float fullHopHeight = 3.0f;
     public float doubleJumpHeight = 3.0f;
@@ -64,13 +65,53 @@ public class ControllableUnit : PhysicsUnit
 
     protected virtual void ApplyGroundMovement()
     {
-        if (Mathf.Abs(joystick.x) > 0)
+        float walkSpeed = joystick.x * maxWalkSpeed;
+        float acceleration = Mathf.Abs(joystick.x) > 0 ? walkAccelerationRate : groundDecelerationRate;
+
+        if (isOnSlope)
         {
-            velocity.x = GetNewVelocity(velocity.x, joystick.x * maxWalkSpeed, walkAccelerationRate);
+            Vector2 slopeDirection;
+
+            if (joystick.x < 0.0f)
+            {
+                if (leftMostSlopeAngle > 0.0f)
+                {
+                    slopeDirection = -leftMostSlopeDirection;
+                }
+                else
+                {
+                    slopeDirection = rightMostSlopeDirection;
+                }
+            }
+            else if (joystick.x > 0.0f)
+            {
+                if (rightMostSlopeAngle > 0.0f)
+                {
+                    slopeDirection = rightMostSlopeDirection;
+                }
+                else
+                {
+                    slopeDirection = -leftMostSlopeDirection;
+                }
+            }
+            else
+            {
+                if (rightMostSlopeAngle > 0.0f)
+                {
+                    slopeDirection = rightMostSlopeDirection;
+                }
+                else
+                {
+                    slopeDirection = -leftMostSlopeDirection;
+                }
+            }
+
+            velocity.x = GetNewVelocity(velocity.x, walkSpeed * slopeDirection.x, acceleration * slopeDirection.x);
+            velocity.y = GetNewVelocity(velocity.y, walkSpeed * slopeDirection.y, acceleration * slopeDirection.y);
         }
         else
         {
-            velocity.x = GetNewVelocity(velocity.x, 0.0f, groundDecelerationRate);
+            velocity.x = GetNewVelocity(velocity.x, walkSpeed, acceleration);
         }
     }
 
@@ -141,6 +182,7 @@ public class ControllableUnit : PhysicsUnit
     private void Jump(float jumpHeight)
     {
         isJumpSquatting = false;
+        isJumping = true;
         if (canJumpChangeDirection)
         {
             velocity.x = joystick.x * maxAirSpeed;
@@ -152,7 +194,18 @@ public class ControllableUnit : PhysicsUnit
     protected override void OnLand()
     {
         doubleJumpLeft = maxDoubleJumpCount;
+        isJumping = false;
         base.OnLand();
+    }
+
+    protected override void CheckGround()
+    {
+        base.CheckGround();
+
+        if (isGrounded && isJumping)
+        {
+            _isGrounded = false;
+        }
     }
 
     public void SetJoystickInput(Vector2 input)

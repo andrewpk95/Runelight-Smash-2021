@@ -15,7 +15,7 @@ public class PhysicsUnit : BaseUnit
 
     public bool isGrounded { get { return _isGrounded; } }
     [SerializeField]
-    private bool _isGrounded;
+    protected bool _isGrounded;
 
     // Slope movement Variables
     public bool isOnSlope = false;
