@@ -1956,8 +1956,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.1}
-  m_Size: {x: 0.4, y: 1.5}
+  m_Offset: {x: 0, y: -0.3}
+  m_Size: {x: 0.4, y: 1}
   m_Direction: 0
 --- !u!114 &2025968851
 MonoBehaviour:
@@ -1973,12 +1973,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0}
   feetPosition: {fileID: 442199920}
-  groundCheckRadius: 0.2
+  groundCheckRadius: 0.17
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
   gravity: 20
   maxFallSpeed: 5
+  isGrounded: 0
   _isGrounded: 0
   isOnSlope: 0
   leftMostSlopeAngle: 0

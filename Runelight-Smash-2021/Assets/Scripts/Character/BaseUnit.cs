@@ -21,6 +21,11 @@ public class BaseUnit : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
+        Tick();
+    }
+
+    protected virtual void Tick()
+    {
         if (isMovementEnabled)
         {
             ApplyVelocity();

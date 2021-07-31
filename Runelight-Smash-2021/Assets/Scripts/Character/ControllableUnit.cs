@@ -22,7 +22,7 @@ public class ControllableUnit : PhysicsUnit
 
     // Jump Variables
     protected bool isJumpSquatting;
-    protected bool isJumping = false;
+    protected bool isJumping;
     public float shortHopHeight = 1.5f;
     public float fullHopHeight = 3.0f;
     public float doubleJumpHeight = 3.0f;
@@ -39,10 +39,10 @@ public class ControllableUnit : PhysicsUnit
         base.Start();
     }
 
-    protected override void FixedUpdate()
+    protected override void Tick()
     {
         ApplyControls();
-        base.FixedUpdate();
+        base.Tick();
     }
 
     private void ApplyControls()
@@ -53,7 +53,7 @@ public class ControllableUnit : PhysicsUnit
 
     private void ApplyMovement()
     {
-        if (isGrounded)
+        if (_isGrounded)
         {
             ApplyGroundMovement();
         }
@@ -74,40 +74,17 @@ public class ControllableUnit : PhysicsUnit
 
             if (joystick.x < 0.0f)
             {
-                if (leftMostSlopeAngle > 0.0f)
-                {
-                    slopeDirection = -leftMostSlopeDirection;
-                }
-                else
-                {
-                    slopeDirection = rightMostSlopeDirection;
-                }
-            }
-            else if (joystick.x > 0.0f)
-            {
-                if (rightMostSlopeAngle > 0.0f)
-                {
-                    slopeDirection = rightMostSlopeDirection;
-                }
-                else
-                {
-                    slopeDirection = -leftMostSlopeDirection;
-                }
+                slopeDirection = leftMostSlopeAngle > 0.0f ? -leftMostSlopeDirection : rightMostSlopeDirection;
             }
             else
             {
-                if (rightMostSlopeAngle > 0.0f)
-                {
-                    slopeDirection = rightMostSlopeDirection;
-                }
-                else
-                {
-                    slopeDirection = -leftMostSlopeDirection;
-                }
+                slopeDirection = rightMostSlopeAngle > 0.0f ? rightMostSlopeDirection : -leftMostSlopeDirection;
             }
 
-            velocity.x = GetNewVelocity(velocity.x, walkSpeed * slopeDirection.x, acceleration * slopeDirection.x);
-            velocity.y = GetNewVelocity(velocity.y, walkSpeed * slopeDirection.y, acceleration * slopeDirection.y);
+            Vector2 projectedVelocity = Vector3.Project(joystick.normalized, slopeDirection) * joystick.magnitude;
+
+            velocity.x = GetNewVelocity(projectedVelocity.x, walkSpeed * slopeDirection.x, acceleration * slopeDirection.x);
+            velocity.y = GetNewVelocity(projectedVelocity.y, walkSpeed * slopeDirection.y, acceleration * slopeDirection.y);
         }
         else
         {
@@ -135,21 +112,21 @@ public class ControllableUnit : PhysicsUnit
                 isJumpSquatting = true;
                 break;
             case JumpEventType.ShortHop:
-                if (!isGrounded)
+                if (!_isGrounded)
                 {
                     break;
                 }
                 ShortHop();
                 break;
             case JumpEventType.FullHop:
-                if (!isGrounded)
+                if (!_isGrounded)
                 {
                     break;
                 }
                 FullHop();
                 break;
             case JumpEventType.DoubleJump:
-                if (isGrounded)
+                if (_isGrounded)
                 {
                     break;
                 }
@@ -183,6 +160,7 @@ public class ControllableUnit : PhysicsUnit
     {
         isJumpSquatting = false;
         isJumping = true;
+        _isGrounded = false;
         if (canJumpChangeDirection)
         {
             velocity.x = joystick.x * maxAirSpeed;
@@ -198,14 +176,9 @@ public class ControllableUnit : PhysicsUnit
         base.OnLand();
     }
 
-    protected override void CheckGround()
+    protected override bool IsPhysicallyGrounded()
     {
-        base.CheckGround();
-
-        if (isGrounded && isJumping)
-        {
-            _isGrounded = false;
-        }
+        return isJumping ? false : base.IsPhysicallyGrounded();
     }
 
     public void SetJoystickInput(Vector2 input)

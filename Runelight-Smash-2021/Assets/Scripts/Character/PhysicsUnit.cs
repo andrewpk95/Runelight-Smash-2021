@@ -13,7 +13,8 @@ public class PhysicsUnit : BaseUnit
     public float gravity = 20.0f;
     public float maxFallSpeed = 5.0f;
 
-    public bool isGrounded { get { return _isGrounded; } }
+    [SerializeField]
+    public bool isGrounded;
     [SerializeField]
     protected bool _isGrounded;
 
@@ -45,19 +46,37 @@ public class PhysicsUnit : BaseUnit
 
     protected override void FixedUpdate()
     {
-        UpdatePhysics();
+        UpdateCollision();
         base.FixedUpdate();
+    }
+
+    protected override void Tick()
+    {
+        UpdatePhysics();
+        base.Tick();
+    }
+
+    protected void UpdateCollision()
+    {
+        if (!unitRigidbody.IsSleeping())
+        {
+            CheckGround();
+            CheckSlope();
+            ClearCollisionVariables();
+        }
     }
 
     protected void UpdatePhysics()
     {
-        CheckSlope();
-        CheckGround();
         ApplyGravity();
     }
 
     private void CheckSlope()
     {
+        if (groundContactCount <= 0)
+        {
+            return;
+        }
         // Sort Contact Points based on slope angle
         // Slopes with angle '\' are on the left, angle '/' are on the right, angle '--' are at the center
         foreach (ContactPoint2D contactPoint in groundContactPoints)
@@ -91,14 +110,7 @@ public class PhysicsUnit : BaseUnit
         rightMostSlopeDirection = rightSideSlopes.Count > 0 ? rightSideSlopes[rightSideSlopes.Count - 1] : Vector2.zero;
         leftMostSlopeAngle = Vector2.Angle(leftMostSlopeDirection, Vector2.left);
         rightMostSlopeAngle = Vector2.Angle(rightMostSlopeDirection, Vector2.right);
-        isOnSlope = centerSlopes.Count <= 0;
-
-        // Clear variables
-        leftSideSlopes.Clear();
-        rightSideSlopes.Clear();
-        centerSlopes.Clear();
-        groundContactPoints.Clear();
-        groundContactCount = 0;
+        isOnSlope = leftMostSlopeAngle > 0.0f || rightMostSlopeAngle > 0.0f;
     }
 
     static int SortBySlopeAngle(Vector2 direction1, Vector2 direction2)
@@ -109,16 +121,33 @@ public class PhysicsUnit : BaseUnit
         return angle1.CompareTo(angle2);
     }
 
-    protected virtual void CheckGround()
+    protected virtual bool IsPhysicallyGrounded()
     {
-        bool isOnGround = Physics2D.OverlapCircle(feetPosition.position, groundCheckRadius, groundLayerMask);
+        return groundContactCount > 0;
+    }
+
+    private void CheckGround()
+    {
+        bool _isOnGround = IsPhysicallyGrounded();
+        bool isOnGround = Physics2D.OverlapCircle(feetPosition.position, groundCheckRadius, groundLayerMask) || _isOnGround;
 
         if (!isGrounded && isOnGround)
         {
             OnLand();
         }
 
-        _isGrounded = isOnGround;
+        _isGrounded = _isOnGround;
+        isGrounded = isOnGround;
+
+    }
+
+    private void ClearCollisionVariables()
+    {
+        leftSideSlopes.Clear();
+        rightSideSlopes.Clear();
+        centerSlopes.Clear();
+        groundContactPoints.Clear();
+        groundContactCount = 0;
     }
 
     protected virtual void OnLand()
@@ -128,22 +157,27 @@ public class PhysicsUnit : BaseUnit
 
     protected void ApplyGravity()
     {
-        if (!isGrounded)
+        if (!_isGrounded)
         {
             velocity.y = GetNewVelocity(velocity.y, -maxFallSpeed, gravity);
         }
         else if (isOnSlope)
         {
-            if (leftMostSlopeAngle > 0.0f)
+            Vector2 slopeDirection;
+
+            if (velocity.x < 0.0f)
             {
-                velocity.x = GetNewVelocity(velocity.x, -maxFallSpeed * leftMostSlopeDirection.x, gravity * leftMostSlopeDirection.x);
-                velocity.y = GetNewVelocity(velocity.y, -maxFallSpeed * leftMostSlopeDirection.y, gravity * leftMostSlopeDirection.y);
+                slopeDirection = leftMostSlopeAngle > 0.0f ? leftMostSlopeDirection : rightMostSlopeDirection;
             }
-            else if (rightMostSlopeAngle > 0.0f)
+            else
             {
-                velocity.x = GetNewVelocity(velocity.x, -maxFallSpeed * rightMostSlopeDirection.x, gravity * rightMostSlopeDirection.x);
-                velocity.y = GetNewVelocity(velocity.y, -maxFallSpeed * rightMostSlopeDirection.y, gravity * rightMostSlopeDirection.y);
+                slopeDirection = rightMostSlopeAngle > 0.0f ? rightMostSlopeDirection : leftMostSlopeDirection;
             }
+
+            Vector2 projectedVelocity = Vector3.Project(velocity, slopeDirection);
+
+            velocity.x = GetNewVelocity(projectedVelocity.x, -maxFallSpeed * slopeDirection.x, gravity * slopeDirection.x);
+            velocity.y = GetNewVelocity(projectedVelocity.y, -maxFallSpeed * slopeDirection.y, gravity * slopeDirection.y);
         }
         else
         {
@@ -170,20 +204,25 @@ public class PhysicsUnit : BaseUnit
     {
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            float feetThreshold = unitRigidbody.position.y - (capsule.size.y - capsule.size.x) / 2;
-            float count = collision.GetContacts(contactPoints);
+            HandleGroundCollision(collision);
+        }
+    }
 
-            for (int i = 0; i < count; i++)
+    protected virtual void HandleGroundCollision(Collision2D collision)
+    {
+        float feetThreshold = unitRigidbody.position.y - (capsule.size.y - capsule.size.x) / 2;
+        float count = collision.GetContacts(contactPoints);
+
+        for (int i = 0; i < count; i++)
+        {
+            ContactPoint2D contact = contactPoints[i];
+
+            if (contact.point.y > feetThreshold)
             {
-                ContactPoint2D contact = contactPoints[i];
-
-                if (contact.point.y > feetThreshold)
-                {
-                    continue;
-                }
-                groundContactPoints.Add(contactPoints[i]);
-                groundContactCount++;
+                continue;
             }
+            groundContactPoints.Add(contactPoints[i]);
+            groundContactCount++;
         }
     }
 }
