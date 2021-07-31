@@ -14,6 +14,7 @@ public class ControllableUnit : PhysicsUnit
     public float maxWalkSpeed = 5.0f;
     public float walkAccelerationRate = 15.0f;
     public float groundDecelerationRate = 20.0f;
+    private Vector2 slopeStickPosition;
 
     // Air Movement Variables
     public float maxAirSpeed = 3.0f;
@@ -44,6 +45,7 @@ public class ControllableUnit : PhysicsUnit
     {
         ApplyControls();
         base.Tick();
+        StickToSlope();
     }
 
     private void ApplyControls()
@@ -185,6 +187,35 @@ public class ControllableUnit : PhysicsUnit
         isJumping = true;
         _isGrounded = false;
         onJumpEvent.Invoke();
+    }
+
+    private void StickToSlope()
+    {
+        if (isJumping)
+        {
+            return;
+        }
+        Vector2 feetPos = unitRigidbody.position + velocity * Time.fixedDeltaTime - Vector2.up * (capsule.size.y - capsule.size.x) / 2 + capsule.offset;
+        RaycastHit2D hit = Physics2D.CircleCast(feetPos, capsule.size.x / 2, Vector2.down, velocity.magnitude, groundLayerMask);
+
+        if (hit)
+        {
+            slopeStickPosition = hit.point + hit.normal.normalized * capsule.size.x / 2;
+
+            float diff = slopeStickPosition.y - feetPos.y;
+
+            Debug.DrawLine(feetPos, slopeStickPosition, Color.white);
+            unitRigidbody.MovePosition(unitRigidbody.position + velocity * Time.fixedDeltaTime + Vector2.up * diff);
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (capsule != null)
+        {
+            UnityEditor.Handles.color = Color.green;
+            UnityEditor.Handles.DrawWireDisc(slopeStickPosition, Vector3.forward, capsule.size.x / 2);
+        }
     }
 
     protected override void OnLand()

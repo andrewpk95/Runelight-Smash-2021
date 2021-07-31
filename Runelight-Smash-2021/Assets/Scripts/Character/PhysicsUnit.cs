@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class PhysicsUnit : BaseUnit
 {
-    private CapsuleCollider2D capsule;
+    protected CapsuleCollider2D capsule;
     public Transform feetPosition;
     public float groundCheckRadius;
     public LayerMask groundLayerMask;
@@ -217,7 +217,7 @@ public class PhysicsUnit : BaseUnit
         {
             ContactPoint2D contact = contactPoints[i];
 
-            if (contact.point.y > feetThreshold)
+            if (contact.point.y >= feetPos.y)
             {
                 continue;
             }
