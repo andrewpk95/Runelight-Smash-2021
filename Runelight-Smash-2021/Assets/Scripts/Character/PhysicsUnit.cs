@@ -210,7 +210,8 @@ public class PhysicsUnit : BaseUnit
 
     protected virtual void HandleGroundCollision(Collision2D collision)
     {
-        float feetThreshold = unitRigidbody.position.y - (capsule.size.y - capsule.size.x) / 2;
+        float feetThreshold = unitRigidbody.position.y - (capsule.size.y - capsule.size.x) / 2 + capsule.offset.y;
+        Vector2 feetPos = prevPosition - Vector2.up * (capsule.size.y - capsule.size.x) / 2 + capsule.offset;
         float count = collision.GetContacts(contactPoints);
 
         for (int i = 0; i < count; i++)

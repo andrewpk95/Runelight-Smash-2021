@@ -6,6 +6,7 @@ public class BaseUnit : MonoBehaviour
 {
     protected Collider2D unitCollider;
     protected Rigidbody2D unitRigidbody;
+    protected Vector2 prevPosition;
 
     [SerializeField]
     protected Vector2 velocity;
@@ -34,6 +35,7 @@ public class BaseUnit : MonoBehaviour
 
     private void ApplyVelocity()
     {
+        prevPosition = unitRigidbody.position;
         unitRigidbody.MovePosition(unitRigidbody.position + velocity * Time.fixedDeltaTime);
     }
 
