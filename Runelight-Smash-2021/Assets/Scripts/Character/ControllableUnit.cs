@@ -29,6 +29,7 @@ public class ControllableUnit : PhysicsUnit
     public int maxDoubleJumpCount = 1;
     protected int doubleJumpLeft;
     public bool canJumpChangeDirection = true;
+    public float minSlopeJumpAngle = 15.0f;
 
     // Events
     public UnityEvent onJumpEvent = new UnityEvent();
@@ -158,14 +159,31 @@ public class ControllableUnit : PhysicsUnit
 
     private void Jump(float jumpHeight)
     {
+        Vector2 jumpVelocity = new Vector2(canJumpChangeDirection ? joystick.x * maxAirSpeed : velocity.x, Mathf.Sqrt(2.0f * gravity * jumpHeight));
+        float jumpAngle = Vector2.Angle(Vector2.right, jumpVelocity);
+
+        // Make sure jump velocity is away from the grounds
+        if (180 - jumpAngle < leftMostSlopeAngle + minSlopeJumpAngle)
+        {
+            float rotateAngle = Mathf.Deg2Rad * -((leftMostSlopeAngle - (180 - jumpAngle)) + minSlopeJumpAngle);
+            float cos = Mathf.Cos(rotateAngle);
+            float sin = Mathf.Sin(rotateAngle);
+
+            jumpVelocity.x = jumpVelocity.x * cos - jumpVelocity.y * sin;
+        }
+        else if (jumpAngle < rightMostSlopeAngle + minSlopeJumpAngle)
+        {
+            float rotateAngle = Mathf.Deg2Rad * (rightMostSlopeAngle - jumpAngle + minSlopeJumpAngle);
+            float cos = Mathf.Cos(rotateAngle);
+            float sin = Mathf.Sin(rotateAngle);
+
+            jumpVelocity.x = jumpVelocity.x * cos - jumpVelocity.y * sin;
+        }
+
+        velocity = jumpVelocity;
         isJumpSquatting = false;
         isJumping = true;
         _isGrounded = false;
-        if (canJumpChangeDirection)
-        {
-            velocity.x = joystick.x * maxAirSpeed;
-        }
-        velocity.y = Mathf.Sqrt(2.0f * gravity * jumpHeight);
         onJumpEvent.Invoke();
     }
 
