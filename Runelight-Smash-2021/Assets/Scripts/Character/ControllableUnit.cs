@@ -68,6 +68,10 @@ public class ControllableUnit : PhysicsUnit
 
     protected virtual void ApplyGroundMovement()
     {
+        if (!canWalkOnSlope)
+        {
+            return;
+        }
         float walkSpeed = joystick.x * maxWalkSpeed;
         float acceleration = Mathf.Abs(joystick.x) > 0 ? walkAccelerationRate : groundDecelerationRate;
 
@@ -84,7 +88,7 @@ public class ControllableUnit : PhysicsUnit
                 slopeDirection = rightMostSlopeAngle > 0.0f ? rightMostSlopeDirection : -leftMostSlopeDirection;
             }
 
-            Vector2 projectedVelocity = Vector3.Project(joystick.normalized, slopeDirection) * joystick.magnitude;
+            Vector2 projectedVelocity = Vector3.Project(velocity, slopeDirection);
 
             velocity.x = GetNewVelocity(projectedVelocity.x, walkSpeed * slopeDirection.x, acceleration * slopeDirection.x);
             velocity.y = GetNewVelocity(projectedVelocity.y, walkSpeed * slopeDirection.y, acceleration * slopeDirection.y);

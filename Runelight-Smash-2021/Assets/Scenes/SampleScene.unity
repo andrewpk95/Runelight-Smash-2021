@@ -1986,6 +1986,8 @@ MonoBehaviour:
   rightMostSlopeAngle: 0
   leftMostSlopeDirection: {x: 0, y: 0}
   rightMostSlopeDirection: {x: 0, y: 0}
+  canWalkOnSlope: 0
+  maxSlopeAngle: 45
   onLandEvent:
     m_PersistentCalls:
       m_Calls: []

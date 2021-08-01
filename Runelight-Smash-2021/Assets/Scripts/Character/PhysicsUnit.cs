@@ -24,6 +24,8 @@ public class PhysicsUnit : BaseUnit
     public float rightMostSlopeAngle = 0.0f;
     public Vector2 leftMostSlopeDirection;
     public Vector2 rightMostSlopeDirection;
+    public bool canWalkOnSlope;
+    public float maxSlopeAngle = 45.0f;
 
     // Slope calculation variables
     private List<Vector2> leftSideSlopes = new List<Vector2>();
@@ -60,8 +62,8 @@ public class PhysicsUnit : BaseUnit
     {
         if (!unitRigidbody.IsSleeping())
         {
-            CheckGround();
             CheckSlope();
+            CheckGround();
             ClearCollisionVariables();
         }
     }
@@ -111,6 +113,19 @@ public class PhysicsUnit : BaseUnit
         leftMostSlopeAngle = Vector2.Angle(leftMostSlopeDirection, Vector2.left);
         rightMostSlopeAngle = Vector2.Angle(rightMostSlopeDirection, Vector2.right);
         isOnSlope = leftMostSlopeAngle > 0.0f || rightMostSlopeAngle > 0.0f;
+
+        float currentSlope = 0.0f;
+
+        if (velocity.x < 0.0f)
+        {
+            currentSlope = leftMostSlopeAngle > 0.0f ? leftMostSlopeAngle : rightMostSlopeAngle;
+        }
+        else if (velocity.x > 0.0f)
+        {
+            currentSlope = rightMostSlopeAngle > 0.0f ? rightMostSlopeAngle : leftMostSlopeAngle;
+        }
+
+        canWalkOnSlope = currentSlope <= maxSlopeAngle;
     }
 
     static int SortBySlopeAngle(Vector2 direction1, Vector2 direction2)
@@ -123,13 +138,26 @@ public class PhysicsUnit : BaseUnit
 
     protected virtual bool IsPhysicallyGrounded()
     {
-        return groundContactCount > 0;
+        if (groundContactCount <= 0)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected virtual bool IsUnitGrounded()
+    {
+        bool isOnGround = Physics2D.OverlapCircle(feetPosition.position, groundCheckRadius, groundLayerMask);
+        bool isbetweenSlopes = leftMostSlopeAngle > 0.0f && rightMostSlopeAngle > 0.0f;
+
+        return isOnGround && (canWalkOnSlope || isbetweenSlopes);
     }
 
     private void CheckGround()
     {
         bool _isOnGround = IsPhysicallyGrounded();
-        bool isOnGround = Physics2D.OverlapCircle(feetPosition.position, groundCheckRadius, groundLayerMask) || _isOnGround;
+        bool isOnGround = IsUnitGrounded();
 
         if (!isGrounded && isOnGround)
         {
