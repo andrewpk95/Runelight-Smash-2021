@@ -1992,7 +1992,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   maxWalkSpeed: 4
-  walkAccelerationRate: 1000
+  walkAccelerationRate: 15
   groundDecelerationRate: 20
   maxAirSpeed: 3
   airAccelerationRate: 8

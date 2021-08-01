@@ -111,6 +111,15 @@ public class ControllableUnit : PhysicsUnit
         }
     }
 
+    protected override void ApplySlopeGravity()
+    {
+        if (isOnSlope && canWalkOnSlope)
+        {
+            return;
+        }
+        base.ApplySlopeGravity();
+    }
+
     protected virtual void ApplyJumpMovement()
     {
         switch (jumpEventType)
@@ -262,6 +271,4 @@ public class ControllableUnit : PhysicsUnit
         isInputEnabled = false;
         joystick = Vector2.zero;
     }
-
-
 }

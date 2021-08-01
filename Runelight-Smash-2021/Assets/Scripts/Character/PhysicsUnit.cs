@@ -191,26 +191,31 @@ public class PhysicsUnit : BaseUnit
         }
         else if (isOnSlope)
         {
-            Vector2 slopeDirection;
-
-            if (velocity.x < 0.0f)
-            {
-                slopeDirection = leftMostSlopeAngle > 0.0f ? leftMostSlopeDirection : rightMostSlopeDirection;
-            }
-            else
-            {
-                slopeDirection = rightMostSlopeAngle > 0.0f ? rightMostSlopeDirection : leftMostSlopeDirection;
-            }
-
-            Vector2 projectedVelocity = Vector3.Project(velocity, slopeDirection);
-
-            velocity.x = GetNewVelocity(projectedVelocity.x, -maxFallSpeed * slopeDirection.x, gravity * slopeDirection.x);
-            velocity.y = GetNewVelocity(projectedVelocity.y, -maxFallSpeed * slopeDirection.y, gravity * slopeDirection.y);
+            ApplySlopeGravity();
         }
         else
         {
             velocity.y = 0.0f;
         }
+    }
+
+    protected virtual void ApplySlopeGravity()
+    {
+        Vector2 slopeDirection;
+
+        if (velocity.x < 0.0f)
+        {
+            slopeDirection = leftMostSlopeAngle > 0.0f ? leftMostSlopeDirection : rightMostSlopeDirection;
+        }
+        else
+        {
+            slopeDirection = rightMostSlopeAngle > 0.0f ? rightMostSlopeDirection : leftMostSlopeDirection;
+        }
+
+        Vector2 projectedVelocity = Vector3.Project(velocity, slopeDirection);
+
+        velocity.x = GetNewVelocity(projectedVelocity.x, -maxFallSpeed * slopeDirection.x, gravity * slopeDirection.x);
+        velocity.y = GetNewVelocity(projectedVelocity.y, -maxFallSpeed * slopeDirection.y, gravity * slopeDirection.y);
     }
 
     protected float GetNewVelocity(float currentVelocity, float targetVelocity, float accelerationRate)
