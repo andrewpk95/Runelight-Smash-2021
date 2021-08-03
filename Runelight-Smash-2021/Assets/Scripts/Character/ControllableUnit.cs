@@ -56,7 +56,7 @@ public class ControllableUnit : PhysicsUnit
 
     private void ApplyMovement()
     {
-        if (_isGrounded)
+        if (isGrounded)
         {
             ApplyGroundMovement();
         }
@@ -208,16 +208,17 @@ public class ControllableUnit : PhysicsUnit
         {
             return;
         }
-        Vector2 feetPos = unitRigidbody.position + velocity * Time.fixedDeltaTime - Vector2.up * (capsule.size.y - capsule.size.x) / 2 + capsule.offset;
-        RaycastHit2D hit = Physics2D.CircleCast(feetPos, capsule.size.x / 2, Vector2.down, velocity.magnitude, groundLayerMask);
+        Vector2 centerPos = unitRigidbody.position + velocity * Time.fixedDeltaTime + capsule.offset;
+        float distance = (capsule.size.y - capsule.size.x) / 2;
+        RaycastHit2D hit = Physics2D.CircleCast(centerPos, capsule.size.x / 2, Vector2.down, velocity.magnitude, groundLayerMask);
 
         if (hit)
         {
-            slopeStickPosition = hit.point + hit.normal.normalized * capsule.size.x / 2;
+            slopeStickPosition = hit.centroid;
 
-            float diff = slopeStickPosition.y - feetPos.y;
+            float diff = slopeStickPosition.y - centerPos.y + distance;
 
-            Debug.DrawLine(feetPos, slopeStickPosition, Color.white);
+            Debug.DrawLine(centerPos, slopeStickPosition, Color.white);
             unitRigidbody.MovePosition(unitRigidbody.position + velocity * Time.fixedDeltaTime + Vector2.up * diff);
         }
     }
