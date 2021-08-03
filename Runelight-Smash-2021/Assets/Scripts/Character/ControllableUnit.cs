@@ -128,21 +128,21 @@ public class ControllableUnit : PhysicsUnit
                 isJumpSquatting = true;
                 break;
             case JumpEventType.ShortHop:
-                if (!_isGrounded)
+                if (!isGrounded)
                 {
                     break;
                 }
                 ShortHop();
                 break;
             case JumpEventType.FullHop:
-                if (!_isGrounded)
+                if (!isGrounded)
                 {
                     break;
                 }
                 FullHop();
                 break;
             case JumpEventType.DoubleJump:
-                if (_isGrounded)
+                if (isGrounded)
                 {
                     break;
                 }
@@ -198,7 +198,7 @@ public class ControllableUnit : PhysicsUnit
         velocity = jumpVelocity;
         isJumpSquatting = false;
         isJumping = true;
-        _isGrounded = false;
+        isGrounded = false;
         onJumpEvent.Invoke();
     }
 
@@ -237,11 +237,6 @@ public class ControllableUnit : PhysicsUnit
         doubleJumpLeft = maxDoubleJumpCount;
         isJumping = false;
         base.OnLand();
-    }
-
-    protected override bool IsPhysicallyGrounded()
-    {
-        return isJumping ? false : base.IsPhysicallyGrounded();
     }
 
     public void SetJoystickInput(Vector2 input)

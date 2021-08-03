@@ -15,8 +15,6 @@ public class PhysicsUnit : BaseUnit
 
     [SerializeField]
     public bool isGrounded;
-    [SerializeField]
-    protected bool _isGrounded;
 
     // Slope movement Variables
     public bool isOnSlope = false;
@@ -180,28 +178,18 @@ public class PhysicsUnit : BaseUnit
         return true;
     }
 
-    protected virtual bool IsUnitGrounded()
-    {
-        bool isOnGround = Physics2D.OverlapCircle(feetPosition.position, groundCheckRadius, groundLayerMask);
-        bool isbetweenSlopes = leftMostSlopeAngle > 0.0f && rightMostSlopeAngle > 0.0f;
-
-        return isOnGround && (canWalkOnSlope || isbetweenSlopes);
-    }
-
     private void CheckGround()
     {
-        bool _isOnGround = IsPhysicallyGrounded();
-        bool isOnGround = IsUnitGrounded();
+        bool isOnGround = IsPhysicallyGrounded();
 
         if (!isGrounded && isOnGround)
         {
             OnLand();
         }
 
-        _isGrounded = _isOnGround;
         isGrounded = isOnGround;
 
-        if (!_isGrounded)
+        if (!isGrounded)
         {
             isOnSlope = false;
             canWalkOnSlope = false;
@@ -220,7 +208,7 @@ public class PhysicsUnit : BaseUnit
 
     protected void ApplyGravity()
     {
-        if (!_isGrounded)
+        if (!isGrounded)
         {
             velocity.y = GetNewVelocity(velocity.y, -maxFallSpeed, gravity);
         }

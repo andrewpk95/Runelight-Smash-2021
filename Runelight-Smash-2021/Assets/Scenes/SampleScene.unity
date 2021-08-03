@@ -1980,7 +1980,6 @@ MonoBehaviour:
   gravity: 20
   maxFallSpeed: 5
   isGrounded: 0
-  _isGrounded: 0
   isOnSlope: 0
   leftMostSlopeAngle: 0
   rightMostSlopeAngle: 0
