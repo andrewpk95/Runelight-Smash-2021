@@ -28,7 +28,7 @@ public class PhysicsUnit : BaseUnit
     // Slope calculation variables
     private List<Vector2> slopes = new List<Vector2>();
     private ContactFilter2D filter = new ContactFilter2D();
-    private float CAST_OFFSET = 0.05f;
+    protected float CAST_OFFSET = 0.05f;
 
     // Collision variables
     private ContactPoint2D[] contactPoints = new ContactPoint2D[10];
@@ -208,7 +208,7 @@ public class PhysicsUnit : BaseUnit
 
     protected void ApplyGravity()
     {
-        if (!isGrounded)
+        if (!isGrounded || !canWalkOnSlope)
         {
             velocity.y = GetNewVelocity(velocity.y, -maxFallSpeed, gravity);
         }

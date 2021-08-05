@@ -204,7 +204,7 @@ public class ControllableUnit : PhysicsUnit
 
     private void StickToSlope()
     {
-        if (isJumping)
+        if (isJumping || !isGrounded)
         {
             return;
         }
@@ -214,12 +214,26 @@ public class ControllableUnit : PhysicsUnit
 
         if (hit)
         {
+            Vector2 perpendicular = Vector2.Perpendicular(hit.normal);
+            Vector2 nextSlopeDirection = perpendicular.x > 0.0f ? perpendicular : -perpendicular;
+            float nextSlopeAngle = Vector2.Angle(perpendicular, Vector2.left);
+
+            if (nextSlopeAngle > maxSlopeAngle)
+            {
+                return;
+            }
+            Ray2D ray1 = new Ray2D(unitRigidbody.position + capsule.offset - Vector2.up * ((capsule.size.y - capsule.size.x) / 2 + Physics2D.defaultContactOffset), velocity * Time.fixedDeltaTime);
+            Ray2D ray2 = new Ray2D(hit.centroid, velocity.x < 0.0f ? nextSlopeDirection : -nextSlopeDirection);
+
+            if (!Math2D.IsRayIntersecting(ray1, ray2))
+            {
+                return;
+            }
+
             slopeStickPosition = hit.centroid;
 
-            float diff = slopeStickPosition.y - centerPos.y + distance;
-
-            Debug.DrawLine(centerPos, slopeStickPosition, Color.white);
-            unitRigidbody.MovePosition(unitRigidbody.position + velocity * Time.fixedDeltaTime + Vector2.up * diff);
+            Debug.DrawLine(unitRigidbody.position, slopeStickPosition + Vector2.up * (distance - capsule.offset.y), Color.white);
+            unitRigidbody.position = (slopeStickPosition + Vector2.up * (distance - capsule.offset.y));
         }
     }
 

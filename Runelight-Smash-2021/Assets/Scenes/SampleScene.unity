@@ -491,13 +491,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 506207282}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 11.176325, y: 0.69080126, z: 9.427856}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7885492, w: 0.61497164}
+  m_LocalPosition: {x: 10.71, y: 0.67, z: 9.427856}
   m_LocalScale: {x: 2, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1457690516}
   m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 104.1}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1373,11 +1373,11 @@ PolygonCollider2D:
       - {x: -5, y: 2}
       - {x: -7, y: 2}
       - {x: -7, y: 4}
-      - {x: -8, y: 4}
+      - {x: -17, y: 4}
       - {x: -8, y: -5}
       - {x: 12, y: -5}
-      - {x: 12, y: 3}
-      - {x: 11, y: 3}
+      - {x: 22, y: 3}
+      - {x: 10, y: 3}
       - {x: 11, y: -1}
 --- !u!4 &1457690516
 Transform:
@@ -1473,7 +1473,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2025968840}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -11.91, y: 5.44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 519420032}
@@ -1986,13 +1986,13 @@ MonoBehaviour:
   leftMostSlopeDirection: {x: 0, y: 0}
   rightMostSlopeDirection: {x: 0, y: 0}
   canWalkOnSlope: 0
-  maxSlopeAngle: 45
+  maxSlopeAngle: 80
   onLandEvent:
     m_PersistentCalls:
       m_Calls: []
-  maxWalkSpeed: 4
-  walkAccelerationRate: 15
-  groundDecelerationRate: 20
+  maxWalkSpeed: 30
+  walkAccelerationRate: 100
+  groundDecelerationRate: 2
   maxAirSpeed: 3
   airAccelerationRate: 8
   airDecelerationRate: 10
