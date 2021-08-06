@@ -33,7 +33,7 @@ public class BaseUnit : MonoBehaviour
         }
     }
 
-    private void ApplyVelocity()
+    protected virtual void ApplyVelocity()
     {
         prevPosition = unitRigidbody.position;
         unitRigidbody.MovePosition(unitRigidbody.position + velocity * Time.fixedDeltaTime);

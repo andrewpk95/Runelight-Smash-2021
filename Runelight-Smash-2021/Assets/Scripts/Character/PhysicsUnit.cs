@@ -19,8 +19,10 @@ public class PhysicsUnit : BaseUnit
     // Slope movement Variables
     public bool isOnSlope = false;
     public float leftMostSlopeAngle = 0.0f;
+    public float centerSlopeAngle = 0.0f;
     public float rightMostSlopeAngle = 0.0f;
     public Vector2 leftMostSlopeDirection;
+    public Vector2 centerSlopeDirection;
     public Vector2 rightMostSlopeDirection;
     public bool canWalkOnSlope;
     public float maxSlopeAngle = 45.0f;
@@ -28,7 +30,7 @@ public class PhysicsUnit : BaseUnit
     // Slope calculation variables
     private List<Vector2> slopes = new List<Vector2>();
     private ContactFilter2D filter = new ContactFilter2D();
-    protected float CAST_OFFSET = 0.05f;
+    protected float CAST_OFFSET = 0.1f;
 
     // Collision variables
     private ContactPoint2D[] contactPoints = new ContactPoint2D[10];
@@ -81,18 +83,7 @@ public class PhysicsUnit : BaseUnit
         }
         CalculateSlopes();
 
-        float currentSlope = 0.0f;
-
-        if (velocity.x < 0.0f)
-        {
-            currentSlope = leftMostSlopeAngle > 0.0f ? leftMostSlopeAngle : rightMostSlopeAngle;
-        }
-        else if (velocity.x > 0.0f)
-        {
-            currentSlope = rightMostSlopeAngle > 0.0f ? rightMostSlopeAngle : leftMostSlopeAngle;
-        }
-
-        canWalkOnSlope = currentSlope <= maxSlopeAngle;
+        canWalkOnSlope = centerSlopeAngle <= maxSlopeAngle;
     }
 
     private void GetSlopeCollisionPoints()
@@ -125,13 +116,36 @@ public class PhysicsUnit : BaseUnit
     private Vector2 AddToSlopes(RaycastHit2D hit)
     {
         Vector2 normal = hit.normal;
-        Vector2 slopeDirection = -Vector2.Perpendicular(normal).normalized;
-        float slopeAngle = -Vector2.SignedAngle(normal, Vector2.up);
+        Vector2 slopeDirection = GetSignedSlopeDirection(normal);
 
         slopes.Add(normal);
         Debug.DrawRay(hit.point, slopeDirection.y < 0.0f ? -slopeDirection : slopeDirection, Color.red);
 
         return slopeDirection;
+    }
+
+    protected Vector2 GetSignedSlopeDirection(Vector2 normal)
+    {
+        return -Vector2.Perpendicular(normal).normalized;
+    }
+
+    protected Vector2 GetSlopeDirection(Vector2 normal)
+    {
+        Vector2 signedSlopeDirection = GetSignedSlopeDirection(normal);
+
+        return signedSlopeDirection.y < 0.0f ? -signedSlopeDirection : signedSlopeDirection;
+    }
+
+    protected float GetSignedSlopeAngle(Vector2 normal)
+    {
+        return -Vector2.SignedAngle(normal, Vector2.up);
+    }
+
+    protected float GetSlopeAngle(Vector2 normal)
+    {
+        float signedSlopeAngle = GetSignedSlopeAngle(normal);
+
+        return Mathf.Abs(signedSlopeAngle);
     }
 
     private void CalculateSlopes()
@@ -140,24 +154,44 @@ public class PhysicsUnit : BaseUnit
         {
             leftMostSlopeDirection = Vector2.zero;
             rightMostSlopeDirection = Vector2.zero;
+            centerSlopeDirection = Vector2.zero;
             leftMostSlopeAngle = 0.0f;
             rightMostSlopeAngle = 0.0f;
+            centerSlopeAngle = 0.0f;
             return;
         }
 
         slopes.Sort(SortBySlopeAngle);
 
         // Get the steepest slope angle on the left and right
-        Vector2 leftMost = -Vector2.Perpendicular(slopes[0]);
-        Vector2 rightMost = -Vector2.Perpendicular(slopes[slopes.Count - 1]);
-        float left = Vector2.SignedAngle(Vector2.right, leftMost);
-        float right = Vector2.SignedAngle(Vector2.right, rightMost);
+        Vector2 leftMostNormal = slopes[0];
+        Vector2 rightMostNormal = slopes[slopes.Count - 1];
+        Vector2 centerNormal = Vector2.up;
+        Vector2 leftMost = GetSignedSlopeDirection(leftMostNormal);
+        Vector2 rightMost = GetSignedSlopeDirection(rightMostNormal);
+        float left = GetSignedSlopeAngle(leftMostNormal);
+        float right = GetSignedSlopeAngle(rightMostNormal);
 
-        leftMostSlopeDirection = left < 0.0f ? -leftMost : Vector2.zero;
-        rightMostSlopeDirection = right > 0.0f ? rightMost : Vector2.zero;
+        if (left < 0.0f && right > 0.0f)
+        {
+            centerNormal = leftMostNormal + rightMostNormal;
+        }
+        else if (left < 0.0f)
+        {
+            centerNormal = rightMostNormal;
+        }
+        else if (right > 0.0f)
+        {
+            centerNormal = leftMostNormal;
+        }
+
+        leftMostSlopeDirection = left < 0.0f ? GetSlopeDirection(leftMostNormal) : Vector2.zero;
+        rightMostSlopeDirection = right > 0.0f ? GetSlopeDirection(rightMostNormal) : Vector2.zero;
         leftMostSlopeAngle = Vector2.SignedAngle(leftMostSlopeDirection, Vector2.left);
         rightMostSlopeAngle = -Vector2.SignedAngle(rightMostSlopeDirection, Vector2.right);
-        isOnSlope = leftMostSlopeAngle > 0.0f || rightMostSlopeAngle > 0.0f;
+        centerSlopeDirection = GetSlopeDirection(centerNormal);
+        centerSlopeAngle = GetSlopeAngle(centerNormal);
+        isOnSlope = centerSlopeAngle > 0.0f;
     }
 
     static int SortBySlopeAngle(Vector2 normal1, Vector2 normal2)
@@ -170,7 +204,7 @@ public class PhysicsUnit : BaseUnit
 
     protected virtual bool IsPhysicallyGrounded()
     {
-        if (slopes.Count <= 0)
+        if (slopes.Count <= 0 || !canWalkOnSlope)
         {
             return false;
         }
@@ -188,12 +222,6 @@ public class PhysicsUnit : BaseUnit
         }
 
         isGrounded = isOnGround;
-
-        if (!isGrounded)
-        {
-            isOnSlope = false;
-            canWalkOnSlope = false;
-        }
     }
 
     private void ClearCollisionVariables()
@@ -224,17 +252,7 @@ public class PhysicsUnit : BaseUnit
 
     protected virtual void ApplySlopeGravity()
     {
-        Vector2 slopeDirection;
-
-        if (velocity.x < 0.0f)
-        {
-            slopeDirection = leftMostSlopeAngle > 0.0f ? leftMostSlopeDirection : rightMostSlopeDirection;
-        }
-        else
-        {
-            slopeDirection = rightMostSlopeAngle > 0.0f ? rightMostSlopeDirection : leftMostSlopeDirection;
-        }
-
+        Vector2 slopeDirection = centerSlopeDirection.x > 0.0f ? centerSlopeDirection : -centerSlopeDirection;
         Vector2 projectedVelocity = Vector3.Project(velocity, slopeDirection);
 
         velocity.x = GetNewVelocity(projectedVelocity.x, -maxFallSpeed * slopeDirection.x, gravity * slopeDirection.x);
