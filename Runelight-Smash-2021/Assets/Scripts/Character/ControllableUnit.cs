@@ -11,6 +11,8 @@ public class ControllableUnit : PhysicsUnit
     protected JumpEventType jumpEventType = JumpEventType.None;
 
     // Ground Movement Variables
+    protected virtual float groundSpeed { get { return maxWalkSpeed; } }
+    protected virtual float groundAccelerationRate { get { return walkAccelerationRate; } }
     public float maxWalkSpeed = 5.0f;
     public float walkAccelerationRate = 15.0f;
     public float groundDecelerationRate = 20.0f;
@@ -71,8 +73,8 @@ public class ControllableUnit : PhysicsUnit
         {
             return;
         }
-        float walkSpeed = joystick.x * maxWalkSpeed;
-        float acceleration = Mathf.Abs(joystick.x) > 0 ? walkAccelerationRate : groundDecelerationRate;
+        float walkSpeed = joystick.x * groundSpeed;
+        float acceleration = Mathf.Abs(joystick.x) > 0 ? groundAccelerationRate : groundDecelerationRate;
 
         if (isOnSlope)
         {

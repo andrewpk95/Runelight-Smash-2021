@@ -368,7 +368,7 @@
                     "name": "1D Axis",
                     "id": "30ed42c2-5590-4a12-b4a5-586670115441",
                     "path": "1DAxis",
-                    "interactions": "Press",
+                    "interactions": "DoubleTapHold",
                     "processors": "",
                     "groups": "",
                     "action": "Dash(Keyboard)",

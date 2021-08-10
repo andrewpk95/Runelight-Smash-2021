@@ -7,7 +7,7 @@ public class FighterController : MonoBehaviour
 {
     private PlayerInput playerInput;
     private FighterActionHandler fighterActionHandler;
-    private ControllableUnit controllableUnit;
+    private FighterUnit fighterUnit;
 
     public bool isShielding = false;
 
@@ -16,7 +16,7 @@ public class FighterController : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         fighterActionHandler = GetComponent<FighterActionHandler>();
-        controllableUnit = GetComponent<ControllableUnit>();
+        fighterUnit = GetComponent<FighterUnit>();
 
         BindActionEvents();
     }
@@ -30,18 +30,18 @@ public class FighterController : MonoBehaviour
         fighterActionHandler.grabEvent.AddListener(HandleGrab);
         fighterActionHandler.dashEvent.AddListener(HandleDash);
 
-        controllableUnit.onJumpEvent.AddListener(Jump);
-        controllableUnit.onLandEvent.AddListener(Land);
+        fighterUnit.onJumpEvent.AddListener(Jump);
+        fighterUnit.onLandEvent.AddListener(Land);
     }
 
     private void HandleJump(JumpEventType jumpEventType)
     {
-        controllableUnit.SetJumpInput(jumpEventType);
+        fighterUnit.SetJumpInput(jumpEventType);
     }
 
     private void HandleMovement(Vector2 direction)
     {
-        controllableUnit.SetJoystickInput(direction);
+        fighterUnit.SetJoystickInput(direction);
     }
 
     private void HandleRoll(Vector2 direction)
@@ -71,11 +71,9 @@ public class FighterController : MonoBehaviour
         Debug.Log("Grab");
     }
 
-    private void HandleDash(bool isLeft)
+    private void HandleDash(float direction)
     {
-        string direction = isLeft ? "Left" : "Right";
-
-        Debug.Log($"Dash {direction}");
+        fighterUnit.SetDashInput(direction);
     }
 
     // Mock jump simulation
