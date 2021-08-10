@@ -45,7 +45,6 @@ public class ControllableUnit : PhysicsUnit
     {
         ApplyControls();
         base.Tick();
-        StickToSlope();
     }
 
     private void ApplyControls()
@@ -56,7 +55,7 @@ public class ControllableUnit : PhysicsUnit
 
     private void ApplyMovement()
     {
-        if (_isGrounded)
+        if (isGrounded)
         {
             ApplyGroundMovement();
         }
@@ -77,17 +76,7 @@ public class ControllableUnit : PhysicsUnit
 
         if (isOnSlope)
         {
-            Vector2 slopeDirection;
-
-            if (joystick.x < 0.0f)
-            {
-                slopeDirection = leftMostSlopeAngle > 0.0f ? -leftMostSlopeDirection : rightMostSlopeDirection;
-            }
-            else
-            {
-                slopeDirection = rightMostSlopeAngle > 0.0f ? rightMostSlopeDirection : -leftMostSlopeDirection;
-            }
-
+            Vector2 slopeDirection = centerSlopeDirection.x > 0.0f ? centerSlopeDirection : -centerSlopeDirection;
             Vector2 projectedVelocity = Vector3.Project(velocity, slopeDirection);
 
             velocity.x = GetNewVelocity(projectedVelocity.x, walkSpeed * slopeDirection.x, acceleration * slopeDirection.x);
@@ -96,6 +85,17 @@ public class ControllableUnit : PhysicsUnit
         else
         {
             velocity.x = GetNewVelocity(velocity.x, walkSpeed, acceleration);
+        }
+
+        if (velocity.x < 0.0f && leftMostSlopeAngle > maxSlopeAngle)
+        {
+            velocity = Vector2.zero;
+            return;
+        }
+        else if (velocity.x > 0.0f && rightMostSlopeAngle > maxSlopeAngle)
+        {
+            velocity = Vector2.zero;
+            return;
         }
     }
 
@@ -128,21 +128,21 @@ public class ControllableUnit : PhysicsUnit
                 isJumpSquatting = true;
                 break;
             case JumpEventType.ShortHop:
-                if (!_isGrounded)
+                if (!isGrounded)
                 {
                     break;
                 }
                 ShortHop();
                 break;
             case JumpEventType.FullHop:
-                if (!_isGrounded)
+                if (!isGrounded)
                 {
                     break;
                 }
                 FullHop();
                 break;
             case JumpEventType.DoubleJump:
-                if (_isGrounded)
+                if (isGrounded)
                 {
                     break;
                 }
@@ -178,17 +178,17 @@ public class ControllableUnit : PhysicsUnit
         float jumpAngle = Vector2.Angle(Vector2.right, jumpVelocity);
 
         // Make sure jump velocity is away from the grounds
-        if (180 - jumpAngle < leftMostSlopeAngle + minSlopeJumpAngle)
+        if (180 - jumpAngle < centerSlopeAngle + minSlopeJumpAngle)
         {
-            float rotateAngle = Mathf.Deg2Rad * -((leftMostSlopeAngle - (180 - jumpAngle)) + minSlopeJumpAngle);
+            float rotateAngle = Mathf.Deg2Rad * -((centerSlopeAngle - (180 - jumpAngle)) + minSlopeJumpAngle);
             float cos = Mathf.Cos(rotateAngle);
             float sin = Mathf.Sin(rotateAngle);
 
             jumpVelocity.x = jumpVelocity.x * cos - jumpVelocity.y * sin;
         }
-        else if (jumpAngle < rightMostSlopeAngle + minSlopeJumpAngle)
+        else if (jumpAngle < centerSlopeAngle + minSlopeJumpAngle)
         {
-            float rotateAngle = Mathf.Deg2Rad * (rightMostSlopeAngle - jumpAngle + minSlopeJumpAngle);
+            float rotateAngle = Mathf.Deg2Rad * (centerSlopeAngle - jumpAngle + minSlopeJumpAngle);
             float cos = Mathf.Cos(rotateAngle);
             float sin = Mathf.Sin(rotateAngle);
 
@@ -198,27 +198,74 @@ public class ControllableUnit : PhysicsUnit
         velocity = jumpVelocity;
         isJumpSquatting = false;
         isJumping = true;
-        _isGrounded = false;
+        isGrounded = false;
         onJumpEvent.Invoke();
+    }
+
+    protected override void ApplyVelocity()
+    {
+        StickToSlope();
     }
 
     private void StickToSlope()
     {
-        if (isJumping)
+        if (isJumping || !isGrounded || !canWalkOnSlope)
         {
+            base.ApplyVelocity();
             return;
         }
-        Vector2 feetPos = unitRigidbody.position + velocity * Time.fixedDeltaTime - Vector2.up * (capsule.size.y - capsule.size.x) / 2 + capsule.offset;
-        RaycastHit2D hit = Physics2D.CircleCast(feetPos, capsule.size.x / 2, Vector2.down, velocity.magnitude, groundLayerMask);
+        RaycastHit2D hit;
+        float distanceToFeetPos = (capsule.size.y - capsule.size.x) / 2;
+        float radius = capsule.size.x / 2;
+        Vector2 centerPos = unitRigidbody.position + capsule.offset;
+        Vector2 feetPos = centerPos - Vector2.up * distanceToFeetPos;
+        Vector2 nextVelocityStep = velocity * Time.fixedDeltaTime;
+        Vector2 nextPos = centerPos + nextVelocityStep;
+
+        hit = Physics2D.CircleCast(feetPos, radius, nextVelocityStep, nextVelocityStep.magnitude, groundLayerMask);
 
         if (hit)
         {
-            slopeStickPosition = hit.point + hit.normal.normalized * capsule.size.x / 2;
+            float nextSlopeAngle = GetSlopeAngle(hit.normal);
 
-            float diff = slopeStickPosition.y - feetPos.y;
+            if (nextSlopeAngle > maxSlopeAngle)
+            {
+                slopeStickPosition = hit.centroid;
+                Vector2 newSlopeStickPosition = slopeStickPosition + Vector2.up * (distanceToFeetPos - capsule.offset.y);
 
-            Debug.DrawLine(feetPos, slopeStickPosition, Color.white);
-            unitRigidbody.MovePosition(unitRigidbody.position + velocity * Time.fixedDeltaTime + Vector2.up * diff);
+                Debug.DrawLine(unitRigidbody.position, newSlopeStickPosition, Color.white);
+                unitRigidbody.position = newSlopeStickPosition;
+                return;
+            }
+        }
+
+        hit = Physics2D.CircleCast(nextPos, radius, Vector2.down, velocity.magnitude, groundLayerMask);
+
+        if (hit)
+        {
+            Vector2 perpendicular = Vector2.Perpendicular(hit.normal);
+            Vector2 nextSlopeDirection = perpendicular.x > 0.0f ? perpendicular : -perpendicular;
+            float nextSlopeAngle = Vector2.Angle(perpendicular, Vector2.left);
+
+            if (nextSlopeAngle > maxSlopeAngle)
+            {
+                base.ApplyVelocity();
+                return;
+            }
+            Ray2D ray1 = new Ray2D(feetPos - Vector2.up * Physics2D.defaultContactOffset, nextVelocityStep);
+            Ray2D ray2 = new Ray2D(hit.centroid, velocity.x < 0.0f ? nextSlopeDirection : -nextSlopeDirection);
+
+            if (!Math2D.IsRayIntersecting(ray1, ray2))
+            {
+                base.ApplyVelocity();
+                return;
+            }
+
+            slopeStickPosition = hit.centroid;
+            Vector2 newSlopeStickPosition = slopeStickPosition + Vector2.up * (distanceToFeetPos - capsule.offset.y);
+
+            Debug.DrawLine(unitRigidbody.position, newSlopeStickPosition, Color.white);
+            unitRigidbody.position = newSlopeStickPosition;
         }
     }
 
@@ -236,11 +283,6 @@ public class ControllableUnit : PhysicsUnit
         doubleJumpLeft = maxDoubleJumpCount;
         isJumping = false;
         base.OnLand();
-    }
-
-    protected override bool IsPhysicallyGrounded()
-    {
-        return isJumping ? false : base.IsPhysicallyGrounded();
     }
 
     public void SetJoystickInput(Vector2 input)
