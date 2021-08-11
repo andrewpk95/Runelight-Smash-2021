@@ -11,6 +11,8 @@ public class ControllableUnit : PhysicsUnit
     protected JumpEventType jumpEventType = JumpEventType.None;
 
     // Ground Movement Variables
+    protected virtual float groundSpeed { get { return Mathf.Abs(joystick.x) * maxWalkSpeed; } }
+    protected virtual float groundAccelerationRate { get { return walkAccelerationRate; } }
     public float maxWalkSpeed = 5.0f;
     public float walkAccelerationRate = 15.0f;
     public float groundDecelerationRate = 20.0f;
@@ -71,20 +73,20 @@ public class ControllableUnit : PhysicsUnit
         {
             return;
         }
-        float walkSpeed = joystick.x * maxWalkSpeed;
-        float acceleration = Mathf.Abs(joystick.x) > 0 ? walkAccelerationRate : groundDecelerationRate;
+        float speed = Mathf.Sign(joystick.x) * groundSpeed;
+        float acceleration = Mathf.Abs(joystick.x) > 0 ? groundAccelerationRate : groundDecelerationRate;
 
         if (isOnSlope)
         {
             Vector2 slopeDirection = centerSlopeDirection.x > 0.0f ? centerSlopeDirection : -centerSlopeDirection;
             Vector2 projectedVelocity = Vector3.Project(velocity, slopeDirection);
 
-            velocity.x = GetNewVelocity(projectedVelocity.x, walkSpeed * slopeDirection.x, acceleration * slopeDirection.x);
-            velocity.y = GetNewVelocity(projectedVelocity.y, walkSpeed * slopeDirection.y, acceleration * slopeDirection.y);
+            velocity.x = GetNewVelocity(projectedVelocity.x, speed * slopeDirection.x, acceleration * slopeDirection.x);
+            velocity.y = GetNewVelocity(projectedVelocity.y, speed * slopeDirection.y, acceleration * slopeDirection.y);
         }
         else
         {
-            velocity.x = GetNewVelocity(velocity.x, walkSpeed, acceleration);
+            velocity.x = GetNewVelocity(velocity.x, speed, acceleration);
         }
 
         if (velocity.x < 0.0f && leftMostSlopeAngle > maxSlopeAngle)
@@ -174,21 +176,24 @@ public class ControllableUnit : PhysicsUnit
 
     private void Jump(float jumpHeight)
     {
-        Vector2 jumpVelocity = new Vector2(canJumpChangeDirection ? joystick.x * maxAirSpeed : velocity.x, Mathf.Sqrt(2.0f * gravity * jumpHeight));
+        float targetJumpSpeed = joystick.x > 0 ? Mathf.Max(joystick.x * maxAirSpeed, velocity.x) : Mathf.Min(joystick.x * maxAirSpeed, velocity.x);
+        float jumpSpeed = canJumpChangeDirection ? targetJumpSpeed : velocity.x;
+        Vector2 jumpVelocity = new Vector2(jumpSpeed, Mathf.Sqrt(2.0f * gravity * jumpHeight));
         float jumpAngle = Vector2.Angle(Vector2.right, jumpVelocity);
+        float slopeAngle = Mathf.Sign(velocity.y) * centerSlopeAngle;
 
         // Make sure jump velocity is away from the grounds
-        if (180 - jumpAngle < centerSlopeAngle + minSlopeJumpAngle)
+        if (jumpVelocity.x < 0.0f && 180 - jumpAngle < slopeAngle + minSlopeJumpAngle)
         {
-            float rotateAngle = Mathf.Deg2Rad * -((centerSlopeAngle - (180 - jumpAngle)) + minSlopeJumpAngle);
+            float rotateAngle = Mathf.Deg2Rad * -((slopeAngle - (180 - jumpAngle)) + minSlopeJumpAngle);
             float cos = Mathf.Cos(rotateAngle);
             float sin = Mathf.Sin(rotateAngle);
 
             jumpVelocity.x = jumpVelocity.x * cos - jumpVelocity.y * sin;
         }
-        else if (jumpAngle < centerSlopeAngle + minSlopeJumpAngle)
+        else if (jumpVelocity.x > 0.0f && jumpAngle < slopeAngle + minSlopeJumpAngle)
         {
-            float rotateAngle = Mathf.Deg2Rad * (centerSlopeAngle - jumpAngle + minSlopeJumpAngle);
+            float rotateAngle = Mathf.Deg2Rad * (slopeAngle - jumpAngle + minSlopeJumpAngle);
             float cos = Mathf.Cos(rotateAngle);
             float sin = Mathf.Sin(rotateAngle);
 

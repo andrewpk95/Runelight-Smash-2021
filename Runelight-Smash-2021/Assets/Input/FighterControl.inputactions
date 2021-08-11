@@ -30,6 +30,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Dash(XBox)",
+                    "type": "Value",
+                    "id": "f7e99d04-2aa6-4915-849e-4071b3a506f8",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Crouch",
                     "type": "Button",
                     "id": "c128e4f3-7f55-40ff-8618-7f3db6901ed2",
@@ -97,14 +105,6 @@
                     "name": "Smash",
                     "type": "Value",
                     "id": "a3970728-888c-4896-942b-e48ecc10a096",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Snap",
-                    "type": "Value",
-                    "id": "f7e99d04-2aa6-4915-849e-4071b3a506f8",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
@@ -368,7 +368,7 @@
                     "name": "1D Axis",
                     "id": "30ed42c2-5590-4a12-b4a5-586670115441",
                     "path": "1DAxis",
-                    "interactions": "Press",
+                    "interactions": "DoubleTapHold",
                     "processors": "",
                     "groups": "",
                     "action": "Dash(Keyboard)",
@@ -401,10 +401,10 @@
                     "name": "",
                     "id": "f179a233-a78e-4dc4-801c-e71802cd7d92",
                     "path": "<XInputController>/leftStick",
-                    "interactions": "AnalogTap",
+                    "interactions": "AnalogTap(maxTapDuration=0.05)",
                     "processors": "StickDeadzone",
                     "groups": "XBox",
-                    "action": "Snap",
+                    "action": "Dash(XBox)",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

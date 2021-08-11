@@ -9,7 +9,7 @@ public class MovementEvent : UnityEvent<Vector2> { }
 public class ShieldEvent : UnityEvent<bool> { }
 public class RollEvent : UnityEvent<Vector2> { }
 public class GrabEvent : UnityEvent { }
-public class DashEvent : UnityEvent<bool> { }
+public class DashEvent : UnityEvent<float> { }
 
 public class FighterActionHandler : MonoBehaviour
 {
@@ -22,18 +22,18 @@ public class FighterActionHandler : MonoBehaviour
 
     // TODO: Decouple FighterActionHandler from FighterController
     private FighterController fighterController;
-    private ControllableUnit controllableUnit;
+    private FighterUnit fighterUnit;
 
     // Start is called before the first frame update
     void Start()
     {
         fighterController = GetComponent<FighterController>();
-        controllableUnit = GetComponent<ControllableUnit>();
+        fighterUnit = GetComponent<FighterUnit>();
     }
 
     public void HandleJump(InputAction.CallbackContext input)
     {
-        if (!controllableUnit.isGrounded)
+        if (!fighterUnit.isGrounded)
         {
             if (input.started)
             {
@@ -78,20 +78,46 @@ public class FighterActionHandler : MonoBehaviour
         }
     }
 
-    public void HandleSnap(InputAction.CallbackContext input)
+    public void HandleDashXBox(InputAction.CallbackContext input)
     {
+        Vector2 direction = input.ReadValue<Vector2>();
+
+        if (input.canceled)
+        {
+            dashEvent.Invoke(0.0f);
+        }
         if (input.performed)
         {
-            Vector2 direction = input.ReadValue<Vector2>();
-
+            if (fighterController.isShielding)
+            {
+                return;
+            }
             if (Vector2.Angle(direction, Vector2.left) <= 45.0f)
             {
-                dashEvent.Invoke(true);
+                dashEvent.Invoke(-1.0f);
             }
             else if (Vector2.Angle(direction, Vector2.right) <= 45.0f)
             {
-                dashEvent.Invoke(false);
+                dashEvent.Invoke(1.0f);
             }
+        }
+    }
+
+    public void HandleDashKeyboard(InputAction.CallbackContext input)
+    {
+        float direction = input.ReadValue<float>();
+
+        if (input.canceled)
+        {
+            dashEvent.Invoke(direction);
+        }
+        if (input.performed)
+        {
+            if (fighterController.isShielding)
+            {
+                return;
+            }
+            dashEvent.Invoke(direction);
         }
     }
 

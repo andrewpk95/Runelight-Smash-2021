@@ -7,44 +7,79 @@ using UnityEngine.InputSystem;
 #endif
 public class AnalogTapInteraction : IInputInteraction
 {
-    public float maxTapDuration = 0.1f;
-    private bool isTimerStarted = false;
+    public float maxTapDuration = 0.05f;
+    public float maxNeutralWaitDuration = 0.05f;
+
+    private bool wasJoystickBackToNeutral = false;
+    private bool neutralWaitStarted = false;
+    private double neutralWaitStartTime;
 
     public void Process(ref InputInteractionContext context)
     {
-        if (context.timerHasExpired)
-        {
-            context.Canceled();
-            return;
-        }
         Vector2 direction = context.ReadValue<Vector2>();
+        float joystickMagnitude = direction.SqrMagnitude();
 
         switch (context.phase)
         {
             case InputActionPhase.Waiting:
-                if (direction.SqrMagnitude() <= 0)
+                if (joystickMagnitude > 0 && wasJoystickBackToNeutral)
                 {
                     context.Started();
+                    if (joystickMagnitude >= 1)
+                    {
+                        context.PerformedAndStayPerformed();
+                    }
+                    else
+                    {
+                        context.SetTimeout(maxTapDuration);
+                        wasJoystickBackToNeutral = false;
+                    }
+
+                }
+                else if (joystickMagnitude <= 0 && !wasJoystickBackToNeutral)
+                {
+                    wasJoystickBackToNeutral = true;
                 }
                 break;
 
             case InputActionPhase.Started:
-                if (direction.SqrMagnitude() > 0 && !isTimerStarted)
+                if (joystickMagnitude >= 1)
                 {
-                    context.SetTimeout(maxTapDuration);
-                    isTimerStarted = true;
+                    context.PerformedAndStayPerformed();
                 }
-                if (direction.SqrMagnitude() >= 1)
+                else if (context.timerHasExpired)
                 {
-                    context.Performed();
+                    context.Canceled();
                 }
+                break;
+            case InputActionPhase.Performed:
+                if (joystickMagnitude <= 0)
+                {
+                    if (!neutralWaitStarted)
+                    {
+                        neutralWaitStarted = true;
+                        neutralWaitStartTime = context.time;
+                    }
+                    else if (context.time - neutralWaitStartTime >= maxNeutralWaitDuration)
+                    {
+                        context.Canceled();
+                        break;
+                    }
+                }
+                else
+                {
+                    neutralWaitStarted = false;
+                    neutralWaitStartTime = 0;
+                }
+                context.PerformedAndStayPerformed();
                 break;
         }
     }
 
     public void Reset()
     {
-        isTimerStarted = false;
+        neutralWaitStarted = false;
+        neutralWaitStartTime = 0;
     }
 
     static AnalogTapInteraction()

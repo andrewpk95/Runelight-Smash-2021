@@ -1437,7 +1437,6 @@ GameObject:
   - component: {fileID: 2025968842}
   - component: {fileID: 2025968843}
   - component: {fileID: 2025968841}
-  - component: {fileID: 2025968845}
   - component: {fileID: 2025968844}
   - component: {fileID: 2025968846}
   - component: {fileID: 2025968847}
@@ -1541,7 +1540,7 @@ MonoBehaviour:
     m_ActionName: Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968845}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
         m_MethodName: 
         m_Mode: 1
@@ -1825,9 +1824,9 @@ MonoBehaviour:
     m_ActionName: Grounded/Smash[/XInputControllerWindows/rightStick]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968845}
-        m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
-        m_MethodName: HandleDash
+      - m_Target: {fileID: 2025968848}
+        m_TargetAssemblyTypeName: FighterActionHandler, Assembly-CSharp
+        m_MethodName: HandleDashKeyboard
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1843,7 +1842,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2025968848}
         m_TargetAssemblyTypeName: FighterActionHandler, Assembly-CSharp
-        m_MethodName: HandleSnap
+        m_MethodName: HandleDashXBox
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1872,19 +1871,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4cb1090aa47ead459d86f0210e82e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2025968845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2025968840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c82f8aa7afdec9944bbf4803366e47a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DASH_BUFFER_DURATION: 0.2
 --- !u!114 &2025968846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1968,7 +1954,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2025968840}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aae89de9137d5044aa000b24825fa273, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f45e4acb7a8cee4eb91fe97d8476438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0}
@@ -1992,9 +1978,9 @@ MonoBehaviour:
   onLandEvent:
     m_PersistentCalls:
       m_Calls: []
-  maxWalkSpeed: 15
-  walkAccelerationRate: 100
-  groundDecelerationRate: 2
+  maxWalkSpeed: 5
+  walkAccelerationRate: 20
+  groundDecelerationRate: 40
   maxAirSpeed: 3
   airAccelerationRate: 8
   airDecelerationRate: 10
@@ -2003,7 +1989,12 @@ MonoBehaviour:
   doubleJumpHeight: 3
   maxDoubleJumpCount: 1
   canJumpChangeDirection: 1
-  minSlopeJumpAngle: 15
+  minSlopeJumpAngle: 30
   onJumpEvent:
     m_PersistentCalls:
       m_Calls: []
+  isDashing: 0
+  isDashStarted: 0
+  initialDashSpeed: 5
+  dashAccelerationRate: 40
+  maxDashSpeed: 10
