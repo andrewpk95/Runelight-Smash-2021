@@ -78,12 +78,20 @@ public class FighterActionHandler : MonoBehaviour
         }
     }
 
-    public void HandleSnap(InputAction.CallbackContext input)
+    public void HandleDashXBox(InputAction.CallbackContext input)
     {
+        Vector2 direction = input.ReadValue<Vector2>();
+
+        if (input.canceled)
+        {
+            dashEvent.Invoke(0.0f);
+        }
         if (input.performed)
         {
-            Vector2 direction = input.ReadValue<Vector2>();
-
+            if (fighterController.isShielding)
+            {
+                return;
+            }
             if (Vector2.Angle(direction, Vector2.left) <= 45.0f)
             {
                 dashEvent.Invoke(-1.0f);
@@ -95,7 +103,7 @@ public class FighterActionHandler : MonoBehaviour
         }
     }
 
-    public void HandleDash(InputAction.CallbackContext input)
+    public void HandleDashKeyboard(InputAction.CallbackContext input)
     {
         float direction = input.ReadValue<float>();
 
