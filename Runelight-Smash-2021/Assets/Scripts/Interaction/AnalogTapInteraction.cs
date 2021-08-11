@@ -7,8 +7,12 @@ using UnityEngine.InputSystem;
 #endif
 public class AnalogTapInteraction : IInputInteraction
 {
-    public float maxTapDuration = 0.1f;
+    public float maxTapDuration = 0.05f;
+    public float maxNeutralWaitDuration = 0.05f;
+
     private bool wasJoystickBackToNeutral = false;
+    private bool neutralWaitStarted = false;
+    private double neutralWaitStartTime;
 
     public void Process(ref InputInteractionContext context)
     {
@@ -51,18 +55,32 @@ public class AnalogTapInteraction : IInputInteraction
             case InputActionPhase.Performed:
                 if (joystickMagnitude <= 0)
                 {
-                    wasJoystickBackToNeutral = true;
-                    context.Canceled();
+                    if (!neutralWaitStarted)
+                    {
+                        neutralWaitStarted = true;
+                        neutralWaitStartTime = context.time;
+                    }
+                    else if (context.time - neutralWaitStartTime >= maxNeutralWaitDuration)
+                    {
+                        context.Canceled();
+                        break;
+                    }
                 }
                 else
                 {
-                    context.PerformedAndStayPerformed();
+                    neutralWaitStarted = false;
+                    neutralWaitStartTime = 0;
                 }
+                context.PerformedAndStayPerformed();
                 break;
         }
     }
 
-    public void Reset() { }
+    public void Reset()
+    {
+        neutralWaitStarted = false;
+        neutralWaitStartTime = 0;
+    }
 
     static AnalogTapInteraction()
     {
