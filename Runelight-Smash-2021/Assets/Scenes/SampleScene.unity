@@ -1989,11 +1989,12 @@ MonoBehaviour:
   doubleJumpHeight: 3
   maxDoubleJumpCount: 1
   canJumpChangeDirection: 1
-  minSlopeJumpAngle: 15
+  minSlopeJumpAngle: 30
   onJumpEvent:
     m_PersistentCalls:
       m_Calls: []
   isDashing: 0
+  isDashStarted: 0
   initialDashSpeed: 5
   dashAccelerationRate: 40
   maxDashSpeed: 10

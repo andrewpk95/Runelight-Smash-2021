@@ -180,19 +180,20 @@ public class ControllableUnit : PhysicsUnit
         float jumpSpeed = canJumpChangeDirection ? targetJumpSpeed : velocity.x;
         Vector2 jumpVelocity = new Vector2(jumpSpeed, Mathf.Sqrt(2.0f * gravity * jumpHeight));
         float jumpAngle = Vector2.Angle(Vector2.right, jumpVelocity);
+        float slopeAngle = Mathf.Sign(velocity.y) * centerSlopeAngle;
 
         // Make sure jump velocity is away from the grounds
-        if (180 - jumpAngle < centerSlopeAngle + minSlopeJumpAngle)
+        if (jumpVelocity.x < 0.0f && 180 - jumpAngle < slopeAngle + minSlopeJumpAngle)
         {
-            float rotateAngle = Mathf.Deg2Rad * -((centerSlopeAngle - (180 - jumpAngle)) + minSlopeJumpAngle);
+            float rotateAngle = Mathf.Deg2Rad * -((slopeAngle - (180 - jumpAngle)) + minSlopeJumpAngle);
             float cos = Mathf.Cos(rotateAngle);
             float sin = Mathf.Sin(rotateAngle);
 
             jumpVelocity.x = jumpVelocity.x * cos - jumpVelocity.y * sin;
         }
-        else if (jumpAngle < centerSlopeAngle + minSlopeJumpAngle)
+        else if (jumpVelocity.x > 0.0f && jumpAngle < slopeAngle + minSlopeJumpAngle)
         {
-            float rotateAngle = Mathf.Deg2Rad * (centerSlopeAngle - jumpAngle + minSlopeJumpAngle);
+            float rotateAngle = Mathf.Deg2Rad * (slopeAngle - jumpAngle + minSlopeJumpAngle);
             float cos = Mathf.Cos(rotateAngle);
             float sin = Mathf.Sin(rotateAngle);
 
