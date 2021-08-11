@@ -11,7 +11,7 @@ public class ControllableUnit : PhysicsUnit
     protected JumpEventType jumpEventType = JumpEventType.None;
 
     // Ground Movement Variables
-    protected virtual float groundSpeed { get { return maxWalkSpeed; } }
+    protected virtual float groundSpeed { get { return Mathf.Abs(joystick.x) * maxWalkSpeed; } }
     protected virtual float groundAccelerationRate { get { return walkAccelerationRate; } }
     public float maxWalkSpeed = 5.0f;
     public float walkAccelerationRate = 15.0f;
@@ -73,7 +73,7 @@ public class ControllableUnit : PhysicsUnit
         {
             return;
         }
-        float walkSpeed = joystick.x * groundSpeed;
+        float speed = Mathf.Sign(joystick.x) * groundSpeed;
         float acceleration = Mathf.Abs(joystick.x) > 0 ? groundAccelerationRate : groundDecelerationRate;
 
         if (isOnSlope)
@@ -81,12 +81,12 @@ public class ControllableUnit : PhysicsUnit
             Vector2 slopeDirection = centerSlopeDirection.x > 0.0f ? centerSlopeDirection : -centerSlopeDirection;
             Vector2 projectedVelocity = Vector3.Project(velocity, slopeDirection);
 
-            velocity.x = GetNewVelocity(projectedVelocity.x, walkSpeed * slopeDirection.x, acceleration * slopeDirection.x);
-            velocity.y = GetNewVelocity(projectedVelocity.y, walkSpeed * slopeDirection.y, acceleration * slopeDirection.y);
+            velocity.x = GetNewVelocity(projectedVelocity.x, speed * slopeDirection.x, acceleration * slopeDirection.x);
+            velocity.y = GetNewVelocity(projectedVelocity.y, speed * slopeDirection.y, acceleration * slopeDirection.y);
         }
         else
         {
-            velocity.x = GetNewVelocity(velocity.x, walkSpeed, acceleration);
+            velocity.x = GetNewVelocity(velocity.x, speed, acceleration);
         }
 
         if (velocity.x < 0.0f && leftMostSlopeAngle > maxSlopeAngle)
