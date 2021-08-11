@@ -176,7 +176,9 @@ public class ControllableUnit : PhysicsUnit
 
     private void Jump(float jumpHeight)
     {
-        Vector2 jumpVelocity = new Vector2(canJumpChangeDirection ? joystick.x * maxAirSpeed : velocity.x, Mathf.Sqrt(2.0f * gravity * jumpHeight));
+        float targetJumpSpeed = joystick.x > 0 ? Mathf.Max(joystick.x * maxAirSpeed, velocity.x) : Mathf.Min(joystick.x * maxAirSpeed, velocity.x);
+        float jumpSpeed = canJumpChangeDirection ? targetJumpSpeed : velocity.x;
+        Vector2 jumpVelocity = new Vector2(jumpSpeed, Mathf.Sqrt(2.0f * gravity * jumpHeight));
         float jumpAngle = Vector2.Angle(Vector2.right, jumpVelocity);
 
         // Make sure jump velocity is away from the grounds

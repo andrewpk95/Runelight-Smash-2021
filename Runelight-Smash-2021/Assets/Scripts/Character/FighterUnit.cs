@@ -32,12 +32,18 @@ public class FighterUnit : ControllableUnit
     {
         if (direction < 0)
         {
-            Debug.Log("Dash Left");
+            if (!isDashing)
+            {
+                Debug.Log("Dash Left");
+            }
             isDashing = true;
         }
         else if (direction > 0)
         {
-            Debug.Log("Dash Right");
+            if (!isDashing)
+            {
+                Debug.Log("Dash Right");
+            }
             isDashing = true;
         }
         else
