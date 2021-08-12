@@ -87,12 +87,12 @@ public class ControllableUnit : PhysicsUnit
             Vector2 slopeDirection = Mathf.Sign(slopeComponent.centerSlopeDirection.x) * slopeComponent.centerSlopeDirection;
             Vector2 projectedVelocity = Vector3.Project(velocityComponent.velocity, slopeDirection);
 
-            velocityComponent.velocity.x = GetNewVelocity(projectedVelocity.x, speed * slopeDirection.x, acceleration * slopeDirection.x);
-            velocityComponent.velocity.y = GetNewVelocity(projectedVelocity.y, speed * slopeDirection.y, acceleration * slopeDirection.y);
+            velocityComponent.velocity.x = Velocity.GetNewVelocity(projectedVelocity.x, speed * slopeDirection.x, acceleration * slopeDirection.x);
+            velocityComponent.velocity.y = Velocity.GetNewVelocity(projectedVelocity.y, speed * slopeDirection.y, acceleration * slopeDirection.y);
         }
         else
         {
-            velocityComponent.velocity.x = GetNewVelocity(velocityComponent.velocity.x, speed, acceleration);
+            velocityComponent.velocity.x = Velocity.GetNewVelocity(velocityComponent.velocity.x, speed, acceleration);
         }
 
         if (velocityComponent.velocity.x < 0.0f && slopeComponent.leftMostSlopeAngle > slopeComponent.maxSlopeAngle)
@@ -111,11 +111,11 @@ public class ControllableUnit : PhysicsUnit
     {
         if (Mathf.Abs(joystick.x) > 0)
         {
-            velocityComponent.velocity.x = GetNewVelocity(velocityComponent.velocity.x, joystick.x * maxAirSpeed, airAccelerationRate);
+            velocityComponent.velocity.x = Velocity.GetNewVelocity(velocityComponent.velocity.x, joystick.x * maxAirSpeed, airAccelerationRate);
         }
         else
         {
-            velocityComponent.velocity.x = GetNewVelocity(velocityComponent.velocity.x, 0.0f, airDecelerationRate);
+            velocityComponent.velocity.x = Velocity.GetNewVelocity(velocityComponent.velocity.x, 0.0f, airDecelerationRate);
         }
     }
 

@@ -32,7 +32,7 @@ public class PhysicsUnit : BaseUnit
     {
         if (!slopeComponent.isGrounded || !slopeComponent.canWalkOnSlope)
         {
-            velocityComponent.velocity.y = GetNewVelocity(velocityComponent.velocity.y, -maxFallSpeed, gravity);
+            velocityComponent.velocity.y = Velocity.GetNewVelocity(velocityComponent.velocity.y, -maxFallSpeed, gravity);
         }
         else if (slopeComponent.isOnSlope)
         {
@@ -49,22 +49,9 @@ public class PhysicsUnit : BaseUnit
         Vector2 slopeDirection = Mathf.Sign(slopeComponent.centerSlopeDirection.x) * slopeComponent.centerSlopeDirection;
         Vector2 projectedVelocity = Vector3.Project(velocityComponent.velocity, slopeDirection);
 
-        velocityComponent.velocity.x = GetNewVelocity(projectedVelocity.x, -maxFallSpeed * slopeDirection.x, gravity * slopeDirection.x);
-        velocityComponent.velocity.y = GetNewVelocity(projectedVelocity.y, -maxFallSpeed * slopeDirection.y, gravity * slopeDirection.y);
+        velocityComponent.velocity.x = Velocity.GetNewVelocity(projectedVelocity.x, -maxFallSpeed * slopeDirection.x, gravity * slopeDirection.x);
+        velocityComponent.velocity.y = Velocity.GetNewVelocity(projectedVelocity.y, -maxFallSpeed * slopeDirection.y, gravity * slopeDirection.y);
     }
 
-    protected float GetNewVelocity(float currentVelocity, float targetVelocity, float accelerationRate)
-    {
-        int direction = currentVelocity > targetVelocity ? -1 : 1;
-        float acceleration = Mathf.Abs(accelerationRate * Time.fixedDeltaTime);
-        float newVelocity = currentVelocity + acceleration * direction;
-        float velocityDifference = Mathf.Abs(currentVelocity - targetVelocity);
 
-        if (velocityDifference < acceleration)
-        {
-            return targetVelocity;
-        }
-
-        return newVelocity;
-    }
 }
