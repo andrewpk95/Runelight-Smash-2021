@@ -119,15 +119,6 @@ public class ControllableUnit : PhysicsUnit
         }
     }
 
-    protected override void ApplySlopeGravity()
-    {
-        if (slopeComponent.isOnSlope && slopeComponent.canWalkOnSlope)
-        {
-            return;
-        }
-        base.ApplySlopeGravity();
-    }
-
     protected virtual void ApplyJumpMovement()
     {
         switch (jumpEventType)
@@ -184,7 +175,7 @@ public class ControllableUnit : PhysicsUnit
     {
         float targetJumpSpeed = joystick.x > 0 ? Mathf.Max(joystick.x * maxAirSpeed, velocityComponent.velocity.x) : Mathf.Min(joystick.x * maxAirSpeed, velocityComponent.velocity.x);
         float jumpSpeed = canJumpChangeDirection ? targetJumpSpeed : velocityComponent.velocity.x;
-        Vector2 jumpVelocity = new Vector2(jumpSpeed, Mathf.Sqrt(2.0f * gravity * jumpHeight));
+        Vector2 jumpVelocity = new Vector2(jumpSpeed, Mathf.Sqrt(2.0f * gravityComponent.gravity * jumpHeight));
         float jumpAngle = Vector2.Angle(Vector2.right, jumpVelocity);
         float slopeAngle = Mathf.Sign(velocityComponent.velocity.y) * slopeComponent.centerSlopeAngle;
 
