@@ -11,18 +11,6 @@ public class PhysicsUnit : BaseUnit
     public float gravity = 20.0f;
     public float maxFallSpeed = 5.0f;
 
-    // Slope calculation variables
-    private List<Vector2> slopes = new List<Vector2>();
-    private ContactFilter2D filter = new ContactFilter2D();
-    protected float CAST_OFFSET = 0.1f;
-
-    // Collision variables
-    private ContactPoint2D[] contactPoints = new ContactPoint2D[10];
-    private RaycastHit2D[] hits = new RaycastHit2D[10];
-
-    // Events
-    public UnityEvent onLandEvent = new UnityEvent();
-
     protected override void Start()
     {
         base.Start();
@@ -44,7 +32,7 @@ public class PhysicsUnit : BaseUnit
     {
         if (!slopeComponent.isGrounded || !slopeComponent.canWalkOnSlope)
         {
-            velocity.y = GetNewVelocity(velocity.y, -maxFallSpeed, gravity);
+            velocityComponent.velocity.y = GetNewVelocity(velocityComponent.velocity.y, -maxFallSpeed, gravity);
         }
         else if (slopeComponent.isOnSlope)
         {
@@ -52,17 +40,17 @@ public class PhysicsUnit : BaseUnit
         }
         else
         {
-            velocity.y = 0.0f;
+            velocityComponent.velocity.y = 0.0f;
         }
     }
 
     protected virtual void ApplySlopeGravity()
     {
         Vector2 slopeDirection = Mathf.Sign(slopeComponent.centerSlopeDirection.x) * slopeComponent.centerSlopeDirection;
-        Vector2 projectedVelocity = Vector3.Project(velocity, slopeDirection);
+        Vector2 projectedVelocity = Vector3.Project(velocityComponent.velocity, slopeDirection);
 
-        velocity.x = GetNewVelocity(projectedVelocity.x, -maxFallSpeed * slopeDirection.x, gravity * slopeDirection.x);
-        velocity.y = GetNewVelocity(projectedVelocity.y, -maxFallSpeed * slopeDirection.y, gravity * slopeDirection.y);
+        velocityComponent.velocity.x = GetNewVelocity(projectedVelocity.x, -maxFallSpeed * slopeDirection.x, gravity * slopeDirection.x);
+        velocityComponent.velocity.y = GetNewVelocity(projectedVelocity.y, -maxFallSpeed * slopeDirection.y, gravity * slopeDirection.y);
     }
 
     protected float GetNewVelocity(float currentVelocity, float targetVelocity, float accelerationRate)

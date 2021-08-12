@@ -31,7 +31,6 @@ public class FighterController : MonoBehaviour
         fighterActionHandler.dashEvent.AddListener(HandleDash);
 
         fighterUnit.onJumpEvent.AddListener(Jump);
-        fighterUnit.onLandEvent.AddListener(Land);
     }
 
     private void HandleJump(JumpEventType jumpEventType)

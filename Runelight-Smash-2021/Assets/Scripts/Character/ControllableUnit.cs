@@ -52,6 +52,7 @@ public class ControllableUnit : PhysicsUnit
     {
         ApplyControls();
         base.Tick();
+        StickToSlope();
     }
 
     private void ApplyControls()
@@ -84,24 +85,24 @@ public class ControllableUnit : PhysicsUnit
         if (slopeComponent.isOnSlope)
         {
             Vector2 slopeDirection = Mathf.Sign(slopeComponent.centerSlopeDirection.x) * slopeComponent.centerSlopeDirection;
-            Vector2 projectedVelocity = Vector3.Project(velocity, slopeDirection);
+            Vector2 projectedVelocity = Vector3.Project(velocityComponent.velocity, slopeDirection);
 
-            velocity.x = GetNewVelocity(projectedVelocity.x, speed * slopeDirection.x, acceleration * slopeDirection.x);
-            velocity.y = GetNewVelocity(projectedVelocity.y, speed * slopeDirection.y, acceleration * slopeDirection.y);
+            velocityComponent.velocity.x = GetNewVelocity(projectedVelocity.x, speed * slopeDirection.x, acceleration * slopeDirection.x);
+            velocityComponent.velocity.y = GetNewVelocity(projectedVelocity.y, speed * slopeDirection.y, acceleration * slopeDirection.y);
         }
         else
         {
-            velocity.x = GetNewVelocity(velocity.x, speed, acceleration);
+            velocityComponent.velocity.x = GetNewVelocity(velocityComponent.velocity.x, speed, acceleration);
         }
 
-        if (velocity.x < 0.0f && slopeComponent.leftMostSlopeAngle > slopeComponent.maxSlopeAngle)
+        if (velocityComponent.velocity.x < 0.0f && slopeComponent.leftMostSlopeAngle > slopeComponent.maxSlopeAngle)
         {
-            velocity = Vector2.zero;
+            velocityComponent.velocity = Vector2.zero;
             return;
         }
-        else if (velocity.x > 0.0f && slopeComponent.rightMostSlopeAngle > slopeComponent.maxSlopeAngle)
+        else if (velocityComponent.velocity.x > 0.0f && slopeComponent.rightMostSlopeAngle > slopeComponent.maxSlopeAngle)
         {
-            velocity = Vector2.zero;
+            velocityComponent.velocity = Vector2.zero;
             return;
         }
     }
@@ -110,11 +111,11 @@ public class ControllableUnit : PhysicsUnit
     {
         if (Mathf.Abs(joystick.x) > 0)
         {
-            velocity.x = GetNewVelocity(velocity.x, joystick.x * maxAirSpeed, airAccelerationRate);
+            velocityComponent.velocity.x = GetNewVelocity(velocityComponent.velocity.x, joystick.x * maxAirSpeed, airAccelerationRate);
         }
         else
         {
-            velocity.x = GetNewVelocity(velocity.x, 0.0f, airDecelerationRate);
+            velocityComponent.velocity.x = GetNewVelocity(velocityComponent.velocity.x, 0.0f, airDecelerationRate);
         }
     }
 
@@ -181,13 +182,13 @@ public class ControllableUnit : PhysicsUnit
 
     private void Jump(float jumpHeight)
     {
-        float targetJumpSpeed = joystick.x > 0 ? Mathf.Max(joystick.x * maxAirSpeed, velocity.x) : Mathf.Min(joystick.x * maxAirSpeed, velocity.x);
-        float jumpSpeed = canJumpChangeDirection ? targetJumpSpeed : velocity.x;
+        float targetJumpSpeed = joystick.x > 0 ? Mathf.Max(joystick.x * maxAirSpeed, velocityComponent.velocity.x) : Mathf.Min(joystick.x * maxAirSpeed, velocityComponent.velocity.x);
+        float jumpSpeed = canJumpChangeDirection ? targetJumpSpeed : velocityComponent.velocity.x;
         Vector2 jumpVelocity = new Vector2(jumpSpeed, Mathf.Sqrt(2.0f * gravity * jumpHeight));
         float jumpAngle = Vector2.Angle(Vector2.right, jumpVelocity);
-        float slopeAngle = Mathf.Sign(velocity.y) * slopeComponent.centerSlopeAngle;
+        float slopeAngle = Mathf.Sign(velocityComponent.velocity.y) * slopeComponent.centerSlopeAngle;
 
-        // Make sure jump velocity is away from the grounds
+        // Make sure jump velocityComponent.velocity is away from the grounds
         if (jumpVelocity.x < 0.0f && 180 - jumpAngle < slopeAngle + minSlopeJumpAngle)
         {
             float rotateAngle = Mathf.Deg2Rad * -((slopeAngle - (180 - jumpAngle)) + minSlopeJumpAngle);
@@ -205,23 +206,17 @@ public class ControllableUnit : PhysicsUnit
             jumpVelocity.x = jumpVelocity.x * cos - jumpVelocity.y * sin;
         }
 
-        velocity = jumpVelocity;
+        velocityComponent.velocity = jumpVelocity;
         isJumpSquatting = false;
         isJumping = true;
         slopeComponent.isGrounded = false;
         onJumpEvent.Invoke();
     }
 
-    protected override void ApplyVelocity()
-    {
-        StickToSlope();
-    }
-
     private void StickToSlope()
     {
         if (isJumping || !slopeComponent.isGrounded || !slopeComponent.canWalkOnSlope)
         {
-            base.ApplyVelocity();
             return;
         }
         RaycastHit2D hit;
@@ -229,7 +224,7 @@ public class ControllableUnit : PhysicsUnit
         float radius = capsule.size.x / 2;
         Vector2 centerPos = unitRigidbody.position + capsule.offset;
         Vector2 feetPos = centerPos - Vector2.up * distanceToFeetPos;
-        Vector2 nextVelocityStep = velocity * Time.fixedDeltaTime;
+        Vector2 nextVelocityStep = velocityComponent.velocity * Time.fixedDeltaTime;
         Vector2 nextPos = centerPos + nextVelocityStep;
 
         hit = Physics2D.CircleCast(feetPos, radius, nextVelocityStep, nextVelocityStep.magnitude, slopeComponent.groundLayerMask);
@@ -244,12 +239,12 @@ public class ControllableUnit : PhysicsUnit
                 Vector2 newSlopeStickPosition = slopeStickPosition + Vector2.up * (distanceToFeetPos - capsule.offset.y);
 
                 Debug.DrawLine(unitRigidbody.position, newSlopeStickPosition, Color.white);
-                unitRigidbody.position = newSlopeStickPosition;
+                velocityComponent.ForceToPosition(newSlopeStickPosition);
                 return;
             }
         }
 
-        hit = Physics2D.CircleCast(nextPos, radius, Vector2.down, velocity.magnitude, slopeComponent.groundLayerMask);
+        hit = Physics2D.CircleCast(nextPos, radius, Vector2.down, velocityComponent.velocity.magnitude, slopeComponent.groundLayerMask);
 
         if (hit)
         {
@@ -259,15 +254,13 @@ public class ControllableUnit : PhysicsUnit
 
             if (nextSlopeAngle > slopeComponent.maxSlopeAngle)
             {
-                base.ApplyVelocity();
                 return;
             }
             Ray2D ray1 = new Ray2D(feetPos - Vector2.up * Physics2D.defaultContactOffset, nextVelocityStep);
-            Ray2D ray2 = new Ray2D(hit.centroid, velocity.x < 0.0f ? nextSlopeDirection : -nextSlopeDirection);
+            Ray2D ray2 = new Ray2D(hit.centroid, velocityComponent.velocity.x < 0.0f ? nextSlopeDirection : -nextSlopeDirection);
 
             if (!Math2D.IsRayIntersecting(ray1, ray2))
             {
-                base.ApplyVelocity();
                 return;
             }
 
@@ -275,7 +268,7 @@ public class ControllableUnit : PhysicsUnit
             Vector2 newSlopeStickPosition = slopeStickPosition + Vector2.up * (distanceToFeetPos - capsule.offset.y);
 
             Debug.DrawLine(unitRigidbody.position, newSlopeStickPosition, Color.white);
-            unitRigidbody.position = newSlopeStickPosition;
+            velocityComponent.ForceToPosition(newSlopeStickPosition);
         }
     }
 
