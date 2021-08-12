@@ -123,36 +123,12 @@ public class SlopeComponent : MonoBehaviour
     private Vector2 AddToSlopes(RaycastHit2D hit)
     {
         Vector2 normal = hit.normal;
-        Vector2 slopeDirection = GetSignedSlopeDirection(normal);
+        Vector2 slopeDirection = Slope.GetSignedSlopeDirection(normal);
 
         slopes.Add(normal);
         Debug.DrawRay(hit.point, slopeDirection.y < 0.0f ? -slopeDirection : slopeDirection, Color.red);
 
         return slopeDirection;
-    }
-
-    public Vector2 GetSignedSlopeDirection(Vector2 normal)
-    {
-        return -Vector2.Perpendicular(normal).normalized;
-    }
-
-    public Vector2 GetSlopeDirection(Vector2 normal)
-    {
-        Vector2 signedSlopeDirection = GetSignedSlopeDirection(normal);
-
-        return signedSlopeDirection.y < 0.0f ? -signedSlopeDirection : signedSlopeDirection;
-    }
-
-    public float GetSignedSlopeAngle(Vector2 normal)
-    {
-        return -Vector2.SignedAngle(normal, Vector2.up);
-    }
-
-    public float GetSlopeAngle(Vector2 normal)
-    {
-        float signedSlopeAngle = GetSignedSlopeAngle(normal);
-
-        return Mathf.Abs(signedSlopeAngle);
     }
 
     private void CalculateSlopes()
@@ -168,16 +144,16 @@ public class SlopeComponent : MonoBehaviour
             return;
         }
 
-        slopes.Sort(SortBySlopeAngle);
+        slopes.Sort(Slope.SortBySlopeAngle);
 
         // Get the steepest slope angle on the left and right
         Vector2 leftMostNormal = slopes[0];
         Vector2 rightMostNormal = slopes[slopes.Count - 1];
         Vector2 centerNormal = Vector2.up;
-        Vector2 leftMost = GetSignedSlopeDirection(leftMostNormal);
-        Vector2 rightMost = GetSignedSlopeDirection(rightMostNormal);
-        float left = GetSignedSlopeAngle(leftMostNormal);
-        float right = GetSignedSlopeAngle(rightMostNormal);
+        Vector2 leftMost = Slope.GetSignedSlopeDirection(leftMostNormal);
+        Vector2 rightMost = Slope.GetSignedSlopeDirection(rightMostNormal);
+        float left = Slope.GetSignedSlopeAngle(leftMostNormal);
+        float right = Slope.GetSignedSlopeAngle(rightMostNormal);
 
         if (left < 0.0f && right > 0.0f)
         {
@@ -192,21 +168,13 @@ public class SlopeComponent : MonoBehaviour
             centerNormal = leftMostNormal;
         }
 
-        leftMostSlopeDirection = left < 0.0f ? GetSlopeDirection(leftMostNormal) : Vector2.zero;
-        rightMostSlopeDirection = right > 0.0f ? GetSlopeDirection(rightMostNormal) : Vector2.zero;
+        leftMostSlopeDirection = left < 0.0f ? Slope.GetSlopeDirection(leftMostNormal) : Vector2.zero;
+        rightMostSlopeDirection = right > 0.0f ? Slope.GetSlopeDirection(rightMostNormal) : Vector2.zero;
         leftMostSlopeAngle = Vector2.SignedAngle(leftMostSlopeDirection, Vector2.left);
         rightMostSlopeAngle = -Vector2.SignedAngle(rightMostSlopeDirection, Vector2.right);
-        centerSlopeDirection = GetSlopeDirection(centerNormal);
-        centerSlopeAngle = GetSlopeAngle(centerNormal);
+        centerSlopeDirection = Slope.GetSlopeDirection(centerNormal);
+        centerSlopeAngle = Slope.GetSlopeAngle(centerNormal);
         isOnSlope = centerSlopeAngle > 0.0f;
-    }
-
-    static int SortBySlopeAngle(Vector2 normal1, Vector2 normal2)
-    {
-        float angle1 = -Vector2.SignedAngle(normal1, Vector2.up);
-        float angle2 = -Vector2.SignedAngle(normal2, Vector2.up);
-
-        return angle1.CompareTo(angle2);
     }
 
     private void ClearCollisionVariables()

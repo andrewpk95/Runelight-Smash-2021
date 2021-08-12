@@ -236,7 +236,7 @@ public class ControllableUnit : PhysicsUnit
 
         if (hit)
         {
-            float nextSlopeAngle = slopeComponent.GetSlopeAngle(hit.normal);
+            float nextSlopeAngle = Slope.GetSlopeAngle(hit.normal);
 
             if (nextSlopeAngle > slopeComponent.maxSlopeAngle)
             {
