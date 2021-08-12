@@ -8,6 +8,7 @@ public class FighterController : MonoBehaviour
     private PlayerInput playerInput;
     private FighterActionHandler fighterActionHandler;
     private FighterUnit fighterUnit;
+    private JoystickComponent joystickComponent;
 
     public bool isShielding = false;
 
@@ -17,6 +18,7 @@ public class FighterController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         fighterActionHandler = GetComponent<FighterActionHandler>();
         fighterUnit = GetComponent<FighterUnit>();
+        joystickComponent = GetComponent<JoystickComponent>();
 
         BindActionEvents();
     }
@@ -40,7 +42,7 @@ public class FighterController : MonoBehaviour
 
     private void HandleMovement(Vector2 direction)
     {
-        fighterUnit.SetJoystickInput(direction);
+        joystickComponent.SetJoystickInput(direction);
     }
 
     private void HandleRoll(Vector2 direction)

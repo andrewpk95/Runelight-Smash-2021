@@ -7,14 +7,15 @@ public class ControllableUnit : PhysicsUnit
 {
     // Required Components
     protected CapsuleCollider2D capsule;
+    protected JoystickComponent joystickComponent;
 
     // Input Variables
     protected bool isInputEnabled = true;
-    protected Vector2 joystick;
+
     protected JumpEventType jumpEventType = JumpEventType.None;
 
     // Ground Movement Variables
-    protected virtual float groundSpeed { get { return Mathf.Abs(joystick.x) * maxWalkSpeed; } }
+    protected virtual float groundSpeed { get { return Mathf.Abs(joystickComponent.joystick.x) * maxWalkSpeed; } }
     protected virtual float groundAccelerationRate { get { return walkAccelerationRate; } }
     public float maxWalkSpeed = 5.0f;
     public float walkAccelerationRate = 15.0f;
@@ -44,6 +45,7 @@ public class ControllableUnit : PhysicsUnit
     {
         base.Start();
         capsule = GetComponent<CapsuleCollider2D>();
+        joystickComponent = GetComponent<JoystickComponent>();
         doubleJumpLeft = maxDoubleJumpCount;
         slopeComponent.onLandEvent.AddListener(OnLand);
     }
@@ -79,8 +81,8 @@ public class ControllableUnit : PhysicsUnit
         {
             return;
         }
-        float speed = Mathf.Sign(joystick.x) * groundSpeed;
-        float acceleration = Mathf.Abs(joystick.x) > 0 ? groundAccelerationRate : groundDecelerationRate;
+        float speed = Mathf.Sign(joystickComponent.joystick.x) * groundSpeed;
+        float acceleration = Mathf.Abs(joystickComponent.joystick.x) > 0 ? groundAccelerationRate : groundDecelerationRate;
 
         if (slopeComponent.isOnSlope)
         {
@@ -109,9 +111,9 @@ public class ControllableUnit : PhysicsUnit
 
     protected virtual void ApplyAirMovement()
     {
-        if (Mathf.Abs(joystick.x) > 0)
+        if (Mathf.Abs(joystickComponent.joystick.x) > 0)
         {
-            velocityComponent.velocity.x = Velocity.GetNewVelocity(velocityComponent.velocity.x, joystick.x * maxAirSpeed, airAccelerationRate);
+            velocityComponent.velocity.x = Velocity.GetNewVelocity(velocityComponent.velocity.x, joystickComponent.joystick.x * maxAirSpeed, airAccelerationRate);
         }
         else
         {
@@ -173,7 +175,7 @@ public class ControllableUnit : PhysicsUnit
 
     private void Jump(float jumpHeight)
     {
-        float targetJumpSpeed = joystick.x > 0 ? Mathf.Max(joystick.x * maxAirSpeed, velocityComponent.velocity.x) : Mathf.Min(joystick.x * maxAirSpeed, velocityComponent.velocity.x);
+        float targetJumpSpeed = joystickComponent.joystick.x > 0 ? Mathf.Max(joystickComponent.joystick.x * maxAirSpeed, velocityComponent.velocity.x) : Mathf.Min(joystickComponent.joystick.x * maxAirSpeed, velocityComponent.velocity.x);
         float jumpSpeed = canJumpChangeDirection ? targetJumpSpeed : velocityComponent.velocity.x;
         Vector2 jumpVelocity = new Vector2(jumpSpeed, Mathf.Sqrt(2.0f * gravityComponent.gravity * jumpHeight));
         float jumpAngle = Vector2.Angle(Vector2.right, jumpVelocity);
@@ -278,14 +280,7 @@ public class ControllableUnit : PhysicsUnit
         isJumping = false;
     }
 
-    public void SetJoystickInput(Vector2 input)
-    {
-        if (!isInputEnabled)
-        {
-            return;
-        }
-        joystick = input;
-    }
+
 
     public void SetJumpInput(JumpEventType input)
     {
@@ -304,6 +299,6 @@ public class ControllableUnit : PhysicsUnit
     public void DisableInput()
     {
         isInputEnabled = false;
-        joystick = Vector2.zero;
+        joystickComponent.joystick = Vector2.zero;
     }
 }

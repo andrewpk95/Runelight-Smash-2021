@@ -20,7 +20,7 @@ public class FighterUnit : ControllableUnit
         {
             Vector2 normalized = velocityComponent.velocity.normalized;
 
-            velocityComponent.velocity.x = initialDashSpeed * (joystick.x > 0 ? Mathf.Abs(normalized.x) : -Mathf.Abs(normalized.x));
+            velocityComponent.velocity.x = initialDashSpeed * (joystickComponent.joystick.x > 0 ? Mathf.Abs(normalized.x) : -Mathf.Abs(normalized.x));
             velocityComponent.velocity.y = initialDashSpeed * normalized.y;
 
             isDashStarted = true;
