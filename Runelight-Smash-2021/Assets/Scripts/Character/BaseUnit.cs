@@ -2,54 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(VelocityComponent))]
+
 public class BaseUnit : MonoBehaviour
 {
-    protected Collider2D unitCollider;
-    protected Rigidbody2D unitRigidbody;
-    protected Vector2 prevPosition;
 
-    [SerializeField]
-    protected Vector2 velocity;
-    protected bool isMovementEnabled { get { return _isMovementEnabled; } }
-    private bool _isMovementEnabled = true;
-
-    // Start is called before the first frame update
-    protected virtual void Start()
-    {
-        unitCollider = GetComponent<Collider2D>();
-        unitRigidbody = GetComponent<Rigidbody2D>();
-    }
-
-    protected virtual void FixedUpdate()
-    {
-        Tick();
-    }
-
-    protected virtual void Tick()
-    {
-        if (isMovementEnabled)
-        {
-            ApplyVelocity();
-        }
-    }
-
-    protected virtual void ApplyVelocity()
-    {
-        prevPosition = unitRigidbody.position;
-        unitRigidbody.MovePosition(unitRigidbody.position + velocity * Time.fixedDeltaTime);
-    }
-
-    protected void DisableMovement()
-    {
-        _isMovementEnabled = false;
-        unitRigidbody.velocity = Vector2.zero;
-        unitRigidbody.isKinematic = true;
-    }
-
-    protected void EnableMovement()
-    {
-        _isMovementEnabled = true;
-        unitRigidbody.velocity = Vector2.zero;
-        unitRigidbody.isKinematic = false;
-    }
 }

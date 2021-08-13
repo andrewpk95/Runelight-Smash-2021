@@ -8,6 +8,9 @@ public class FighterController : MonoBehaviour
     private PlayerInput playerInput;
     private FighterActionHandler fighterActionHandler;
     private FighterUnit fighterUnit;
+    private JoystickComponent joystickComponent;
+    private GroundMovementComponent groundMovementComponent;
+    private JumpComponent jumpComponent;
 
     public bool isShielding = false;
 
@@ -17,7 +20,9 @@ public class FighterController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         fighterActionHandler = GetComponent<FighterActionHandler>();
         fighterUnit = GetComponent<FighterUnit>();
-
+        joystickComponent = GetComponent<JoystickComponent>();
+        groundMovementComponent = GetComponent<GroundMovementComponent>();
+        jumpComponent = GetComponent<JumpComponent>();
         BindActionEvents();
     }
 
@@ -29,19 +34,16 @@ public class FighterController : MonoBehaviour
         fighterActionHandler.shieldEvent.AddListener(HandleShield);
         fighterActionHandler.grabEvent.AddListener(HandleGrab);
         fighterActionHandler.dashEvent.AddListener(HandleDash);
-
-        fighterUnit.onJumpEvent.AddListener(Jump);
-        fighterUnit.onLandEvent.AddListener(Land);
     }
 
     private void HandleJump(JumpEventType jumpEventType)
     {
-        fighterUnit.SetJumpInput(jumpEventType);
+        jumpComponent.SetJumpInput(jumpEventType);
     }
 
     private void HandleMovement(Vector2 direction)
     {
-        fighterUnit.SetJoystickInput(direction);
+        joystickComponent.SetJoystickInput(direction);
     }
 
     private void HandleRoll(Vector2 direction)
@@ -73,13 +75,7 @@ public class FighterController : MonoBehaviour
 
     private void HandleDash(float direction)
     {
-        fighterUnit.SetDashInput(direction);
-    }
-
-    // Mock jump simulation
-    public void Jump()
-    {
-        // playerInput.SwitchCurrentActionMap("Airborne");
+        groundMovementComponent.SetDashInput(direction);
     }
 
     public void Land()
