@@ -1442,6 +1442,7 @@ GameObject:
   - component: {fileID: 2025968847}
   - component: {fileID: 2025968854}
   - component: {fileID: 2025968855}
+  - component: {fileID: 2025968856}
   - component: {fileID: 2025968848}
   - component: {fileID: 2025968852}
   - component: {fileID: 2025968853}
@@ -1990,9 +1991,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f45e4acb7a8cee4eb91fe97d8476438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAirSpeed: 3
-  airAccelerationRate: 8
-  airDecelerationRate: 10
   shortHopHeight: 1.5
   fullHopHeight: 3
   doubleJumpHeight: 3
@@ -2062,3 +2060,18 @@ MonoBehaviour:
   maxDashSpeed: 12
   isDashing: 0
   isDashStarted: 0
+--- !u!114 &2025968856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6cd50f2eb5934649aed9398016f5dc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxAirSpeed: 3
+  airAccelerationRate: 8
+  airDecelerationRate: 10
