@@ -10,6 +10,7 @@ public class FighterController : MonoBehaviour
     private FighterUnit fighterUnit;
     private JoystickComponent joystickComponent;
     private GroundMovementComponent groundMovementComponent;
+    private JumpComponent jumpComponent;
 
     public bool isShielding = false;
 
@@ -21,7 +22,7 @@ public class FighterController : MonoBehaviour
         fighterUnit = GetComponent<FighterUnit>();
         joystickComponent = GetComponent<JoystickComponent>();
         groundMovementComponent = GetComponent<GroundMovementComponent>();
-
+        jumpComponent = GetComponent<JumpComponent>();
         BindActionEvents();
     }
 
@@ -33,13 +34,11 @@ public class FighterController : MonoBehaviour
         fighterActionHandler.shieldEvent.AddListener(HandleShield);
         fighterActionHandler.grabEvent.AddListener(HandleGrab);
         fighterActionHandler.dashEvent.AddListener(HandleDash);
-
-        fighterUnit.onJumpEvent.AddListener(Jump);
     }
 
     private void HandleJump(JumpEventType jumpEventType)
     {
-        fighterUnit.SetJumpInput(jumpEventType);
+        jumpComponent.SetJumpInput(jumpEventType);
     }
 
     private void HandleMovement(Vector2 direction)
@@ -77,12 +76,6 @@ public class FighterController : MonoBehaviour
     private void HandleDash(float direction)
     {
         groundMovementComponent.SetDashInput(direction);
-    }
-
-    // Mock jump simulation
-    public void Jump()
-    {
-        // playerInput.SwitchCurrentActionMap("Airborne");
     }
 
     public void Land()

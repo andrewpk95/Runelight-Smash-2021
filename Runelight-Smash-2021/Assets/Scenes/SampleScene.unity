@@ -1443,6 +1443,7 @@ GameObject:
   - component: {fileID: 2025968854}
   - component: {fileID: 2025968855}
   - component: {fileID: 2025968856}
+  - component: {fileID: 2025968857}
   - component: {fileID: 2025968848}
   - component: {fileID: 2025968852}
   - component: {fileID: 2025968853}
@@ -1991,15 +1992,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f45e4acb7a8cee4eb91fe97d8476438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shortHopHeight: 1.5
-  fullHopHeight: 3
-  doubleJumpHeight: 3
-  maxDoubleJumpCount: 1
-  canJumpChangeDirection: 1
-  minSlopeJumpAngle: 30
-  onJumpEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2025968852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2075,3 +2067,26 @@ MonoBehaviour:
   maxAirSpeed: 3
   airAccelerationRate: 8
   airDecelerationRate: 10
+--- !u!114 &2025968857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b62cf03d15c02c8418d2d840bf853d55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shortHopHeight: 1.5
+  fullHopHeight: 3
+  doubleJumpHeight: 3
+  maxDoubleJumpCount: 1
+  canJumpChangeDirection: 1
+  minSlopeJumpAngle: 15
+  isJumpSquatting: 0
+  isJumping: 0
+  onJumpEvent:
+    m_PersistentCalls:
+      m_Calls: []
