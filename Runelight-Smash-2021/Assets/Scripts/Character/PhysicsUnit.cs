@@ -1,18 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class PhysicsUnit : BaseUnit
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(GravityComponent))]
+[RequireComponent(typeof(SlopeComponent))]
+[RequireComponent(typeof(VelocityComponent))]
+
+public class PhysicsUnit : MonoBehaviour
 {
-    // Required Components
-    protected GravityComponent gravityComponent;
-    protected SlopeComponent slopeComponent;
 
-    protected override void Start()
-    {
-        base.Start();
-        gravityComponent = GetComponent<GravityComponent>();
-        slopeComponent = GetComponent<SlopeComponent>();
-    }
 }

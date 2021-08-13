@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(JoystickComponent))]
+[RequireComponent(typeof(SlopeComponent))]
+[RequireComponent(typeof(VelocityComponent))]
+
 public class AirMovementComponent : MonoBehaviour
 {
     // Required Variables

@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SlopeComponent))]
+[RequireComponent(typeof(JoystickComponent))]
+[RequireComponent(typeof(VelocityComponent))]
+
 public class GroundMovementComponent : MonoBehaviour
 {
     // Required Variables

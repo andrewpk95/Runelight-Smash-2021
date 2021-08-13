@@ -2085,7 +2085,7 @@ MonoBehaviour:
   doubleJumpHeight: 3
   maxDoubleJumpCount: 1
   canJumpChangeDirection: 1
-  minSlopeJumpAngle: 15
+  minSlopeJumpAngle: 30
   isJumpSquatting: 0
   isJumping: 0
   onJumpEvent:

@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(AirMovementComponent))]
+[RequireComponent(typeof(SlopeComponent))]
+[RequireComponent(typeof(JoystickComponent))]
+[RequireComponent(typeof(VelocityComponent))]
+[RequireComponent(typeof(GravityComponent))]
+
 public class JumpComponent : MonoBehaviour
 {
     // Required Variables
@@ -11,7 +17,7 @@ public class JumpComponent : MonoBehaviour
     public float doubleJumpHeight = 3.0f;
     public int maxDoubleJumpCount = 1;
     public bool canJumpChangeDirection = true;
-    public float minSlopeJumpAngle = 15.0f;
+    public float minSlopeJumpAngle = 30.0f;
 
     // Required Components
     protected AirMovementComponent airMovementComponent;
