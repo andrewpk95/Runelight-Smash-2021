@@ -1444,6 +1444,7 @@ GameObject:
   - component: {fileID: 2025968855}
   - component: {fileID: 2025968856}
   - component: {fileID: 2025968857}
+  - component: {fileID: 2025968858}
   - component: {fileID: 2025968848}
   - component: {fileID: 2025968852}
   - component: {fileID: 2025968853}
@@ -2090,3 +2091,15 @@ MonoBehaviour:
   onJumpEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2025968858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e153cf66ff3d1347ba1503e05e9ee71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
