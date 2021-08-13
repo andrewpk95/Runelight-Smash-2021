@@ -1441,6 +1441,7 @@ GameObject:
   - component: {fileID: 2025968846}
   - component: {fileID: 2025968847}
   - component: {fileID: 2025968854}
+  - component: {fileID: 2025968855}
   - component: {fileID: 2025968848}
   - component: {fileID: 2025968852}
   - component: {fileID: 2025968853}
@@ -1989,9 +1990,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f45e4acb7a8cee4eb91fe97d8476438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxWalkSpeed: 5
-  walkAccelerationRate: 20
-  groundDecelerationRate: 40
   maxAirSpeed: 3
   airAccelerationRate: 8
   airDecelerationRate: 10
@@ -2004,11 +2002,6 @@ MonoBehaviour:
   onJumpEvent:
     m_PersistentCalls:
       m_Calls: []
-  isDashing: 0
-  isDashStarted: 0
-  initialDashSpeed: 5
-  dashAccelerationRate: 40
-  maxDashSpeed: 10
 --- !u!114 &2025968852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2049,3 +2042,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {x: 0, y: 0}
+--- !u!114 &2025968855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d73a4b183b76d7a438da8d332bbc668f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxWalkSpeed: 5
+  walkAccelerationRate: 15
+  groundDecelerationRate: 40
+  initialDashSpeed: 6
+  dashAccelerationRate: 40
+  maxDashSpeed: 12
+  isDashing: 0
+  isDashStarted: 0

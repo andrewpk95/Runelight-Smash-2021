@@ -14,12 +14,6 @@ public class ControllableUnit : PhysicsUnit
 
     protected JumpEventType jumpEventType = JumpEventType.None;
 
-    // Ground Movement Variables
-    protected virtual float groundSpeed { get { return Mathf.Abs(joystickComponent.joystick.x) * maxWalkSpeed; } }
-    protected virtual float groundAccelerationRate { get { return walkAccelerationRate; } }
-    public float maxWalkSpeed = 5.0f;
-    public float walkAccelerationRate = 15.0f;
-    public float groundDecelerationRate = 20.0f;
     private Vector2 slopeStickPosition;
 
     // Air Movement Variables
@@ -67,45 +61,11 @@ public class ControllableUnit : PhysicsUnit
     {
         if (slopeComponent.isGrounded)
         {
-            ApplyGroundMovement();
+
         }
         else
         {
             ApplyAirMovement();
-        }
-    }
-
-    protected virtual void ApplyGroundMovement()
-    {
-        if (!slopeComponent.canWalkOnSlope)
-        {
-            return;
-        }
-        float speed = Mathf.Sign(joystickComponent.joystick.x) * groundSpeed;
-        float acceleration = Mathf.Abs(joystickComponent.joystick.x) > 0 ? groundAccelerationRate : groundDecelerationRate;
-
-        if (slopeComponent.isOnSlope)
-        {
-            Vector2 slopeDirection = Mathf.Sign(slopeComponent.centerSlopeDirection.x) * slopeComponent.centerSlopeDirection;
-            Vector2 projectedVelocity = Vector3.Project(velocityComponent.velocity, slopeDirection);
-
-            velocityComponent.velocity.x = Velocity.GetNewVelocity(projectedVelocity.x, speed * slopeDirection.x, acceleration * slopeDirection.x);
-            velocityComponent.velocity.y = Velocity.GetNewVelocity(projectedVelocity.y, speed * slopeDirection.y, acceleration * slopeDirection.y);
-        }
-        else
-        {
-            velocityComponent.velocity.x = Velocity.GetNewVelocity(velocityComponent.velocity.x, speed, acceleration);
-        }
-
-        if (velocityComponent.velocity.x < 0.0f && slopeComponent.leftMostSlopeAngle > slopeComponent.maxSlopeAngle)
-        {
-            velocityComponent.velocity = Vector2.zero;
-            return;
-        }
-        else if (velocityComponent.velocity.x > 0.0f && slopeComponent.rightMostSlopeAngle > slopeComponent.maxSlopeAngle)
-        {
-            velocityComponent.velocity = Vector2.zero;
-            return;
         }
     }
 

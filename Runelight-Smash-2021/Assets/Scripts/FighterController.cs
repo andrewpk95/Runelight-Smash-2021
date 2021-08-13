@@ -9,6 +9,7 @@ public class FighterController : MonoBehaviour
     private FighterActionHandler fighterActionHandler;
     private FighterUnit fighterUnit;
     private JoystickComponent joystickComponent;
+    private GroundMovementComponent groundMovementComponent;
 
     public bool isShielding = false;
 
@@ -19,6 +20,7 @@ public class FighterController : MonoBehaviour
         fighterActionHandler = GetComponent<FighterActionHandler>();
         fighterUnit = GetComponent<FighterUnit>();
         joystickComponent = GetComponent<JoystickComponent>();
+        groundMovementComponent = GetComponent<GroundMovementComponent>();
 
         BindActionEvents();
     }
@@ -74,7 +76,7 @@ public class FighterController : MonoBehaviour
 
     private void HandleDash(float direction)
     {
-        fighterUnit.SetDashInput(direction);
+        groundMovementComponent.SetDashInput(direction);
     }
 
     // Mock jump simulation
