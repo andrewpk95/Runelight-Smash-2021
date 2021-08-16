@@ -9,6 +9,9 @@ using UnityEngine;
 
 public class WallCollisionComponent : MonoBehaviour
 {
+    // Required Variables
+    public float maxCeilingAngle = 30.0f;
+
     // Required Components
     protected Rigidbody2D unitRigidbody;
     protected CapsuleCollider2D capsule;
@@ -81,17 +84,25 @@ public class WallCollisionComponent : MonoBehaviour
 
     private void AirStickToWall()
     {
+        Vector2 slopeStickPosition = hit.centroid - capsule.offset;
+        Vector2 hitDistanceVector = slopeStickPosition - unitRigidbody.position;
+        Vector2 remainingVelocity = velocityComponent.velocity * Time.fixedDeltaTime - hitDistanceVector;
         float nextSlopeAngle = Slope.GetSlopeAngle(hit.normal);
+        float signedSlopeAngle = Slope.GetSignedSlopeAngle(hit.normal);
 
-        if (nextSlopeAngle > slopeComponent.maxSlopeAngle)
+        if (180.0f - nextSlopeAngle < maxCeilingAngle)
         {
-            Vector2 slopeStickPosition = hit.centroid - capsule.offset;
-            Vector2 hitDistanceVector = slopeStickPosition - unitRigidbody.position;
-            Vector2 remainingVelocity = velocityComponent.velocity * Time.fixedDeltaTime - hitDistanceVector;
-            Vector2 slopeDirection = Slope.GetSlopeDirection(hit.normal);
+            float y = remainingVelocity.x * Mathf.Tan(Mathf.Deg2Rad * signedSlopeAngle);
 
-            float slopeAngle = Slope.GetSignedSlopeAngle(hit.normal);
-            float x = remainingVelocity.y / Mathf.Tan(Mathf.Deg2Rad * slopeAngle);
+            newSlopeStickPosition = slopeStickPosition + new Vector2(remainingVelocity.x, y);
+            velocityComponent.ForceToPosition(newSlopeStickPosition);
+            velocityComponent.velocity.y = Mathf.Min(velocityComponent.velocity.y, 0.0f);
+            isCollidingWithWall = true;
+        }
+        else if (nextSlopeAngle > slopeComponent.maxSlopeAngle)
+        {
+            Vector2 slopeDirection = Slope.GetSlopeDirection(hit.normal);
+            float x = remainingVelocity.y / Mathf.Tan(Mathf.Deg2Rad * signedSlopeAngle);
 
             newSlopeStickPosition = slopeStickPosition + new Vector2(x, remainingVelocity.y);
             velocityComponent.ForceToPosition(newSlopeStickPosition);
@@ -101,7 +112,7 @@ public class WallCollisionComponent : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        if (capsule != null && hit)
+        if (capsule != null)
         {
             UnityEditor.Handles.color = Color.cyan;
             UnityEditor.Handles.DrawWireDisc(newSlopeStickPosition, Vector3.forward, capsule.size.x / 2);
