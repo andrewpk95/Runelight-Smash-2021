@@ -11,6 +11,7 @@ public class WallCollisionComponent : MonoBehaviour
 {
     // Required Variables
     public float maxCeilingAngle = 30.0f;
+    public LayerMask wallLayerMask;
 
     // Required Components
     protected Rigidbody2D unitRigidbody;
@@ -46,7 +47,7 @@ public class WallCollisionComponent : MonoBehaviour
         Vector2 nextVelocityStep = velocityComponent.velocity * Time.fixedDeltaTime;
         Vector2 nextPos = centerPos + nextVelocityStep;
 
-        hit = Physics2D.CapsuleCast(centerPos, capsule.size, capsule.direction, 0.0f, nextVelocityStep, nextVelocityStep.magnitude, slopeComponent.groundLayerMask);
+        hit = Physics2D.CapsuleCast(centerPos, capsule.size, capsule.direction, 0.0f, nextVelocityStep, nextVelocityStep.magnitude, wallLayerMask);
     }
 
     private void StickToWall()

@@ -5,16 +5,19 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(VelocityComponent))]
 
 public class SlopeComponent : MonoBehaviour
 {
     // Required Variables
     public LayerMask groundLayerMask;
+    public LayerMask platformLayerMask;
     public float maxSlopeAngle = 45.0f;
 
     // Required Components
     protected CapsuleCollider2D capsule;
     protected Rigidbody2D unitRigidbody;
+    protected VelocityComponent velocityComponent;
 
     // Public Slope States
     public bool isGrounded;
@@ -43,6 +46,8 @@ public class SlopeComponent : MonoBehaviour
     {
         unitRigidbody = GetComponent<Rigidbody2D>();
         capsule = GetComponent<CapsuleCollider2D>();
+        velocityComponent = GetComponent<VelocityComponent>();
+
         filter.SetLayerMask(groundLayerMask);
     }
 
@@ -83,6 +88,17 @@ public class SlopeComponent : MonoBehaviour
             if (hit.point.y >= centerPos.y - distance)
             {
                 continue;
+            }
+
+            if (((1 << hit.collider.gameObject.layer) & platformLayerMask.value) != 0)
+            {
+                Vector2 platformSlope = hit.normal;
+
+                Debug.DrawRay(hit.centroid, platformSlope, Color.magenta);
+                if (!isGrounded && velocityComponent.velocity.sqrMagnitude > 0.0f && Vector2.Angle(platformSlope, velocityComponent.velocity) < 89.0f)
+                {
+                    continue;
+                }
             }
 
             Vector2 slopeDirection = AddToSlopes(hit);
