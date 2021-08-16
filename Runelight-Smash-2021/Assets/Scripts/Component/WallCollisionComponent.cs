@@ -20,6 +20,7 @@ public class WallCollisionComponent : MonoBehaviour
 
     // Wall Collision Variables
     private RaycastHit2D hit;
+    private Vector2 newSlopeStickPosition;
 
     void Start()
     {
@@ -49,15 +50,13 @@ public class WallCollisionComponent : MonoBehaviour
     {
         if (hit)
         {
-            float nextSlopeAngle = Slope.GetSlopeAngle(hit.normal);
-
-            if (nextSlopeAngle > slopeComponent.maxSlopeAngle)
+            if (slopeComponent.isGrounded)
             {
-                Vector2 newSlopeStickPosition = hit.centroid - capsule.offset;
-
-                velocityComponent.ForceToPosition(newSlopeStickPosition);
-                velocityComponent.velocity = Vector2.zero;
-                isCollidingWithWall = true;
+                GroundStickToWall();
+            }
+            else
+            {
+                AirStickToWall();
             }
         }
         else
@@ -66,12 +65,46 @@ public class WallCollisionComponent : MonoBehaviour
         }
     }
 
+    private void GroundStickToWall()
+    {
+        float nextSlopeAngle = Slope.GetSlopeAngle(hit.normal);
+
+        if (nextSlopeAngle > slopeComponent.maxSlopeAngle)
+        {
+            newSlopeStickPosition = hit.centroid - capsule.offset;
+
+            velocityComponent.ForceToPosition(newSlopeStickPosition);
+            velocityComponent.velocity = Vector2.zero;
+            isCollidingWithWall = true;
+        }
+    }
+
+    private void AirStickToWall()
+    {
+        float nextSlopeAngle = Slope.GetSlopeAngle(hit.normal);
+
+        if (nextSlopeAngle > slopeComponent.maxSlopeAngle)
+        {
+            Vector2 slopeStickPosition = hit.centroid - capsule.offset;
+            Vector2 hitDistanceVector = slopeStickPosition - unitRigidbody.position;
+            Vector2 remainingVelocity = velocityComponent.velocity * Time.fixedDeltaTime - hitDistanceVector;
+            Vector2 slopeDirection = Slope.GetSlopeDirection(hit.normal);
+
+            float slopeAngle = Slope.GetSignedSlopeAngle(hit.normal);
+            float x = remainingVelocity.y / Mathf.Tan(Mathf.Deg2Rad * slopeAngle);
+
+            newSlopeStickPosition = slopeStickPosition + new Vector2(x, remainingVelocity.y);
+            velocityComponent.ForceToPosition(newSlopeStickPosition);
+            isCollidingWithWall = true;
+        }
+    }
+
     void OnDrawGizmosSelected()
     {
         if (capsule != null && hit)
         {
             UnityEditor.Handles.color = Color.cyan;
-            UnityEditor.Handles.DrawWireDisc(hit.centroid, Vector3.forward, capsule.size.x / 2);
+            UnityEditor.Handles.DrawWireDisc(newSlopeStickPosition, Vector3.forward, capsule.size.x / 2);
         }
     }
 }
