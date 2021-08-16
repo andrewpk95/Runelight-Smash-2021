@@ -10,6 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(JumpComponent))]
 [RequireComponent(typeof(SlopeComponent))]
 [RequireComponent(typeof(VelocityComponent))]
+[RequireComponent(typeof(WallCollisionComponent))]
 
 public class SlopeStickComponent : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class SlopeStickComponent : MonoBehaviour
     protected JumpComponent jumpComponent;
     protected SlopeComponent slopeComponent;
     protected VelocityComponent velocityComponent;
+    protected WallCollisionComponent wallCollisionComponent;
 
     // Slope Stick Variable
     private Vector2 slopeStickPosition;
@@ -36,6 +38,7 @@ public class SlopeStickComponent : MonoBehaviour
         jumpComponent = GetComponent<JumpComponent>();
         slopeComponent = GetComponent<SlopeComponent>();
         velocityComponent = GetComponent<VelocityComponent>();
+        wallCollisionComponent = GetComponent<WallCollisionComponent>();
     }
 
     void FixedUpdate()
@@ -45,7 +48,7 @@ public class SlopeStickComponent : MonoBehaviour
 
     private void StickToSlope()
     {
-        if (jumpComponent.isJumping || !slopeComponent.isGrounded || !slopeComponent.canWalkOnSlope)
+        if (jumpComponent.isJumping || !slopeComponent.isGrounded || !slopeComponent.canWalkOnSlope || wallCollisionComponent.isCollidingWithWall)
         {
             return;
         }
@@ -56,23 +59,6 @@ public class SlopeStickComponent : MonoBehaviour
         Vector2 feetPos = centerPos - Vector2.up * distanceToFeetPos;
         Vector2 nextVelocityStep = velocityComponent.velocity * Time.fixedDeltaTime;
         Vector2 nextPos = centerPos + nextVelocityStep;
-
-        hit = Physics2D.CircleCast(feetPos, radius, nextVelocityStep, nextVelocityStep.magnitude, slopeComponent.groundLayerMask);
-
-        if (hit)
-        {
-            float nextSlopeAngle = Slope.GetSlopeAngle(hit.normal);
-
-            if (nextSlopeAngle > slopeComponent.maxSlopeAngle)
-            {
-                slopeStickPosition = hit.centroid;
-                Vector2 newSlopeStickPosition = slopeStickPosition + Vector2.up * (distanceToFeetPos - capsule.offset.y);
-
-                Debug.DrawLine(unitRigidbody.position, newSlopeStickPosition, Color.white);
-                velocityComponent.ForceToPosition(newSlopeStickPosition);
-                return;
-            }
-        }
 
         hit = Physics2D.CircleCast(nextPos, radius, Vector2.down, velocityComponent.velocity.magnitude, slopeComponent.groundLayerMask);
 
