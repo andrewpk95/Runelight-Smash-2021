@@ -79,7 +79,7 @@ public class SlopeComponent : MonoBehaviour
         Vector2 centerPos = unitRigidbody.position + capsule.offset;
         Vector2 feetPos = centerPos - Vector2.up * (capsule.size.y - capsule.size.x) / 2;
         float distance = (centerPos - feetPos).y;
-        int count = Physics2D.CircleCast(centerPos, capsule.size.x / 2, Vector2.down, filter, hits, distance + CAST_OFFSET);
+        int count = Physics2D.CapsuleCast(centerPos, capsule.size, capsule.direction, 0.0f, Vector2.down, filter, hits, CAST_OFFSET);
 
         for (int i = 0; i < count; i++)
         {
@@ -104,7 +104,7 @@ public class SlopeComponent : MonoBehaviour
             Vector2 slopeDirection = AddToSlopes(hit);
 
             // CircleCast returns only one collision per object, so perform CircleCast again to get more collision points
-            RaycastHit2D extraHit = Physics2D.CircleCast(feetPos, capsule.size.x / 2, slopeDirection.y < 0.0f ? slopeDirection : -slopeDirection, CAST_OFFSET, groundLayerMask);
+            RaycastHit2D extraHit = Physics2D.CapsuleCast(centerPos, capsule.size, capsule.direction, 0.0f, slopeDirection.y < 0.0f ? slopeDirection : -slopeDirection, CAST_OFFSET, groundLayerMask);
             if (extraHit)
             {
                 AddToSlopes(extraHit);
