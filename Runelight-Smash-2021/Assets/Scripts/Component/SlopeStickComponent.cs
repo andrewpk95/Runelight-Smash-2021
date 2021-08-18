@@ -57,7 +57,7 @@ public class SlopeStickComponent : MonoBehaviour
         Vector2 nextVelocityStep = velocityComponent.velocity * Time.fixedDeltaTime;
         Vector2 nextPos = centerPos + nextVelocityStep;
 
-        hit = Physics2D.CapsuleCast(nextPos, capsule.size, capsule.direction, 0.0f, Vector2.down, velocityComponent.velocity.magnitude, slopeComponent.groundLayerMask);
+        hit = Physics2D.CapsuleCast(nextPos, capsule.size, capsule.direction, 0.0f, Vector2.down, velocityComponent.velocity.magnitude, slopeComponent.currentLayerMask);
 
         if (hit)
         {

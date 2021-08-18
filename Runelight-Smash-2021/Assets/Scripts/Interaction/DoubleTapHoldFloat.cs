@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 #if UNITY_EDITOR
 [InitializeOnLoad]
 #endif
-public class DoubleTapHold : IInputInteraction
+public class DoubleTapHoldFloat : IInputInteraction<float>
 {
     private enum TapPhase
     {
@@ -79,8 +79,8 @@ public class DoubleTapHold : IInputInteraction
         bufferDirection = 0;
     }
 
-    static DoubleTapHold()
+    static DoubleTapHoldFloat()
     {
-        InputSystem.RegisterInteraction<DoubleTapHold>();
+        InputSystem.RegisterInteraction<DoubleTapHoldFloat>();
     }
 }

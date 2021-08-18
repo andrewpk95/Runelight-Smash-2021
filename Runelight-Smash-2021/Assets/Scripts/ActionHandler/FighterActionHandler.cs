@@ -10,6 +10,7 @@ public class ShieldEvent : UnityEvent<bool> { }
 public class RollEvent : UnityEvent<Vector2> { }
 public class GrabEvent : UnityEvent { }
 public class DashEvent : UnityEvent<float> { }
+public class FallThroughEvent : UnityEvent { }
 
 public class FighterActionHandler : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class FighterActionHandler : MonoBehaviour
     public ShieldEvent shieldEvent = new ShieldEvent();
     public GrabEvent grabEvent = new GrabEvent();
     public DashEvent dashEvent = new DashEvent();
+    public FallThroughEvent fallThroughEvent = new FallThroughEvent();
 
     // TODO: Decouple FighterActionHandler from FighterController
     private FighterController fighterController;
@@ -118,6 +120,14 @@ public class FighterActionHandler : MonoBehaviour
                 return;
             }
             dashEvent.Invoke(direction);
+        }
+    }
+
+    public void HandleFallThrough(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            fallThroughEvent.Invoke();
         }
     }
 
