@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(VelocityComponent))]
 
 public class VerticalSinMovementComponent : MonoBehaviour
 {
@@ -12,12 +13,14 @@ public class VerticalSinMovementComponent : MonoBehaviour
     public float angle;
 
     protected Rigidbody2D unitRigidbody;
+    protected VelocityComponent velocityComponent;
     protected Vector2 originalPosition;
 
     // Start is called before the first frame update
     void Start()
     {
         unitRigidbody = GetComponent<Rigidbody2D>();
+        velocityComponent = GetComponent<VelocityComponent>();
         originalPosition = unitRigidbody.position;
     }
 
@@ -29,6 +32,6 @@ public class VerticalSinMovementComponent : MonoBehaviour
             angle -= 360.0f;
         }
         angle += 360.0f * Time.fixedDeltaTime * (1 / frequencySpeed);
-        unitRigidbody.position = originalPosition + Vector2.right * Mathf.Sin(Mathf.Deg2Rad * angle);
+        velocityComponent.velocity = moveDistance * Vector2.right * Mathf.Sin(Mathf.Deg2Rad * angle);
     }
 }
