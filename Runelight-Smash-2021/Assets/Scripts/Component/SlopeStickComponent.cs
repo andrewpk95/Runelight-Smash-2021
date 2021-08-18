@@ -53,14 +53,11 @@ public class SlopeStickComponent : MonoBehaviour
             return;
         }
         RaycastHit2D hit;
-        float distanceToFeetPos = (capsule.size.y - capsule.size.x) / 2;
-        float radius = capsule.size.x / 2;
         Vector2 centerPos = unitRigidbody.position + capsule.offset;
-        Vector2 feetPos = centerPos - Vector2.up * distanceToFeetPos;
         Vector2 nextVelocityStep = velocityComponent.velocity * Time.fixedDeltaTime;
         Vector2 nextPos = centerPos + nextVelocityStep;
 
-        hit = Physics2D.CircleCast(nextPos, radius, Vector2.down, velocityComponent.velocity.magnitude, slopeComponent.groundLayerMask);
+        hit = Physics2D.CapsuleCast(nextPos, capsule.size, capsule.direction, 0.0f, Vector2.down, velocityComponent.velocity.magnitude, slopeComponent.groundLayerMask);
 
         if (hit)
         {
@@ -72,7 +69,7 @@ public class SlopeStickComponent : MonoBehaviour
             {
                 return;
             }
-            Ray2D ray1 = new Ray2D(feetPos - Vector2.up * Physics2D.defaultContactOffset, nextVelocityStep);
+            Ray2D ray1 = new Ray2D(centerPos - Vector2.up * Physics2D.defaultContactOffset, nextVelocityStep);
             Ray2D ray2 = new Ray2D(hit.centroid, velocityComponent.velocity.x < 0.0f ? nextSlopeDirection : -nextSlopeDirection);
 
             if (!Math2D.IsRayIntersecting(ray1, ray2))
@@ -81,7 +78,7 @@ public class SlopeStickComponent : MonoBehaviour
             }
 
             slopeStickPosition = hit.centroid;
-            Vector2 newSlopeStickPosition = slopeStickPosition + Vector2.up * (distanceToFeetPos - capsule.offset.y);
+            Vector2 newSlopeStickPosition = slopeStickPosition - Vector2.up * capsule.offset.y;
 
             Debug.DrawLine(unitRigidbody.position, newSlopeStickPosition, Color.white);
             velocityComponent.ForceToPosition(newSlopeStickPosition);
