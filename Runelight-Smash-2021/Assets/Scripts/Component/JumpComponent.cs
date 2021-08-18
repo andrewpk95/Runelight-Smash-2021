@@ -20,19 +20,19 @@ public class JumpComponent : MonoBehaviour
     public float minSlopeJumpAngle = 30.0f;
 
     // Required Components
-    protected AirMovementComponent airMovementComponent;
-    protected SlopeComponent slopeComponent;
-    protected JoystickComponent joystickComponent;
-    protected VelocityComponent velocityComponent;
-    protected GravityComponent gravityComponent;
+    private AirMovementComponent airMovementComponent;
+    private SlopeComponent slopeComponent;
+    private JoystickComponent joystickComponent;
+    private VelocityComponent velocityComponent;
+    private GravityComponent gravityComponent;
 
     // Public Jump States
     public bool isJumpSquatting;
     public bool isJumping;
 
     // Jump Variables
-    protected JumpEventType jumpEventType = JumpEventType.None;
-    protected int doubleJumpLeft;
+    private JumpEventType jumpEventType = JumpEventType.None;
+    private int doubleJumpLeft;
 
     // Events
     public UnityEvent onJumpEvent = new UnityEvent();
@@ -54,7 +54,7 @@ public class JumpComponent : MonoBehaviour
         ApplyJumpMovement();
     }
 
-    protected virtual void ApplyJumpMovement()
+    private void ApplyJumpMovement()
     {
         switch (jumpEventType)
         {
@@ -140,7 +140,7 @@ public class JumpComponent : MonoBehaviour
         onJumpEvent.Invoke();
     }
 
-    protected void OnLand()
+    private void OnLand()
     {
         doubleJumpLeft = maxDoubleJumpCount;
         isJumping = false;

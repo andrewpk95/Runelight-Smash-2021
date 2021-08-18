@@ -12,9 +12,9 @@ public class VerticalSinMovementComponent : MonoBehaviour
     public float frequencySpeed = 4.0f;
     public float angle;
 
-    protected Rigidbody2D unitRigidbody;
-    protected VelocityComponent velocityComponent;
-    protected Vector2 originalPosition;
+    private Rigidbody2D unitRigidbody;
+    private VelocityComponent velocityComponent;
+    private Vector2 originalPosition;
 
     // Start is called before the first frame update
     void Start()

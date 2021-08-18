@@ -16,9 +16,9 @@ public class SlopeComponent : MonoBehaviour
     public int fallThroughTimeInFrames = 30;
 
     // Required Components
-    protected CapsuleCollider2D capsule;
-    protected Rigidbody2D unitRigidbody;
-    protected VelocityComponent velocityComponent;
+    private CapsuleCollider2D capsule;
+    private Rigidbody2D unitRigidbody;
+    private VelocityComponent velocityComponent;
 
     // Public Slope States
     public bool isGrounded;
@@ -38,7 +38,7 @@ public class SlopeComponent : MonoBehaviour
     // Slope calculation variables
     private List<Vector2> slopes = new List<Vector2>();
     private ContactFilter2D filter = new ContactFilter2D();
-    protected float CAST_OFFSET = 0.1f;
+    private float CAST_OFFSET = 0.1f;
 
     // Collision variables
     private ContactPoint2D[] contactPoints = new ContactPoint2D[10];
@@ -125,7 +125,7 @@ public class SlopeComponent : MonoBehaviour
         }
     }
 
-    protected virtual bool IsPhysicallyGrounded()
+    private bool IsPhysicallyGrounded()
     {
         if (slopes.Count <= 0 || !canWalkOnSlope)
         {
@@ -147,7 +147,7 @@ public class SlopeComponent : MonoBehaviour
         isGrounded = isOnGround;
     }
 
-    protected virtual void OnLand()
+    private void OnLand()
     {
         onLandEvent.Invoke();
         StopFallThrough();

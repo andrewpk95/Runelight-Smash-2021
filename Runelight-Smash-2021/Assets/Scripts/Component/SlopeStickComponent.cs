@@ -15,15 +15,15 @@ using UnityEngine;
 public class SlopeStickComponent : MonoBehaviour
 {
     // Required Components
-    protected CapsuleCollider2D capsule;
-    protected Rigidbody2D unitRigidbody;
-    protected AirMovementComponent airMovementComponent;
-    protected GravityComponent gravityComponent;
-    protected JoystickComponent joystickComponent;
-    protected JumpComponent jumpComponent;
-    protected SlopeComponent slopeComponent;
-    protected VelocityComponent velocityComponent;
-    protected WallCollisionComponent wallCollisionComponent;
+    private CapsuleCollider2D capsule;
+    private Rigidbody2D unitRigidbody;
+    private AirMovementComponent airMovementComponent;
+    private GravityComponent gravityComponent;
+    private JoystickComponent joystickComponent;
+    private JumpComponent jumpComponent;
+    private SlopeComponent slopeComponent;
+    private VelocityComponent velocityComponent;
+    private WallCollisionComponent wallCollisionComponent;
 
     // Slope Stick Variable
     private Vector2 slopeStickPosition;

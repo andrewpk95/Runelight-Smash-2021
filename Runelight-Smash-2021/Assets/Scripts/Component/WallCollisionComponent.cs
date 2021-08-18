@@ -14,10 +14,10 @@ public class WallCollisionComponent : MonoBehaviour
     public LayerMask wallLayerMask;
 
     // Required Components
-    protected Rigidbody2D unitRigidbody;
-    protected CapsuleCollider2D capsule;
-    protected SlopeComponent slopeComponent;
-    protected VelocityComponent velocityComponent;
+    private Rigidbody2D unitRigidbody;
+    private CapsuleCollider2D capsule;
+    private SlopeComponent slopeComponent;
+    private VelocityComponent velocityComponent;
 
     // Public Wall Collision State
     public bool isCollidingWithWall;

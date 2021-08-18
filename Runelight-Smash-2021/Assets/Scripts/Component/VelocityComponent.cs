@@ -7,7 +7,7 @@ using UnityEngine;
 public class VelocityComponent : MonoBehaviour
 {
     // Required Components
-    protected Rigidbody2D unitRigidbody;
+    private Rigidbody2D unitRigidbody;
 
     // Public Slope States
     public Vector2 velocity;
@@ -30,7 +30,7 @@ public class VelocityComponent : MonoBehaviour
         }
     }
 
-    protected void ApplyVelocity()
+    private void ApplyVelocity()
     {
         if (isPositionForced)
         {

@@ -12,8 +12,8 @@ public class GravityComponent : MonoBehaviour
     public float maxFallSpeed = 5.0f;
 
     // Required Components
-    protected SlopeComponent slopeComponent;
-    protected VelocityComponent velocityComponent;
+    private SlopeComponent slopeComponent;
+    private VelocityComponent velocityComponent;
 
     void Start()
     {
@@ -26,7 +26,7 @@ public class GravityComponent : MonoBehaviour
         ApplyGravity();
     }
 
-    protected void ApplyGravity()
+    private void ApplyGravity()
     {
         if (!slopeComponent.isGrounded || !slopeComponent.canWalkOnSlope)
         {
@@ -42,7 +42,7 @@ public class GravityComponent : MonoBehaviour
         }
     }
 
-    protected void ApplySlopeGravity()
+    private void ApplySlopeGravity()
     {
         if (slopeComponent.isOnSlope && slopeComponent.canWalkOnSlope)
         {
