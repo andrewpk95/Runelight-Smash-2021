@@ -46,6 +46,7 @@ public class SlopeComponent : MonoBehaviour
     private RaycastHit2D[] hits = new RaycastHit2D[10];
     [SerializeField]
     private GameObject currentGround;
+    private GameObject newGround;
 
     // Fall Through variables
     private int fallThroughTimeleft;
@@ -72,6 +73,7 @@ public class SlopeComponent : MonoBehaviour
         if (!unitRigidbody.IsSleeping())
         {
             CheckSlope();
+            CheckPlatform();
             CheckGround();
             ClearCollisionVariables();
         }
@@ -96,6 +98,7 @@ public class SlopeComponent : MonoBehaviour
         Vector2 feetPos = centerPos - Vector2.up * (capsule.size.y - capsule.size.x) / 2;
         float distance = (centerPos - feetPos).y;
         int count = Physics2D.CapsuleCast(centerPos, capsule.size, capsule.direction, 0.0f, Vector2.down, filter, hits, CAST_OFFSET);
+        GameObject ground = null;
 
         for (int i = 0; i < count; i++)
         {
@@ -118,7 +121,7 @@ public class SlopeComponent : MonoBehaviour
             }
 
             Vector2 slopeDirection = AddToSlopes(hit);
-            currentGround = hit.collider.gameObject;
+            ground = hit.collider.gameObject;
 
             // CircleCast returns only one collision per object, so perform CircleCast again to get more collision points
             RaycastHit2D extraHit = Physics2D.CapsuleCast(centerPos, capsule.size, capsule.direction, 0.0f, slopeDirection.y < 0.0f ? slopeDirection : -slopeDirection, CAST_OFFSET, currentLayerMask);
@@ -127,6 +130,7 @@ public class SlopeComponent : MonoBehaviour
                 AddToSlopes(extraHit);
             }
         }
+        newGround = ground;
     }
 
     private bool IsPhysicallyGrounded()
@@ -153,18 +157,25 @@ public class SlopeComponent : MonoBehaviour
         {
             OnLand();
         }
-        if (isGrounded && !isOnGround)
-        {
-            OnLeaveGround();
-        }
     }
 
-    private void OnLand()
+    private void CheckPlatform()
     {
-        onLandEvent.Invoke();
-        StopFallThrough();
+        if (currentGround != newGround)
+        {
+            LeavePlatform(currentGround);
+            LandOnPlatform(newGround);
+        }
+        currentGround = newGround;
+    }
 
-        MovingPlatformComponent platform = currentGround.GetComponent<MovingPlatformComponent>();
+    private void LandOnPlatform(GameObject platformObject)
+    {
+        if (platformObject == null)
+        {
+            return;
+        }
+        MovingPlatformComponent platform = platformObject.GetComponent<MovingPlatformComponent>();
 
         if (platform)
         {
@@ -173,15 +184,26 @@ public class SlopeComponent : MonoBehaviour
         }
     }
 
-    private void OnLeaveGround()
+    private void LeavePlatform(GameObject platformObject)
     {
-        MovingPlatformComponent platform = currentGround.GetComponent<MovingPlatformComponent>();
+        if (platformObject == null)
+        {
+            return;
+        }
+        MovingPlatformComponent platform = platformObject.GetComponent<MovingPlatformComponent>();
 
         if (platform)
         {
             platform.RemoveFromPassengers(velocityComponent);
             Debug.Log($"Left {platform.gameObject.name}");
         }
+    }
+
+
+    private void OnLand()
+    {
+        onLandEvent.Invoke();
+        StopFallThrough();
     }
 
     private Vector2 AddToSlopes(RaycastHit2D hit)
