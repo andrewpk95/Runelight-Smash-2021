@@ -31,6 +31,7 @@ public class VelocityComponent : MonoBehaviour
         {
             ApplyVelocity();
         }
+        unitRigidbody.velocity = Vector2.zero;
     }
 
     private void ApplyVelocity()
