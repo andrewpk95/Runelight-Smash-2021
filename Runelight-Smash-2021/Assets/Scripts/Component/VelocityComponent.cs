@@ -9,10 +9,13 @@ public class VelocityComponent : MonoBehaviour
     // Required Components
     private Rigidbody2D unitRigidbody;
 
-    // Public Slope States
+    // Public Velocity States
     public Vector2 velocity;
+    public Vector2 finalVelocity { get { return velocity + velocityModifier; } }
     public bool isMovementEnabled { get { return _isMovementEnabled; } }
 
+    // Velocity Variables
+    private Vector2 velocityModifier = Vector2.zero;
     private bool _isMovementEnabled = true;
     private bool isPositionForced = false;
     private Vector2 forcePosition;
@@ -32,13 +35,16 @@ public class VelocityComponent : MonoBehaviour
 
     private void ApplyVelocity()
     {
+        Vector2 velocityStep = (velocity + velocityModifier) * Time.fixedDeltaTime;
+
+        velocityModifier = Vector2.zero;
         if (isPositionForced)
         {
             unitRigidbody.position = forcePosition;
             isPositionForced = false;
             return;
         }
-        unitRigidbody.MovePosition(unitRigidbody.position + velocity * Time.fixedDeltaTime);
+        unitRigidbody.MovePosition(unitRigidbody.position + velocityStep);
     }
 
     public void DisableMovement()
@@ -59,5 +65,10 @@ public class VelocityComponent : MonoBehaviour
     {
         isPositionForced = true;
         forcePosition = position;
+    }
+
+    public void AddVelocityModifier(Vector2 modifier)
+    {
+        velocityModifier = modifier;
     }
 }

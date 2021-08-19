@@ -135,7 +135,7 @@ public class JumpComponent : MonoBehaviour
         velocityComponent.velocity = jumpVelocity;
         isJumpSquatting = false;
         isJumping = true;
-        slopeComponent.isGrounded = false;
+        slopeComponent.SetGrounded(false);
         slopeComponent.StopFallThrough();
         onJumpEvent.Invoke();
     }

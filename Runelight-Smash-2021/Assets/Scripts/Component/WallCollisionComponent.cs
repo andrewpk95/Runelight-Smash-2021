@@ -44,7 +44,7 @@ public class WallCollisionComponent : MonoBehaviour
     {
         float distanceToFeetPos = (capsule.size.y - capsule.size.x) / 2;
         Vector2 centerPos = unitRigidbody.position + capsule.offset;
-        Vector2 nextVelocityStep = velocityComponent.velocity * Time.fixedDeltaTime;
+        Vector2 nextVelocityStep = velocityComponent.finalVelocity * Time.fixedDeltaTime;
         Vector2 nextPos = centerPos + nextVelocityStep;
 
         hit = Physics2D.CapsuleCast(centerPos, capsule.size, capsule.direction, 0.0f, nextVelocityStep, nextVelocityStep.magnitude, wallLayerMask);
