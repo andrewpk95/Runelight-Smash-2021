@@ -14,9 +14,9 @@ public class AirMovementComponent : MonoBehaviour
     public float airDecelerationRate = 10.0f;
 
     // Required Components
-    protected JoystickComponent joystickComponent;
-    protected SlopeComponent slopeComponent;
-    protected VelocityComponent velocityComponent;
+    private JoystickComponent joystickComponent;
+    private SlopeComponent slopeComponent;
+    private VelocityComponent velocityComponent;
 
     void Start()
     {
@@ -33,7 +33,7 @@ public class AirMovementComponent : MonoBehaviour
         }
     }
 
-    protected virtual void ApplyAirMovement()
+    private void ApplyAirMovement()
     {
         if (Mathf.Abs(joystickComponent.joystick.x) > 0)
         {

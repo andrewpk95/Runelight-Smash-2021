@@ -11,12 +11,13 @@ public class WallCollisionComponent : MonoBehaviour
 {
     // Required Variables
     public float maxCeilingAngle = 30.0f;
+    public LayerMask wallLayerMask;
 
     // Required Components
-    protected Rigidbody2D unitRigidbody;
-    protected CapsuleCollider2D capsule;
-    protected SlopeComponent slopeComponent;
-    protected VelocityComponent velocityComponent;
+    private Rigidbody2D unitRigidbody;
+    private CapsuleCollider2D capsule;
+    private SlopeComponent slopeComponent;
+    private VelocityComponent velocityComponent;
 
     // Public Wall Collision State
     public bool isCollidingWithWall;
@@ -43,10 +44,10 @@ public class WallCollisionComponent : MonoBehaviour
     {
         float distanceToFeetPos = (capsule.size.y - capsule.size.x) / 2;
         Vector2 centerPos = unitRigidbody.position + capsule.offset;
-        Vector2 nextVelocityStep = velocityComponent.velocity * Time.fixedDeltaTime;
+        Vector2 nextVelocityStep = velocityComponent.finalVelocity * Time.fixedDeltaTime;
         Vector2 nextPos = centerPos + nextVelocityStep;
 
-        hit = Physics2D.CapsuleCast(centerPos, capsule.size, capsule.direction, 0.0f, nextVelocityStep, nextVelocityStep.magnitude, slopeComponent.groundLayerMask);
+        hit = Physics2D.CapsuleCast(centerPos, capsule.size, capsule.direction, 0.0f, nextVelocityStep, nextVelocityStep.magnitude, wallLayerMask);
     }
 
     private void StickToWall()

@@ -17,17 +17,17 @@ public class GroundMovementComponent : MonoBehaviour
     public float maxDashSpeed = 12.0f;
 
     // Required Components
-    protected SlopeComponent slopeComponent;
-    protected JoystickComponent joystickComponent;
-    protected VelocityComponent velocityComponent;
+    private SlopeComponent slopeComponent;
+    private JoystickComponent joystickComponent;
+    private VelocityComponent velocityComponent;
 
     // Public Ground Movement State
     public bool isDashing = false;
 
     // Ground Movement Variables
     public bool isDashStarted = false;
-    protected float groundSpeed { get { return isDashing ? maxDashSpeed : Mathf.Abs(joystickComponent.joystick.x) * maxWalkSpeed; } }
-    protected float groundAccelerationRate { get { return isDashing ? dashAccelerationRate : walkAccelerationRate; } }
+    private float groundSpeed { get { return isDashing ? maxDashSpeed : Mathf.Abs(joystickComponent.joystick.x) * maxWalkSpeed; } }
+    private float groundAccelerationRate { get { return isDashing ? dashAccelerationRate : walkAccelerationRate; } }
 
     void Start()
     {
@@ -44,7 +44,7 @@ public class GroundMovementComponent : MonoBehaviour
         }
     }
 
-    protected virtual void ApplyGroundMovement()
+    private void ApplyGroundMovement()
     {
         if (isDashing && !isDashStarted)
         {

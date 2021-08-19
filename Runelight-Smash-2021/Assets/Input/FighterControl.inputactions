@@ -46,6 +46,14 @@
                     "interactions": "Press"
                 },
                 {
+                    "name": "FallThrough",
+                    "type": "Button",
+                    "id": "9c3a1a97-c4c9-4da7-8045-ee124a8fcc32",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "DoubleTapButton"
+                },
+                {
                     "name": "Shield",
                     "type": "Button",
                     "id": "88b1b4ca-dcb5-4329-ad96-7515113ad8a9",
@@ -368,7 +376,7 @@
                     "name": "1D Axis",
                     "id": "30ed42c2-5590-4a12-b4a5-586670115441",
                     "path": "1DAxis",
-                    "interactions": "DoubleTapHold",
+                    "interactions": "DoubleTapHoldFloat",
                     "processors": "",
                     "groups": "",
                     "action": "Dash(Keyboard)",
@@ -405,6 +413,17 @@
                     "processors": "StickDeadzone",
                     "groups": "XBox",
                     "action": "Dash(XBox)",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5a81929b-5ad7-4aaa-8247-6039e0f87464",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "FallThrough",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

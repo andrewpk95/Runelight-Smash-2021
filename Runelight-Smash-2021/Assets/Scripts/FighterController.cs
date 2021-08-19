@@ -11,6 +11,7 @@ public class FighterController : MonoBehaviour
     private JoystickComponent joystickComponent;
     private GroundMovementComponent groundMovementComponent;
     private JumpComponent jumpComponent;
+    private SlopeComponent slopeComponent;
 
     public bool isShielding = false;
 
@@ -23,6 +24,7 @@ public class FighterController : MonoBehaviour
         joystickComponent = GetComponent<JoystickComponent>();
         groundMovementComponent = GetComponent<GroundMovementComponent>();
         jumpComponent = GetComponent<JumpComponent>();
+        slopeComponent = GetComponent<SlopeComponent>();
         BindActionEvents();
     }
 
@@ -34,6 +36,7 @@ public class FighterController : MonoBehaviour
         fighterActionHandler.shieldEvent.AddListener(HandleShield);
         fighterActionHandler.grabEvent.AddListener(HandleGrab);
         fighterActionHandler.dashEvent.AddListener(HandleDash);
+        fighterActionHandler.fallThroughEvent.AddListener(HandleFallThrough);
     }
 
     private void HandleJump(JumpEventType jumpEventType)
@@ -76,6 +79,11 @@ public class FighterController : MonoBehaviour
     private void HandleDash(float direction)
     {
         groundMovementComponent.SetDashInput(direction);
+    }
+
+    private void HandleFallThrough()
+    {
+        slopeComponent.FallThrough();
     }
 
     public void Land()
