@@ -8,4 +8,5 @@ public enum HitboxType
     Projectile,
     Grab,
     Collision,
+    Wind,
 }

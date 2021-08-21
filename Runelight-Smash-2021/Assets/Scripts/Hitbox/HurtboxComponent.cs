@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(CapsuleCollider2D))]
 
 public class HurtboxComponent : MonoBehaviour
 {
     // Required Variables
     public HurtboxInfo hurtboxInfo;
 
+    private CapsuleCollider2D hurtboxCollider;
+
     void Start()
     {
-        hurtboxInfo = new HurtboxInfo(HurtboxType.Damageable);
-
+        hurtboxCollider = GetComponent<CapsuleCollider2D>();
         UpdateHurtboxLayer();
     }
 
@@ -47,5 +48,17 @@ public class HurtboxComponent : MonoBehaviour
     {
         hurtboxInfo.type = type;
         UpdateHurtboxLayer();
+    }
+
+    void OnDrawGizmos()
+    {
+        if (!hurtboxCollider)
+        {
+            hurtboxCollider = GetComponent<CapsuleCollider2D>();
+        }
+        CapsuleCollider2D capsule = hurtboxCollider;
+        Color hitboxColor = ColorMap.GetColor(hurtboxInfo.type);
+
+        DebugTool.DrawCapsule(capsule, hitboxColor);
     }
 }

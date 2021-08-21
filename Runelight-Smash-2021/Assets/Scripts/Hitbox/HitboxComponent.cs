@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(CapsuleCollider2D))]
 
 public class HitboxComponent : MonoBehaviour
 {
@@ -14,16 +14,14 @@ public class HitboxComponent : MonoBehaviour
 
     // Hitbox Collision variables
     private GameObject attacker;
-    private Collider2D hitboxCollider;
+    private CapsuleCollider2D hitboxCollider;
     private ContactFilter2D contactFilter = new ContactFilter2D();
     private Collider2D[] colliders = new Collider2D[100];
 
     void Start()
     {
-        hitboxInfo = new HitboxInfo(0, 0, HitboxType.Attack);
-
         attacker = gameObject;
-        hitboxCollider = GetComponent<Collider2D>();
+        hitboxCollider = GetComponent<CapsuleCollider2D>();
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactFilter.useTriggers = true;
     }
@@ -69,5 +67,17 @@ public class HitboxComponent : MonoBehaviour
 
             HitboxResolverComponent.instance.hits.Add(hit);
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        if (!hitboxCollider)
+        {
+            hitboxCollider = GetComponent<CapsuleCollider2D>();
+        }
+        CapsuleCollider2D capsule = hitboxCollider;
+        Color hitboxColor = ColorMap.GetColor(hitboxInfo.type);
+
+        DebugTool.DrawCapsule(capsule, hitboxColor);
     }
 }
