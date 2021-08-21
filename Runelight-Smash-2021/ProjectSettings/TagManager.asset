@@ -24,17 +24,17 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - AttackHitbox
+  - ProjectileHitbox
+  - GrabHitbox
+  - CollisionHitbox
+  - WindHitbox
+  - DamageableHurtbox
+  - InvincibleHurtbox
+  - IntangibleHurtbox
+  - ReflectiveHurtbox
+  - ShieldHurtbox
+  - AbsorbingHurtbox
   - 
   - 
   m_SortingLayers:
