@@ -5620,6 +5620,10 @@ PrefabInstance:
       value: Hitbox
       objectReference: {fileID: 0}
     - target: {fileID: 7145979930537561935, guid: 6abaf871e32cf1846ae1940753a5e57e, type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 7145979930537561935, guid: 6abaf871e32cf1846ae1940753a5e57e, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}

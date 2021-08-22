@@ -50,6 +50,11 @@ public class HurtboxComponent : MonoBehaviour
         UpdateHurtboxLayer();
     }
 
+    public void OnValidate()
+    {
+        UpdateHurtboxLayer();
+    }
+
     void OnDrawGizmos()
     {
         if (!hurtboxCollider)

@@ -24,6 +24,8 @@ public class HitboxComponent : MonoBehaviour
         hitboxCollider = GetComponent<CapsuleCollider2D>();
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactFilter.useTriggers = true;
+
+        UpdateHitboxLayer();
     }
 
     void FixedUpdate()
@@ -69,9 +71,38 @@ public class HitboxComponent : MonoBehaviour
         }
     }
 
+    private void UpdateHitboxLayer()
+    {
+        switch (hitboxInfo.type)
+        {
+            case HitboxType.Attack:
+                gameObject.layer = LayerMask.NameToLayer("AttackHitbox");
+                break;
+            case HitboxType.Projectile:
+                gameObject.layer = LayerMask.NameToLayer("ProjectileHitbox");
+                break;
+            case HitboxType.Grab:
+                gameObject.layer = LayerMask.NameToLayer("GrabHitbox");
+                break;
+            case HitboxType.Collision:
+                gameObject.layer = LayerMask.NameToLayer("CollisionHitbox");
+                break;
+            case HitboxType.Wind:
+                gameObject.layer = LayerMask.NameToLayer("WindHitbox");
+                break;
+            default:
+                break;
+        }
+    }
+
     public void Reset()
     {
         hits.Clear();
+    }
+
+    void OnValidate()
+    {
+        UpdateHitboxLayer();
     }
 
     void OnDrawGizmos()
