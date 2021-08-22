@@ -10,7 +10,7 @@ public class HitboxComponent : MonoBehaviour
     public HitboxInfo hitboxInfo;
 
     // Public Hitbox Collision States
-    public HashSet<GameObject> hits = new HashSet<GameObject>();
+    public HashSet<GameObject> hitObjects = new HashSet<GameObject>();
     public HashSet<GameObject> victims = new HashSet<GameObject>();
 
     // Hitbox Collision variables
@@ -33,6 +33,10 @@ public class HitboxComponent : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!hitboxInfo.isHitboxType())
+        {
+            return;
+        }
         CheckHurtboxCollision();
         SendCollisionResults();
     }
@@ -44,36 +48,35 @@ public class HitboxComponent : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             Collider2D col = colliders[i];
-            GameObject victim = col.gameObject;
+            GameObject hitObject = col.gameObject;
 
-            hits.Add(victim);
+            hitObjects.Add(hitObject);
         }
     }
 
     private void SendCollisionResults()
     {
-        foreach (GameObject hurtbox in hits)
+        foreach (GameObject hitObject in hitObjects)
         {
-            // TODO: Get actual hurtbox owner
-            GameObject victim = hurtbox.transform.root.gameObject;
+            // TODO: Get actual hitbox/hurtbox owner
+            GameObject owner = hitObject.transform.root.gameObject;
 
-            if (attacker == victim || victims.Contains(victim))
+            if (attacker == owner || victims.Contains(owner))
             {
                 continue;
             }
 
-            HurtboxComponent hurtboxComponent = hurtbox.GetComponent<HurtboxComponent>();
+            HitboxComponent hitboxComponent = hitObject.GetComponent<HitboxComponent>();
 
-            if (hurtboxComponent == null)
+            if (!hitboxComponent)
             {
                 continue;
             }
 
-            HurtboxInfo hurtboxInfo = hurtboxComponent.hurtboxInfo;
-            HitboxHit hit = new HitboxHit(attacker, victim, hitboxInfo, hurtboxInfo);
+            HitboxHitResult hit = new HitboxHitResult(attacker, owner, hitboxInfo, hitboxComponent.hitboxInfo);
 
             HitboxResolverComponent.Instance.hits.Add(hit);
-            victims.Add(victim);
+            victims.Add(owner);
         }
     }
 
@@ -96,6 +99,24 @@ public class HitboxComponent : MonoBehaviour
             case HitboxType.Wind:
                 gameObject.layer = LayerMask.NameToLayer("WindHitbox");
                 break;
+            case HitboxType.Damageable:
+                gameObject.layer = LayerMask.NameToLayer("DamageableHitbox");
+                break;
+            case HitboxType.Invincible:
+                gameObject.layer = LayerMask.NameToLayer("InvincibleHitbox");
+                break;
+            case HitboxType.Intangible:
+                gameObject.layer = LayerMask.NameToLayer("IntangibleHitbox");
+                break;
+            case HitboxType.Reflective:
+                gameObject.layer = LayerMask.NameToLayer("ReflectiveHitbox");
+                break;
+            case HitboxType.Shield:
+                gameObject.layer = LayerMask.NameToLayer("ShieldHitbox");
+                break;
+            case HitboxType.Absorbing:
+                gameObject.layer = LayerMask.NameToLayer("AbsorbingHitbox");
+                break;
             default:
                 break;
         }
@@ -103,7 +124,7 @@ public class HitboxComponent : MonoBehaviour
 
     public void Reset()
     {
-        hits.Clear();
+        hitObjects.Clear();
         victims.Clear();
     }
 

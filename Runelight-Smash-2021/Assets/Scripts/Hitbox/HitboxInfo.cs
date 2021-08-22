@@ -15,4 +15,9 @@ public struct HitboxInfo
         this.groupId = groupId;
         this.type = type;
     }
+
+    public bool isHitboxType()
+    {
+        return (int)type < 10;
+    }
 }

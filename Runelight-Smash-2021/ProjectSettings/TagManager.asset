@@ -29,12 +29,12 @@ TagManager:
   - GrabHitbox
   - CollisionHitbox
   - WindHitbox
-  - DamageableHurtbox
-  - InvincibleHurtbox
-  - IntangibleHurtbox
-  - ReflectiveHurtbox
-  - ShieldHurtbox
-  - AbsorbingHurtbox
+  - DamageableHitbox
+  - InvincibleHitbox
+  - IntangibleHitbox
+  - ReflectiveHitbox
+  - ShieldHitbox
+  - AbsorbingHitbox
   - 
   - 
   m_SortingLayers:

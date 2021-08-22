@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
 {
-    public List<HitboxHit> hits = new List<HitboxHit>();
+    public List<HitboxHitResult> hits = new List<HitboxHitResult>();
 
     void FixedUpdate()
     {
@@ -14,9 +14,9 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
 
     private void ResolveHitboxCollisions()
     {
-        foreach (HitboxHit hit in hits)
+        foreach (HitboxHitResult hit in hits)
         {
-            Debug.Log($"{hit.attacker.name} hit {hit.victim.name}");
+            Debug.Log($"{hit.attacker1.name} hit {hit.attacker2.name}");
         }
     }
 }

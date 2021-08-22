@@ -35,26 +35,17 @@ public static class ColorMap
                 return blueHitbox;
             case HitboxType.Collision:
                 return grayHitbox;
-            default:
-                return Color.white;
-        }
-    }
-
-    public static Color GetColor(HurtboxType type)
-    {
-        switch (type)
-        {
-            case HurtboxType.Damageable:
+            case HitboxType.Damageable:
                 return grayHurtbox;
-            case HurtboxType.Invincible:
+            case HitboxType.Invincible:
                 return greenHurtbox;
-            case HurtboxType.Intangible:
+            case HitboxType.Intangible:
                 return blueHurtbox;
-            case HurtboxType.Reflective:
+            case HitboxType.Reflective:
                 return aquaHurtbox;
-            case HurtboxType.Shield:
+            case HitboxType.Shield:
                 return yellowHurtbox;
-            case HurtboxType.Absorbing:
+            case HitboxType.Absorbing:
                 return cyanHurtbox;
             default:
                 return Color.white;
