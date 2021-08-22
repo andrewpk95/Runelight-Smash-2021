@@ -11,6 +11,7 @@ public class HitboxComponent : MonoBehaviour
 
     // Public Hitbox Collision States
     public HashSet<GameObject> hits = new HashSet<GameObject>();
+    public HashSet<GameObject> victims = new HashSet<GameObject>();
 
     // Hitbox Collision variables
     private GameObject attacker;
@@ -20,7 +21,9 @@ public class HitboxComponent : MonoBehaviour
 
     void Start()
     {
-        attacker = gameObject;
+        // TODO: Get actual hitbox owner
+        attacker = transform.root.gameObject;
+
         hitboxCollider = GetComponent<CapsuleCollider2D>();
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactFilter.useTriggers = true;
@@ -30,7 +33,6 @@ public class HitboxComponent : MonoBehaviour
 
     void FixedUpdate()
     {
-        hits.Clear();
         CheckHurtboxCollision();
         SendCollisionResults();
     }
@@ -44,11 +46,7 @@ public class HitboxComponent : MonoBehaviour
             Collider2D col = colliders[i];
             GameObject victim = col.gameObject;
 
-            if (attacker == victim)
-            {
-                continue;
-            }
-            hits.Add(col.gameObject);
+            hits.Add(victim);
         }
     }
 
@@ -56,6 +54,14 @@ public class HitboxComponent : MonoBehaviour
     {
         foreach (GameObject hurtbox in hits)
         {
+            // TODO: Get actual hurtbox owner
+            GameObject victim = hurtbox.transform.root.gameObject;
+
+            if (attacker == victim || victims.Contains(victim))
+            {
+                continue;
+            }
+
             HurtboxComponent hurtboxComponent = hurtbox.GetComponent<HurtboxComponent>();
 
             if (hurtboxComponent == null)
@@ -63,11 +69,11 @@ public class HitboxComponent : MonoBehaviour
                 continue;
             }
 
-            GameObject victim = hurtbox.transform.root.gameObject;
             HurtboxInfo hurtboxInfo = hurtboxComponent.hurtboxInfo;
             HitboxHit hit = new HitboxHit(attacker, victim, hitboxInfo, hurtboxInfo);
 
             HitboxResolverComponent.Instance.hits.Add(hit);
+            victims.Add(victim);
         }
     }
 
@@ -98,6 +104,12 @@ public class HitboxComponent : MonoBehaviour
     public void Reset()
     {
         hits.Clear();
+        victims.Clear();
+    }
+
+    void OnDisable()
+    {
+        Reset();
     }
 
     void OnValidate()
