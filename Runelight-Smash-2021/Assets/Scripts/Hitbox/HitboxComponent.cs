@@ -69,6 +69,11 @@ public class HitboxComponent : MonoBehaviour
         }
     }
 
+    public void Reset()
+    {
+        hits.Clear();
+    }
+
     void OnDrawGizmos()
     {
         if (!hitboxCollider)
