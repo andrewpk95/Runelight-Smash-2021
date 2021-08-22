@@ -65,7 +65,7 @@ public class HitboxComponent : MonoBehaviour
             HurtboxInfo hurtboxInfo = hurtboxComponent.hurtboxInfo;
             HitboxHit hit = new HitboxHit(attacker, victim, hitboxInfo, hurtboxInfo);
 
-            HitboxResolverComponent.instance.hits.Add(hit);
+            HitboxResolverComponent.Instance.hits.Add(hit);
         }
     }
 

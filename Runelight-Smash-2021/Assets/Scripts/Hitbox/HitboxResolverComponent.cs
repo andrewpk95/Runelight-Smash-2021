@@ -2,16 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HitboxResolverComponent : MonoBehaviour
+public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
 {
-    public static HitboxResolverComponent instance;
-
     public List<HitboxHit> hits = new List<HitboxHit>();
-
-    void Start()
-    {
-        instance = this;
-    }
 
     void FixedUpdate()
     {
