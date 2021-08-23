@@ -22,7 +22,7 @@ public struct HitboxHitResult : IEquatable<HitboxHitResult>
     public bool Equals(HitboxHitResult other)
     {
         bool areAttackersEqual = (this.attacker1 == other.attacker1 && this.attacker2 == other.attacker2) || (this.attacker1 == other.attacker2 && this.attacker2 == other.attacker1);
-        bool areHitboxInfosEqual = (this.hitbox1 == other.hitbox1 && this.hitbox2 == other.hitbox2) || (this.hitbox1 == other.hitbox2 && this.hitbox2 == other.hitbox1);
+        bool areHitboxInfosEqual = (this.hitbox1.GetHashCode() == other.hitbox1.GetHashCode() && this.hitbox2.GetHashCode() == other.hitbox2.GetHashCode()) || (this.hitbox1.GetHashCode() == other.hitbox2.GetHashCode() && this.hitbox2.GetHashCode() == other.hitbox1.GetHashCode());
 
         return areAttackersEqual && areHitboxInfosEqual;
     }

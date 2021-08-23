@@ -7,7 +7,8 @@ using UnityEngine;
 public class HitboxComponent : MonoBehaviour
 {
     // Required Variables
-    public HitboxInfo hitboxInfo;
+    [SerializeField]
+    private HitboxInfo hitboxInfo;
 
     // Public Hitbox Collision States
     public HashSet<GameObject> hitObjects = new HashSet<GameObject>();
@@ -120,6 +121,12 @@ public class HitboxComponent : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void SetHitboxInfo(HitboxInfo hitboxInfo)
+    {
+        this.hitboxInfo = hitboxInfo;
+        UpdateHitboxLayer();
     }
 
     public void Reset()

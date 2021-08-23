@@ -16,7 +16,7 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
     {
         foreach (HitboxHitResult hit in hits)
         {
-            Debug.Log($"{hit.attacker1.name} hit {hit.attacker2.name}");
+            Debug.Log($"{hit.attacker1.name}'s {hit.hitbox1.type.ToString()}Hitbox hit {hit.attacker2.name}'s {hit.hitbox2.type.ToString()}Hitbox");
         }
     }
 

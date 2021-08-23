@@ -28,7 +28,7 @@ public class MockHitboxBehaviour : MonoBehaviour
             hitbox = HitboxFactory.Instance.GetObject();
             hitbox.gameObject.transform.SetParent(this.gameObject.transform);
             hitbox.gameObject.transform.localPosition = Vector3.zero;
-            hitbox.hitboxInfo = hitboxInfo;
+            hitbox.SetHitboxInfo(hitboxInfo);
         }
         else if (hitRateLeft < 0)
         {
