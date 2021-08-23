@@ -6,6 +6,7 @@ public class MockHitboxBehaviour : MonoBehaviour
 {
     public int hitRateFrame = 60;
     public int hitboxDurationFrame = 5;
+    public HitboxInfo hitboxInfo;
 
     private int hitRateLeft;
     private int hitboxDurationLeft;
@@ -27,6 +28,7 @@ public class MockHitboxBehaviour : MonoBehaviour
             hitbox = HitboxFactory.Instance.GetObject();
             hitbox.gameObject.transform.SetParent(this.gameObject.transform);
             hitbox.gameObject.transform.localPosition = Vector3.zero;
+            hitbox.hitboxInfo = hitboxInfo;
         }
         else if (hitRateLeft < 0)
         {

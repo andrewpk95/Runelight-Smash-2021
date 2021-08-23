@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct HitboxInfo
+public class HitboxInfo
 {
     public short id;
     public short groupId;

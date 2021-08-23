@@ -75,7 +75,7 @@ public class HitboxComponent : MonoBehaviour
 
             HitboxHitResult hit = new HitboxHitResult(attacker, owner, hitboxInfo, hitboxComponent.hitboxInfo);
 
-            HitboxResolverComponent.Instance.hits.Add(hit);
+            HitboxResolverComponent.Instance.AddHitResult(hit);
             victims.Add(owner);
         }
     }

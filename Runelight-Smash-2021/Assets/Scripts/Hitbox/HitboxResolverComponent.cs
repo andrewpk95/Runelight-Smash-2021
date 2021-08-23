@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
 {
-    public List<HitboxHitResult> hits = new List<HitboxHitResult>();
+    private HashSet<HitboxHitResult> hits = new HashSet<HitboxHitResult>();
 
     void FixedUpdate()
     {
@@ -18,5 +18,10 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
         {
             Debug.Log($"{hit.attacker1.name} hit {hit.attacker2.name}");
         }
+    }
+
+    public void AddHitResult(HitboxHitResult hit)
+    {
+        hits.Add(hit);
     }
 }
