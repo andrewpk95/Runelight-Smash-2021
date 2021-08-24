@@ -1143,7 +1143,7 @@ MonoBehaviour:
   hitboxInfo:
     id: 0
     groupId: 0
-    type: 1
+    type: 2
 --- !u!1 &441413159
 GameObject:
   m_ObjectHideFlags: 0
@@ -3073,7 +3073,7 @@ MonoBehaviour:
   hitboxInfo:
     id: 0
     groupId: 0
-    type: 1
+    type: 2
 --- !u!4 &882533424
 Transform:
   m_ObjectHideFlags: 0
@@ -3928,7 +3928,7 @@ MonoBehaviour:
   hitboxInfo:
     id: 0
     groupId: 0
-    type: 10
+    type: 14
 --- !u!1 &1308435113
 GameObject:
   m_ObjectHideFlags: 0
@@ -5677,7 +5677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7145979930537561935, guid: 6abaf871e32cf1846ae1940753a5e57e, type: 3}
       propertyPath: m_Layer
-      value: 19
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 7145979930537561935, guid: 6abaf871e32cf1846ae1940753a5e57e, type: 3}
       propertyPath: m_IsActive

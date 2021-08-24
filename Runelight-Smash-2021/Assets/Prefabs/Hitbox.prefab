@@ -63,4 +63,4 @@ MonoBehaviour:
   hitboxInfo:
     id: 0
     groupId: 0
-    type: 1
+    type: 2

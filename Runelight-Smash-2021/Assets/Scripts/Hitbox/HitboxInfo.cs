@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct HitboxInfo
+public struct HitboxInfo : IComparable<HitboxInfo>
 {
     public short id;
     public short groupId;
@@ -19,5 +20,10 @@ public struct HitboxInfo
     public bool isHitboxType()
     {
         return (int)type < 10;
+    }
+
+    public int CompareTo(HitboxInfo other)
+    {
+        return this.type - other.type;
     }
 }
