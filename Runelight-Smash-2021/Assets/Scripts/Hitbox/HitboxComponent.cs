@@ -12,7 +12,7 @@ public class HitboxComponent : MonoBehaviour
 
     // Public Hitbox Collision States
     public HashSet<GameObject> hitObjects = new HashSet<GameObject>();
-    public HashSet<GameObject> victims = new HashSet<GameObject>();
+    public HashSet<GameObject> prevHitObjects = new HashSet<GameObject>();
 
     // Hitbox Collision variables
     private GameObject attacker;
@@ -26,7 +26,7 @@ public class HitboxComponent : MonoBehaviour
         attacker = transform.root.gameObject;
 
         hitboxCollider = GetComponent<CapsuleCollider2D>();
-        contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
+
         contactFilter.useTriggers = true;
 
         UpdateHitboxLayer();
@@ -62,7 +62,7 @@ public class HitboxComponent : MonoBehaviour
             // TODO: Get actual hitbox/hurtbox owner
             GameObject owner = hitObject.transform.root.gameObject;
 
-            if (attacker == owner || victims.Contains(owner))
+            if (attacker == owner || prevHitObjects.Contains(hitObject))
             {
                 continue;
             }
@@ -77,7 +77,7 @@ public class HitboxComponent : MonoBehaviour
             HitboxHitResult hit = new HitboxHitResult(attacker, owner, hitboxInfo, hitboxComponent.hitboxInfo);
 
             HitboxResolverComponent.Instance.AddHitResult(hit);
-            victims.Add(owner);
+            prevHitObjects.Add(hitObject);
         }
     }
 
@@ -121,6 +121,7 @@ public class HitboxComponent : MonoBehaviour
             default:
                 break;
         }
+        contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
     }
 
     public void SetHitboxInfo(HitboxInfo hitboxInfo)
@@ -132,7 +133,7 @@ public class HitboxComponent : MonoBehaviour
     public void Reset()
     {
         hitObjects.Clear();
-        victims.Clear();
+        prevHitObjects.Clear();
     }
 
     void OnDisable()
