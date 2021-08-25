@@ -41,6 +41,9 @@ public class ObjectPool<T> : Singleton<ObjectPool<T>> where T : MonoBehaviour
     {
         obj.gameObject.SetActive(false);
         obj.transform.SetParent(this.transform);
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localEulerAngles = Vector3.zero;
+        obj.transform.localScale = Vector3.one;
     }
 
     public T GetObject()

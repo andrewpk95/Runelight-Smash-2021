@@ -10,13 +10,35 @@ public struct HitboxInfo : IComparable<HitboxInfo>
     public short groupId;
     public HitboxType type;
     public Vector2 position;
+    public float radius;
+    public bool isCapsule;
+    public float length;
+    public CapsuleDirection2D direction;
 
-    public HitboxInfo(short id, short groupId, HitboxType type, Vector2 position)
+    public HitboxInfo(short id, short groupId, HitboxType type, Vector2 position, float radius)
     {
         this.id = id;
         this.groupId = groupId;
         this.type = type;
         this.position = position;
+        this.radius = radius;
+
+        this.isCapsule = false;
+        this.length = 0;
+        this.direction = 0;
+    }
+
+    public HitboxInfo(short id, short groupId, HitboxType type, Vector2 position, float radius, float length, CapsuleDirection2D direction)
+    {
+        this.id = id;
+        this.groupId = groupId;
+        this.type = type;
+        this.position = position;
+        this.radius = radius;
+
+        this.isCapsule = true;
+        this.length = length;
+        this.direction = direction;
     }
 
     public bool isHitboxType()

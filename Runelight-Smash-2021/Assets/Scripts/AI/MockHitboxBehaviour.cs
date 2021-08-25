@@ -53,5 +53,7 @@ public class MockHitboxBehaviour : MonoBehaviour
                 hitboxDurationLeft += hitboxDurationFrame;
             }
         }
+
+        transform.Rotate(Vector3.forward * 2500 * Time.fixedDeltaTime);
     }
 }
