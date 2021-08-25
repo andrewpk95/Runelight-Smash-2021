@@ -15,18 +15,18 @@ public class HitboxComponent : MonoBehaviour
     public HashSet<GameObject> prevHitObjects = new HashSet<GameObject>();
 
     // Hitbox Collision variables
-    private GameObject attacker;
+    public GameObject attacker;
     private CapsuleCollider2D hitboxCollider;
     private ContactFilter2D contactFilter = new ContactFilter2D();
     private Collider2D[] colliders = new Collider2D[100];
 
+    void Awake()
+    {
+        hitboxCollider = GetComponent<CapsuleCollider2D>();
+    }
+
     void Start()
     {
-        // TODO: Get actual hitbox owner
-        attacker = transform.root.gameObject;
-
-        hitboxCollider = GetComponent<CapsuleCollider2D>();
-
         contactFilter.useTriggers = true;
 
         UpdateHitboxLayer();
@@ -38,6 +38,9 @@ public class HitboxComponent : MonoBehaviour
         {
             return;
         }
+        // TODO: Get actual hitbox owner
+        attacker = transform.root.gameObject;
+
         CheckHurtboxCollision();
         SendCollisionResults();
     }
@@ -127,6 +130,7 @@ public class HitboxComponent : MonoBehaviour
     public void SetHitboxInfo(HitboxInfo hitboxInfo)
     {
         this.hitboxInfo = hitboxInfo;
+        hitboxCollider.offset = hitboxInfo.position;
         UpdateHitboxLayer();
     }
 
@@ -153,7 +157,7 @@ public class HitboxComponent : MonoBehaviour
             hitboxCollider = GetComponent<CapsuleCollider2D>();
         }
         CapsuleCollider2D capsule = hitboxCollider;
-        Color hitboxColor = ColorMap.GetColor(hitboxInfo.type);
+        Color hitboxColor = ColorMap.GetColor(hitboxInfo);
 
         DebugTool.DrawCapsule(capsule, hitboxColor);
     }

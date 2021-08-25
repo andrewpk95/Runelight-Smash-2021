@@ -64,3 +64,5 @@ MonoBehaviour:
     id: 0
     groupId: 0
     type: 2
+    position: {x: 0, y: 0}
+  attacker: {fileID: 0}

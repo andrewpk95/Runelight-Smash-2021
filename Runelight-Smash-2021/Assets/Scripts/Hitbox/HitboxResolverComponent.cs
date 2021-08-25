@@ -44,11 +44,11 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
             case (HitboxType.Attack, HitboxType.Attack):
             case (HitboxType.Attack, HitboxType.Projectile):
             case (HitboxType.Projectile, HitboxType.Projectile):
-                Debug.Log($"[Attack Clash Event] {hit.Attacker.name} clashed with {hit.Victim.name}, one may out-prioritize the other");
+                Debug.Log($"[Attack Clash Event] {hit.Attacker.name} (id: {hit.AttackerHitbox.id}, groupId: {hit.AttackerHitbox.groupId}) clashed with {hit.Victim.name} (id: {hit.VictimHitbox.id}, groupId: {hit.VictimHitbox.groupId}), one may out-prioritize the other");
                 break;
             case (HitboxType.Attack, HitboxType.Shield):
             case (HitboxType.Projectile, HitboxType.Shield):
-                Debug.Log($"[Shield Event] {hit.Attacker.name} attacked {hit.Victim.name}'s shield, may be unblockable");
+                Debug.Log($"[Shield Event] {hit.Attacker.name} (id: {hit.AttackerHitbox.id}, groupId: {hit.AttackerHitbox.groupId}) attacked {hit.Victim.name}'s shield, may be unblockable");
                 break;
             case (HitboxType.Projectile, HitboxType.Absorbing):
                 Debug.Log($"[Absorb Event] {hit.Attacker.name}'s projectile was absorbed by {hit.Victim.name}");
@@ -58,11 +58,11 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
                 break;
             case (HitboxType.Attack, HitboxType.Invincible):
             case (HitboxType.Projectile, HitboxType.Invincible):
-                Debug.Log($"[Invincible hit Event] {hit.Attacker.name} attacked invincible {hit.Victim.name}");
+                Debug.Log($"[Invincible hit Event] {hit.Attacker.name} (id: {hit.AttackerHitbox.id}, groupId: {hit.AttackerHitbox.groupId}) attacked invincible {hit.Victim.name}");
                 break;
             case (HitboxType.Attack, HitboxType.Damageable):
             case (HitboxType.Projectile, HitboxType.Damageable):
-                Debug.Log($"[Damage Event] {hit.Attacker.name} damaged {hit.Victim.name}");
+                Debug.Log($"[Damage Event] {hit.Attacker.name} (id: {hit.AttackerHitbox.id}, groupId: {hit.AttackerHitbox.groupId}) damaged {hit.Victim.name}");
                 break;
             case (HitboxType.Wind, HitboxType.Shield):
                 Debug.Log($"[Wind Event] {hit.Attacker.name} is pushing {hit.Victim.name}'s shield");

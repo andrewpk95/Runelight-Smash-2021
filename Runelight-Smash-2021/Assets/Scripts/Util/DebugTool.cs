@@ -9,7 +9,7 @@ public static class DebugTool
         bool isVertical = capsule.direction == CapsuleDirection2D.Vertical;
         float rotateAngle = capsule.transform.rotation.eulerAngles.z + (isVertical ? 0.0f : 90.0f);
         Quaternion rotation = Quaternion.AngleAxis(rotateAngle, Vector3.forward);
-        Matrix4x4 rotatedMatrix = UnityEditor.Handles.matrix * Matrix4x4.TRS(capsule.transform.position, rotation, capsule.transform.localScale);
+        Matrix4x4 rotatedMatrix = UnityEditor.Handles.matrix * Matrix4x4.TRS(capsule.transform.position + (Vector3)capsule.offset, rotation, capsule.transform.localScale);
 
         Vector3 capsulePos = Vector3.zero;
         float capsuleX = isVertical ? capsule.size.x : capsule.size.y;

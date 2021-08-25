@@ -1120,7 +1120,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 424674845}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2025968842}
@@ -1139,11 +1139,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitRateFrame: 60
-  hitboxDurationFrame: 5
-  hitboxInfo:
-    id: 0
+  hitboxDurationFrame: 10
+  hitboxInfos:
+  - id: 0
     groupId: 0
     type: 2
+    position: {x: -0.3, y: 0.1}
+  - id: 1
+    groupId: 0
+    type: 2
+    position: {x: -0.6, y: 0.1}
 --- !u!1 &441413159
 GameObject:
   m_ObjectHideFlags: 0
@@ -3069,11 +3074,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitRateFrame: 60
-  hitboxDurationFrame: 5
-  hitboxInfo:
-    id: 0
+  hitboxDurationFrame: 10
+  hitboxInfos:
+  - id: 0
     groupId: 0
     type: 2
+    position: {x: 0, y: 0}
+  - id: 1
+    groupId: 0
+    type: 2
+    position: {x: 0.2, y: 0}
+  - id: 2
+    groupId: 0
+    type: 2
+    position: {x: 0.4, y: 0}
 --- !u!4 &882533424
 Transform:
   m_ObjectHideFlags: 0
@@ -3929,6 +3943,8 @@ MonoBehaviour:
     id: 0
     groupId: 0
     type: 14
+    position: {x: 0, y: 0}
+  attacker: {fileID: 0}
 --- !u!1 &1308435113
 GameObject:
   m_ObjectHideFlags: 0
@@ -5627,6 +5643,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7145979930537561928, guid: 6abaf871e32cf1846ae1940753a5e57e, type: 3}
+      propertyPath: hitboxInfo.position.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7145979930537561929, guid: 6abaf871e32cf1846ae1940753a5e57e, type: 3}
       propertyPath: m_RootOrder
       value: 18
@@ -5671,13 +5691,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7145979930537561934, guid: 6abaf871e32cf1846ae1940753a5e57e, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7145979930537561935, guid: 6abaf871e32cf1846ae1940753a5e57e, type: 3}
       propertyPath: m_Name
       value: Hitbox
       objectReference: {fileID: 0}
     - target: {fileID: 7145979930537561935, guid: 6abaf871e32cf1846ae1940753a5e57e, type: 3}
       propertyPath: m_Layer
-      value: 21
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 7145979930537561935, guid: 6abaf871e32cf1846ae1940753a5e57e, type: 3}
       propertyPath: m_IsActive
