@@ -14,6 +14,7 @@ public class HitboxComponent : MonoBehaviour
 
     // Hitbox Collision variables
     public GameObject attacker;
+    public Transform hitboxTransform;
     public CapsuleCollider2D hitboxCollider;
     private ContactFilter2D contactFilter = new ContactFilter2D();
     private Collider2D[] colliders = new Collider2D[100];
@@ -22,7 +23,6 @@ public class HitboxComponent : MonoBehaviour
     [SerializeField]
     private Vector3 prevHitboxPosition;
     private Vector3 currentHitboxPosition;
-    private CapsuleCollider2D interpolatedCapsule;
 
     void Start()
     {
@@ -49,11 +49,11 @@ public class HitboxComponent : MonoBehaviour
     {
         if (hitboxInfo.isCapsule)
         {
-            hitboxCollider.transform.localPosition = Vector3.zero;
+            hitboxTransform.localPosition = (Vector3)hitboxInfo.position;
             return;
         }
 
-        Vector3 currentHitboxPosition = transform.position;
+        Vector3 currentHitboxPosition = hitboxTransform.position;
         Vector3 lengthVector = currentHitboxPosition - prevHitboxPosition;
         Vector3 centerPos = (prevHitboxPosition + currentHitboxPosition) / 2;
         float length = lengthVector.magnitude;
@@ -62,6 +62,8 @@ public class HitboxComponent : MonoBehaviour
         hitboxCollider.transform.position = centerPos;
         hitboxCollider.transform.eulerAngles = Vector3.forward * Vector2.SignedAngle(Vector2.up, lengthVector);
         hitboxCollider.size = new Vector2(thickness, thickness + length);
+
+        Debug.DrawLine(prevHitboxPosition, currentHitboxPosition, Color.red);
 
         prevHitboxPosition = currentHitboxPosition;
     }
@@ -91,7 +93,7 @@ public class HitboxComponent : MonoBehaviour
                 continue;
             }
 
-            HitboxComponent hitboxComponent = hitObject.GetComponent<HitboxComponent>();
+            HitboxComponent hitboxComponent = hitObject.transform.parent.parent.gameObject.GetComponent<HitboxComponent>();
 
             if (!hitboxComponent)
             {
@@ -107,6 +109,7 @@ public class HitboxComponent : MonoBehaviour
 
     private void RefreshHitbox()
     {
+        Reset();
         UpdateHitboxShape();
         UpdateHitboxLayer();
     }
@@ -115,9 +118,8 @@ public class HitboxComponent : MonoBehaviour
     {
         float thickness = hitboxInfo.radius * 2.0f;
 
-        transform.localPosition = (Vector3)hitboxInfo.position;
+        hitboxTransform.localPosition = (Vector3)hitboxInfo.position;
         hitboxCollider.transform.localPosition = Vector3.zero;
-        hitboxCollider.transform.eulerAngles = Vector3.zero;
 
         if (hitboxInfo.isCapsule)
         {
@@ -128,50 +130,54 @@ public class HitboxComponent : MonoBehaviour
         {
             hitboxCollider.size = Vector2.one * thickness;
         }
-        prevHitboxPosition = hitboxCollider.transform.position;
+        prevHitboxPosition = hitboxTransform.position;
     }
 
     private void UpdateHitboxLayer()
     {
+        int hitboxLayer = 0;
+
         switch (hitboxInfo.type)
         {
             case HitboxType.Attack:
-                gameObject.layer = LayerMask.NameToLayer("AttackHitbox");
+                hitboxLayer = LayerMask.NameToLayer("AttackHitbox");
                 break;
             case HitboxType.Projectile:
-                gameObject.layer = LayerMask.NameToLayer("ProjectileHitbox");
+                hitboxLayer = LayerMask.NameToLayer("ProjectileHitbox");
                 break;
             case HitboxType.Grab:
-                gameObject.layer = LayerMask.NameToLayer("GrabHitbox");
+                hitboxLayer = LayerMask.NameToLayer("GrabHitbox");
                 break;
             case HitboxType.Collision:
-                gameObject.layer = LayerMask.NameToLayer("CollisionHitbox");
+                hitboxLayer = LayerMask.NameToLayer("CollisionHitbox");
                 break;
             case HitboxType.Wind:
-                gameObject.layer = LayerMask.NameToLayer("WindHitbox");
+                hitboxLayer = LayerMask.NameToLayer("WindHitbox");
                 break;
             case HitboxType.Damageable:
-                gameObject.layer = LayerMask.NameToLayer("DamageableHitbox");
+                hitboxLayer = LayerMask.NameToLayer("DamageableHitbox");
                 break;
             case HitboxType.Invincible:
-                gameObject.layer = LayerMask.NameToLayer("InvincibleHitbox");
+                hitboxLayer = LayerMask.NameToLayer("InvincibleHitbox");
                 break;
             case HitboxType.Intangible:
-                gameObject.layer = LayerMask.NameToLayer("IntangibleHitbox");
+                hitboxLayer = LayerMask.NameToLayer("IntangibleHitbox");
                 break;
             case HitboxType.Reflective:
-                gameObject.layer = LayerMask.NameToLayer("ReflectiveHitbox");
+                hitboxLayer = LayerMask.NameToLayer("ReflectiveHitbox");
                 break;
             case HitboxType.Shield:
-                gameObject.layer = LayerMask.NameToLayer("ShieldHitbox");
+                hitboxLayer = LayerMask.NameToLayer("ShieldHitbox");
                 break;
             case HitboxType.Absorbing:
-                gameObject.layer = LayerMask.NameToLayer("AbsorbingHitbox");
+                hitboxLayer = LayerMask.NameToLayer("AbsorbingHitbox");
                 break;
             default:
                 break;
         }
-        contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
+
+        hitboxCollider.gameObject.layer = hitboxLayer;
+        contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(hitboxCollider.gameObject.layer));
     }
 
     public void SetHitboxInfo(HitboxInfo hitboxInfo)
@@ -184,11 +190,15 @@ public class HitboxComponent : MonoBehaviour
     {
         hitObjects.Clear();
         prevHitObjects.Clear();
+        prevHitboxPosition = Vector3.zero;
+        hitboxTransform.position = Vector3.zero;
+        hitboxCollider.transform.position = Vector3.zero;
+        hitboxCollider.transform.localEulerAngles = Vector3.zero;
     }
 
     void OnEnable()
     {
-        prevHitboxPosition = transform.position;
+        prevHitboxPosition = hitboxTransform.position;
     }
 
     void OnDisable()
@@ -198,10 +208,6 @@ public class HitboxComponent : MonoBehaviour
 
     void OnValidate()
     {
-        if (!hitboxCollider)
-        {
-            hitboxCollider = GetComponent<CapsuleCollider2D>();
-        }
         RefreshHitbox();
     }
 
