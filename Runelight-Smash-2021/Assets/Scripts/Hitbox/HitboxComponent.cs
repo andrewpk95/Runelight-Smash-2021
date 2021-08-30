@@ -8,7 +8,7 @@ public class HitboxComponent : MonoBehaviour
     public HitboxInfo hitboxInfo;
 
     // Public Hitbox States
-    public GameObject attacker;
+    public GameObject owner;
     public Vector2 hitboxPosition;
     public Vector2 hitboxSize;
     public CapsuleDirection2D hitboxDirection;
@@ -30,14 +30,15 @@ public class HitboxComponent : MonoBehaviour
 
     void FixedUpdate()
     {
+        // TODO: Get actual hitbox owner
+        owner = transform.root.gameObject;
+
         UpdateHitboxShape();
 
         if (!hitboxInfo.isHitboxType())
         {
             return;
         }
-        // TODO: Get actual hitbox owner
-        attacker = transform.root.gameObject;
 
         InterpolateHitbox();
     }

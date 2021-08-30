@@ -44,14 +44,6 @@ public class HitboxDetectionComponent : MonoBehaviour
 
     private void SendCollisionResult(GameObject hitObject)
     {
-        // TODO: Get actual hitbox/hurtbox owner
-        GameObject owner = hitObject.transform.root.gameObject;
-
-        if (hitboxComponent.attacker == owner)
-        {
-            return;
-        }
-
         HitboxComponent other = hitObject.transform.parent.parent.gameObject.GetComponent<HitboxComponent>();
 
         if (!other)
@@ -59,20 +51,25 @@ public class HitboxDetectionComponent : MonoBehaviour
             return;
         }
 
-        HitboxHitResult hit = new HitboxHitResult(hitboxComponent.attacker, owner, hitboxComponent, other, hitboxComponent.hitboxInfo, other.hitboxInfo);
+        if (hitboxComponent.owner == other.owner)
+        {
+            return;
+        }
+
+        HitboxHitResult hit = new HitboxHitResult(hitboxComponent, other);
 
         HitboxResolverComponent.Instance.AddHitResult(hit);
     }
 
     void OnDisable()
     {
-        GameObject owner = hitboxComponent?.attacker;
+        GameObject owner = hitboxComponent?.owner;
 
         if (!owner)
         {
             return;
         }
 
-        HitboxResolverComponent.Instance.ResetVictim(hitboxComponent.attacker, hitboxComponent.hitboxInfo.groupId);
+        HitboxResolverComponent.Instance.ResetVictim(hitboxComponent.owner, hitboxComponent.hitboxInfo.groupId);
     }
 }

@@ -5,46 +5,45 @@ using UnityEngine;
 
 public struct HitboxHitResult : IComparable<HitboxHitResult>
 {
-    public GameObject Attacker { get { return attacker.Item1; } }
-    public GameObject Victim { get { return victim.Item1; } }
-    public HitboxComponent AttackerHitbox { get { return attacker.Item2; } }
-    public HitboxComponent VictimHitbox { get { return victim.Item2; } }
-    public HitboxInfo AttackerHitboxInfo { get { return attacker.Item3; } }
-    public HitboxInfo VictimHitboxInfo { get { return victim.Item3; } }
+    public GameObject Attacker { get { return attacker.owner; } }
+    public GameObject Victim { get { return victim.owner; } }
+    public HitboxComponent AttackerHitbox { get { return attacker; } }
+    public HitboxComponent VictimHitbox { get { return victim; } }
+    public HitboxInfo AttackerHitboxInfo { get { return attacker.hitboxInfo; } }
+    public HitboxInfo VictimHitboxInfo { get { return victim.hitboxInfo; } }
 
-    private Tuple<GameObject, HitboxComponent, HitboxInfo> attacker;
-    private Tuple<GameObject, HitboxComponent, HitboxInfo> victim;
+    private HitboxComponent attacker;
+    private HitboxComponent victim;
 
-    public HitboxHitResult(GameObject attacker1, GameObject attacker2, HitboxComponent hitbox1, HitboxComponent hitbox2, HitboxInfo info1, HitboxInfo info2)
+    public HitboxHitResult(HitboxComponent attacker, HitboxComponent victim)
     {
-        Tuple<GameObject, HitboxComponent, HitboxInfo> tuple1 = new Tuple<GameObject, HitboxComponent, HitboxInfo>(attacker1, hitbox1, info1);
-        Tuple<GameObject, HitboxComponent, HitboxInfo> tuple2 = new Tuple<GameObject, HitboxComponent, HitboxInfo>(attacker2, hitbox2, info2);
-
         // Sorts attacker and victim in a way so that 
         // attacker with hitbox type comes before attacker with hurtbox type
         // If both hitbox types are equal (ex. Attack vs Attack should clash)
         // sort attacker with lower hashcode so that GetHashCode() returns consistently with same value
-        if (info1.CompareTo(info2) < 0)
+        int result = attacker.hitboxInfo.CompareTo(victim.hitboxInfo);
+
+        if (result < 0)
         {
-            this.attacker = tuple1;
-            this.victim = tuple2;
+            this.attacker = attacker;
+            this.victim = victim;
         }
-        else if (info1.CompareTo(info2) > 0)
+        else if (result > 0)
         {
-            this.attacker = tuple2;
-            this.victim = tuple1;
+            this.attacker = victim;
+            this.victim = attacker;
         }
         else
         {
-            if (attacker1.GetHashCode() < attacker2.GetHashCode())
+            if (attacker.owner.GetHashCode() < victim.owner.GetHashCode())
             {
-                this.attacker = tuple1;
-                this.victim = tuple2;
+                this.attacker = attacker;
+                this.victim = victim;
             }
             else
             {
-                this.attacker = tuple2;
-                this.victim = tuple1;
+                this.attacker = victim;
+                this.victim = attacker;
             }
         }
     }
