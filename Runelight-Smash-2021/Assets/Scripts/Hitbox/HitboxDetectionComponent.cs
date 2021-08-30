@@ -8,10 +8,6 @@ public class HitboxDetectionComponent : MonoBehaviour
     [SerializeField]
     private HitboxComponent hitboxComponent;
 
-    // Public Hitbox Collision States
-    public HashSet<GameObject> hitObjects = new HashSet<GameObject>();
-    public HashSet<GameObject> prevHitObjects = new HashSet<GameObject>();
-
     // Hitbox Collision variables
     private ContactFilter2D contactFilter = new ContactFilter2D();
     private Collider2D[] colliders = new Collider2D[100];
@@ -31,7 +27,6 @@ public class HitboxDetectionComponent : MonoBehaviour
         }
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(hitboxComponent.hitboxCollider.gameObject.layer));
         CheckHurtboxCollision();
-        SendCollisionResults();
     }
 
     private void CheckHurtboxCollision()
@@ -43,44 +38,41 @@ public class HitboxDetectionComponent : MonoBehaviour
             Collider2D col = colliders[i];
             GameObject hitObject = col.gameObject;
 
-            hitObjects.Add(hitObject);
+            SendCollisionResult(hitObject);
         }
     }
 
-    private void SendCollisionResults()
+    private void SendCollisionResult(GameObject hitObject)
     {
-        foreach (GameObject hitObject in hitObjects)
+        // TODO: Get actual hitbox/hurtbox owner
+        GameObject owner = hitObject.transform.root.gameObject;
+
+        if (hitboxComponent.attacker == owner)
         {
-            // TODO: Get actual hitbox/hurtbox owner
-            GameObject owner = hitObject.transform.root.gameObject;
-
-            if (hitboxComponent.attacker == owner || prevHitObjects.Contains(hitObject))
-            {
-                continue;
-            }
-
-            HitboxComponent other = hitObject.transform.parent.parent.gameObject.GetComponent<HitboxComponent>();
-
-            if (!other)
-            {
-                continue;
-            }
-
-            HitboxHitResult hit = new HitboxHitResult(hitboxComponent.attacker, owner, hitboxComponent, other, hitboxComponent.hitboxInfo, other.hitboxInfo);
-
-            HitboxResolverComponent.Instance.AddHitResult(hit);
-            prevHitObjects.Add(hitObject);
+            return;
         }
-    }
 
-    public void Reset()
-    {
-        hitObjects.Clear();
-        prevHitObjects.Clear();
+        HitboxComponent other = hitObject.transform.parent.parent.gameObject.GetComponent<HitboxComponent>();
+
+        if (!other)
+        {
+            return;
+        }
+
+        HitboxHitResult hit = new HitboxHitResult(hitboxComponent.attacker, owner, hitboxComponent, other, hitboxComponent.hitboxInfo, other.hitboxInfo);
+
+        HitboxResolverComponent.Instance.AddHitResult(hit);
     }
 
     void OnDisable()
     {
-        Reset();
+        GameObject owner = hitboxComponent?.attacker;
+
+        if (!owner)
+        {
+            return;
+        }
+
+        HitboxResolverComponent.Instance.ResetVictim(hitboxComponent.attacker, hitboxComponent.hitboxInfo.groupId);
     }
 }

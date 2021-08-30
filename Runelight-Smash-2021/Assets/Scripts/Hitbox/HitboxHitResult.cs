@@ -51,14 +51,14 @@ public struct HitboxHitResult : IComparable<HitboxHitResult>
 
     public int CompareTo(HitboxHitResult other)
     {
-        int result = this.AttackerHitboxInfo.CompareTo(other.AttackerHitboxInfo);
+        int result = this.VictimHitboxInfo.CompareTo(other.VictimHitboxInfo);
 
         if (result != 0)
         {
             return result;
         }
 
-        result = this.VictimHitboxInfo.CompareTo(other.VictimHitboxInfo);
+        result = this.AttackerHitboxInfo.CompareTo(other.AttackerHitboxInfo);
 
         if (result != 0)
         {

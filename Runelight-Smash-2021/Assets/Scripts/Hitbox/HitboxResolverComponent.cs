@@ -6,6 +6,7 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
 {
     private SortedSet<HitboxHitResult> hits = new SortedSet<HitboxHitResult>();
     private Graph<GameObject> resolvedPairs = new Graph<GameObject>();
+    private HitboxVictimGraph victimGraph = new HitboxVictimGraph();
 
     void FixedUpdate()
     {
@@ -17,7 +18,7 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
     {
         foreach (HitboxHitResult hit in hits)
         {
-            Debug.Log($"{hit.Attacker.name}'s {hit.AttackerHitbox.name} (id: {hit.AttackerHitboxInfo.id}, groupId: {hit.AttackerHitboxInfo.groupId}) hit {hit.Victim.name}'s {hit.VictimHitbox.name}");
+            // Debug.Log($"{hit.Attacker.name}'s {hit.AttackerHitbox.name} (id: {hit.AttackerHitboxInfo.id}, groupId: {hit.AttackerHitboxInfo.groupId}) hit {hit.Victim.name}'s {hit.VictimHitbox.name}");
         }
         foreach (HitboxHitResult hit in hits)
         {
@@ -25,10 +26,15 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
             {
                 continue;
             }
-            // Resolve(hit);
+            if (victimGraph.IsConnected(hit.Attacker, hit.Victim, hit.AttackerHitboxInfo.groupId))
+            {
+                continue;
+            }
+            Resolve(hit);
 
             // TODO: If resolve returns false (ex. An attack out-prioritizes the other and must hit the other's hitbox), do not add edge
-            // resolvedPairs.AddEdge(hit.Attacker, hit.Victim);
+            resolvedPairs.AddEdge(hit.Attacker, hit.Victim);
+            victimGraph.AddEdge(hit.Attacker, hit.Victim, hit.AttackerHitboxInfo.groupId);
         }
     }
 
@@ -62,7 +68,7 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
                 break;
             case (HitboxType.Attack, HitboxType.Invincible):
             case (HitboxType.Projectile, HitboxType.Invincible):
-                Debug.Log($"[Invincible hit Event] {hit.Attacker.name} (id: {hit.AttackerHitboxInfo.id}, groupId: {hit.VictimHitboxInfo.groupId}) attacked invincible {hit.Victim.name}");
+                Debug.Log($"[Invincible hit Event] {hit.Attacker.name} (id: {hit.AttackerHitboxInfo.id}, groupId: {hit.AttackerHitboxInfo.groupId}) attacked invincible {hit.Victim.name}");
                 break;
             case (HitboxType.Attack, HitboxType.Damageable):
             case (HitboxType.Projectile, HitboxType.Damageable):
@@ -88,5 +94,10 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
     public void AddHitResult(HitboxHitResult hit)
     {
         hits.Add(hit);
+    }
+
+    public void ResetVictim(GameObject attacker, int groupId)
+    {
+        victimGraph.RemoveNode(attacker, groupId);
     }
 }

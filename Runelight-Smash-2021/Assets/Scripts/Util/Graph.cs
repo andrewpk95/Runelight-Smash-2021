@@ -18,6 +18,16 @@ public class Graph<T>
         RemoveFromNodeList(node2, node1);
     }
 
+    public void RemoveNode(T node)
+    {
+        ClearNodeList(node);
+
+        foreach (HashSet<T> nodeList in graph.Values)
+        {
+            nodeList.Remove(node);
+        }
+    }
+
     public bool IsConnected(T node1, T node2)
     {
         HashSet<T> nodeList;
@@ -32,9 +42,9 @@ public class Graph<T>
 
     public void Clear()
     {
-        foreach (HashSet<T> nodeList in graph.Values)
+        foreach (T node in graph.Keys)
         {
-            nodeList.Clear();
+            ClearNodeList(node);
         }
     }
 
@@ -59,5 +69,16 @@ public class Graph<T>
             return;
         }
         nodeList.Remove(node2);
+    }
+
+    private void ClearNodeList(T node)
+    {
+        HashSet<T> nodeList;
+
+        if (!graph.TryGetValue(node, out nodeList))
+        {
+            return;
+        }
+        nodeList.Clear();
     }
 }
