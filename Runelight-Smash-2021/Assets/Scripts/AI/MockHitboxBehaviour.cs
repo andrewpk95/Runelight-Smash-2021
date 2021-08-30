@@ -6,6 +6,7 @@ public class MockHitboxBehaviour : MonoBehaviour
 {
     public int hitRateFrame = 60;
     public int hitboxDurationFrame = 5;
+    public int rotationRate = 2500;
     public List<HitboxInfo> hitboxInfos = new List<HitboxInfo>();
 
     private int hitRateLeft;
@@ -54,6 +55,6 @@ public class MockHitboxBehaviour : MonoBehaviour
             }
         }
 
-        transform.Rotate(Vector3.forward * 2500 * Time.fixedDeltaTime);
+        transform.Rotate(Vector3.forward * rotationRate * Time.fixedDeltaTime);
     }
 }

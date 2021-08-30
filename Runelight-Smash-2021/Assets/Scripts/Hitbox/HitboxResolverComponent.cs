@@ -17,20 +17,24 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
     {
         foreach (HitboxHitResult hit in hits)
         {
+            Debug.Log($"{hit.Attacker.name}'s {hit.AttackerHitbox.name} (id: {hit.AttackerHitboxInfo.id}, groupId: {hit.AttackerHitboxInfo.groupId}) hit {hit.Victim.name}'s {hit.VictimHitbox.name}");
+        }
+        foreach (HitboxHitResult hit in hits)
+        {
             if (resolvedPairs.IsConnected(hit.Attacker, hit.Victim))
             {
                 continue;
             }
-            Resolve(hit);
+            // Resolve(hit);
 
             // TODO: If resolve returns false (ex. An attack out-prioritizes the other and must hit the other's hitbox), do not add edge
-            resolvedPairs.AddEdge(hit.Attacker, hit.Victim);
+            // resolvedPairs.AddEdge(hit.Attacker, hit.Victim);
         }
     }
 
     private void Resolve(HitboxHitResult hit)
     {
-        switch ((hit.AttackerHitbox.type, hit.VictimHitbox.type))
+        switch ((hit.AttackerHitboxInfo.type, hit.VictimHitboxInfo.type))
         {
             case (HitboxType.Collision, _):
                 Debug.Log($"[Collision Event] {hit.Attacker.name} collided with {hit.Victim.name}");
@@ -44,11 +48,11 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
             case (HitboxType.Attack, HitboxType.Attack):
             case (HitboxType.Attack, HitboxType.Projectile):
             case (HitboxType.Projectile, HitboxType.Projectile):
-                Debug.Log($"[Attack Clash Event] {hit.Attacker.name} (id: {hit.AttackerHitbox.id}, groupId: {hit.AttackerHitbox.groupId}) clashed with {hit.Victim.name} (id: {hit.VictimHitbox.id}, groupId: {hit.VictimHitbox.groupId}), one may out-prioritize the other");
+                Debug.Log($"[Attack Clash Event] {hit.Attacker.name} (id: {hit.AttackerHitboxInfo.id}, groupId: {hit.AttackerHitboxInfo.groupId}) clashed with {hit.Victim.name} (id: {hit.VictimHitboxInfo.id}, groupId: {hit.VictimHitboxInfo.groupId}), one may out-prioritize the other");
                 break;
             case (HitboxType.Attack, HitboxType.Shield):
             case (HitboxType.Projectile, HitboxType.Shield):
-                Debug.Log($"[Shield Event] {hit.Attacker.name} (id: {hit.AttackerHitbox.id}, groupId: {hit.AttackerHitbox.groupId}) attacked {hit.Victim.name}'s shield, may be unblockable");
+                Debug.Log($"[Shield Event] {hit.Attacker.name} (id: {hit.AttackerHitboxInfo.id}, groupId: {hit.AttackerHitboxInfo.groupId}) attacked {hit.Victim.name}'s shield, may be unblockable");
                 break;
             case (HitboxType.Projectile, HitboxType.Absorbing):
                 Debug.Log($"[Absorb Event] {hit.Attacker.name}'s projectile was absorbed by {hit.Victim.name}");
@@ -58,11 +62,11 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
                 break;
             case (HitboxType.Attack, HitboxType.Invincible):
             case (HitboxType.Projectile, HitboxType.Invincible):
-                Debug.Log($"[Invincible hit Event] {hit.Attacker.name} (id: {hit.AttackerHitbox.id}, groupId: {hit.AttackerHitbox.groupId}) attacked invincible {hit.Victim.name}");
+                Debug.Log($"[Invincible hit Event] {hit.Attacker.name} (id: {hit.AttackerHitboxInfo.id}, groupId: {hit.VictimHitboxInfo.groupId}) attacked invincible {hit.Victim.name}");
                 break;
             case (HitboxType.Attack, HitboxType.Damageable):
             case (HitboxType.Projectile, HitboxType.Damageable):
-                Debug.Log($"[Damage Event] {hit.Attacker.name} (id: {hit.AttackerHitbox.id}, groupId: {hit.AttackerHitbox.groupId}) damaged {hit.Victim.name}");
+                Debug.Log($"[Damage Event] {hit.Attacker.name} (id: {hit.AttackerHitboxInfo.id}, groupId: {hit.AttackerHitboxInfo.groupId}) damaged {hit.Victim.name}");
                 break;
             case (HitboxType.Wind, HitboxType.Shield):
                 Debug.Log($"[Wind Event] {hit.Attacker.name} is pushing {hit.Victim.name}'s shield");

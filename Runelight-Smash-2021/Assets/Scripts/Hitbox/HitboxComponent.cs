@@ -5,19 +5,18 @@ using UnityEngine;
 public class HitboxComponent : MonoBehaviour
 {
     // Required Variables
-    [SerializeField]
-    private HitboxInfo hitboxInfo;
+    public HitboxInfo hitboxInfo;
 
-    // Public Hitbox Collision States
-    public HashSet<GameObject> hitObjects = new HashSet<GameObject>();
-    public HashSet<GameObject> prevHitObjects = new HashSet<GameObject>();
-
-    // Hitbox Collision variables
+    // Public Hitbox States
     public GameObject attacker;
+    public Vector2 hitboxPosition;
+    public Vector2 hitboxSize;
+    public CapsuleDirection2D hitboxDirection;
+    public float hitboxRotation;
+
+    // Hitbox variables
     public Transform hitboxTransform;
     public CapsuleCollider2D hitboxCollider;
-    private ContactFilter2D contactFilter = new ContactFilter2D();
-    private Collider2D[] colliders = new Collider2D[100];
 
     // Hitbox Interpolation variables
     [SerializeField]
@@ -26,13 +25,13 @@ public class HitboxComponent : MonoBehaviour
 
     void Start()
     {
-        contactFilter.useTriggers = true;
-
         RefreshHitbox();
     }
 
     void FixedUpdate()
     {
+        UpdateHitboxShape();
+
         if (!hitboxInfo.isHitboxType())
         {
             return;
@@ -41,15 +40,12 @@ public class HitboxComponent : MonoBehaviour
         attacker = transform.root.gameObject;
 
         InterpolateHitbox();
-        CheckHurtboxCollision();
-        SendCollisionResults();
     }
 
     private void InterpolateHitbox()
     {
         if (hitboxInfo.isCapsule)
         {
-            hitboxTransform.localPosition = (Vector3)hitboxInfo.position;
             return;
         }
 
@@ -59,52 +55,14 @@ public class HitboxComponent : MonoBehaviour
         float length = lengthVector.magnitude;
         float thickness = hitboxInfo.radius * 2.0f;
 
-        hitboxCollider.transform.position = centerPos;
-        hitboxCollider.transform.eulerAngles = Vector3.forward * Vector2.SignedAngle(Vector2.up, lengthVector);
-        hitboxCollider.size = new Vector2(thickness, thickness + length);
-
-        Debug.DrawLine(prevHitboxPosition, currentHitboxPosition, Color.red);
+        hitboxPosition = centerPos;
+        hitboxRotation = Vector2.SignedAngle(Vector2.up, lengthVector);
+        hitboxSize = new Vector2(thickness, thickness + length);
+        hitboxCollider.transform.position = hitboxPosition;
+        hitboxCollider.transform.eulerAngles = Vector3.forward * hitboxRotation;
+        hitboxCollider.size = hitboxSize;
 
         prevHitboxPosition = currentHitboxPosition;
-    }
-
-    private void CheckHurtboxCollision()
-    {
-        int count = Physics2D.OverlapCollider(hitboxCollider, contactFilter, colliders);
-
-        for (int i = 0; i < count; i++)
-        {
-            Collider2D col = colliders[i];
-            GameObject hitObject = col.gameObject;
-
-            hitObjects.Add(hitObject);
-        }
-    }
-
-    private void SendCollisionResults()
-    {
-        foreach (GameObject hitObject in hitObjects)
-        {
-            // TODO: Get actual hitbox/hurtbox owner
-            GameObject owner = hitObject.transform.root.gameObject;
-
-            if (attacker == owner || prevHitObjects.Contains(hitObject))
-            {
-                continue;
-            }
-
-            HitboxComponent hitboxComponent = hitObject.transform.parent.parent.gameObject.GetComponent<HitboxComponent>();
-
-            if (!hitboxComponent)
-            {
-                continue;
-            }
-
-            HitboxHitResult hit = new HitboxHitResult(attacker, owner, hitboxInfo, hitboxComponent.hitboxInfo);
-
-            HitboxResolverComponent.Instance.AddHitResult(hit);
-            prevHitObjects.Add(hitObject);
-        }
     }
 
     private void RefreshHitbox()
@@ -119,18 +77,25 @@ public class HitboxComponent : MonoBehaviour
         float thickness = hitboxInfo.radius * 2.0f;
 
         hitboxTransform.localPosition = (Vector3)hitboxInfo.position;
-        hitboxCollider.transform.localPosition = Vector3.zero;
+        hitboxPosition = hitboxTransform.position;
+        hitboxRotation = hitboxTransform.eulerAngles.z;
+        hitboxSize = new Vector2(thickness, thickness + hitboxInfo.length);
+        hitboxCollider.transform.position = hitboxPosition;
+        hitboxCollider.transform.eulerAngles = Vector3.forward * hitboxRotation;
+        hitboxCollider.size = hitboxSize;
 
         if (hitboxInfo.isCapsule)
         {
-            hitboxCollider.direction = hitboxInfo.direction;
-            hitboxCollider.size = hitboxInfo.direction == CapsuleDirection2D.Vertical ? new Vector2(thickness, thickness + hitboxInfo.length) : new Vector2(thickness + hitboxInfo.length, thickness);
+            hitboxDirection = hitboxInfo.direction;
+            hitboxSize = hitboxInfo.direction == CapsuleDirection2D.Vertical ? new Vector2(thickness, thickness + hitboxInfo.length) : new Vector2(thickness + hitboxInfo.length, thickness);
+            hitboxCollider.direction = hitboxDirection;
+            hitboxCollider.size = hitboxSize;
         }
         else
         {
-            hitboxCollider.size = Vector2.one * thickness;
+            hitboxSize = Vector2.one * thickness;
+            hitboxCollider.size = hitboxSize;
         }
-        prevHitboxPosition = hitboxTransform.position;
     }
 
     private void UpdateHitboxLayer()
@@ -177,19 +142,17 @@ public class HitboxComponent : MonoBehaviour
         }
 
         hitboxCollider.gameObject.layer = hitboxLayer;
-        contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(hitboxCollider.gameObject.layer));
     }
 
     public void SetHitboxInfo(HitboxInfo hitboxInfo)
     {
         this.hitboxInfo = hitboxInfo;
         RefreshHitbox();
+        prevHitboxPosition = hitboxTransform.position;
     }
 
     public void Reset()
     {
-        hitObjects.Clear();
-        prevHitObjects.Clear();
         prevHitboxPosition = Vector3.zero;
         hitboxTransform.position = Vector3.zero;
         hitboxCollider.transform.position = Vector3.zero;
@@ -213,13 +176,8 @@ public class HitboxComponent : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (!hitboxCollider)
-        {
-            hitboxCollider = GetComponent<CapsuleCollider2D>();
-        }
-        CapsuleCollider2D capsule = hitboxCollider;
         Color hitboxColor = ColorMap.GetColor(hitboxInfo);
 
-        DebugTool.DrawCapsule(capsule, hitboxColor);
+        DebugTool.DrawCapsule(hitboxCollider.transform.position, hitboxSize, hitboxDirection, hitboxRotation, hitboxColor);
     }
 }
