@@ -44,6 +44,8 @@ public class MockHitboxBehaviour : MonoBehaviour
 
             if (hitboxDurationLeft <= 0)
             {
+                HitboxResolverComponent.Instance.ResetVictimList(transform.root.gameObject);
+
                 foreach (HitboxComponent hitbox in hitboxes)
                 {
                     HitboxFactory.Instance.ReturnObject(hitbox);

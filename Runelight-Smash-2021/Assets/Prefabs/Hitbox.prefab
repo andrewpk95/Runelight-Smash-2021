@@ -132,11 +132,12 @@ MonoBehaviour:
     isCapsule: 0
     length: 0
     direction: 0
-  attacker: {fileID: 0}
+  owner: {fileID: 0}
   hitboxPosition: {x: 0, y: 0}
   hitboxSize: {x: 2, y: 2}
   hitboxDirection: 0
   hitboxRotation: 0
+  isHitboxEnabled: 0
   hitboxTransform: {fileID: 7730991924371999574}
   hitboxCollider: {fileID: 7100289053474518427}
   prevHitboxPosition: {x: 0, y: 0, z: 0}

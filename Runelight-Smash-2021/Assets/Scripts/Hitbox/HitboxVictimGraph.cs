@@ -4,44 +4,70 @@ using UnityEngine;
 
 public class HitboxVictimGraph
 {
-    private Dictionary<int, Graph<GameObject>> victimGraph = new Dictionary<int, Graph<GameObject>>();
+    private DirectedGraph<GameObject> victimGraph = new DirectedGraph<GameObject>();
+    private Dictionary<int, DirectedGraph<GameObject>> groupIdVictimGraph = new Dictionary<int, DirectedGraph<GameObject>>();
 
-    public void AddEdge(GameObject attacker, GameObject victim, int groupId)
+    public void AddEdge(HitboxComponent attacker, HitboxComponent victim)
     {
-        GetGraph(groupId).AddEdge(attacker, victim);
+        if (attacker.hitboxInfo.isHitboxType() && victim.hitboxInfo.isHitboxType())
+        {
+            victimGraph.AddEdge(attacker.owner, victim.owner);
+            return;
+        }
+
+        int groupId = attacker.hitboxInfo.groupId;
+
+        GetGroupIdVictimGraph(groupId).AddDirectedEdge(attacker.owner, victim.owner);
     }
 
-    public void RemoveEdge(GameObject attacker, GameObject victim, int groupId)
+    public void RemoveEdge(HitboxComponent attacker, HitboxComponent victim)
     {
-        GetGraph(groupId).RemoveEdge(attacker, victim);
+        if (attacker.hitboxInfo.isHitboxType() && victim.hitboxInfo.isHitboxType())
+        {
+            victimGraph.RemoveEdge(attacker.owner, victim.owner);
+            return;
+        }
+
+        int groupId = attacker.hitboxInfo.groupId;
+
+        GetGroupIdVictimGraph(groupId).RemoveDirectedEdge(attacker.owner, victim.owner);
     }
 
-    public void RemoveNode(GameObject attacker, int groupId)
+    public void RemoveAllEdges(GameObject attacker)
     {
-        GetGraph(groupId).RemoveNode(attacker);
+        foreach (DirectedGraph<GameObject> graph in groupIdVictimGraph.Values)
+        {
+            graph.RemoveAllDirectedEdges(attacker);
+        }
+
+        victimGraph.RemoveAllDirectedEdges(attacker);
     }
 
-    public bool IsConnected(GameObject attacker, GameObject victim, int groupId)
+    public bool IsConnected(HitboxComponent attacker, HitboxComponent victim)
     {
-        return GetGraph(groupId).IsConnected(attacker, victim);
+        int groupId = attacker.hitboxInfo.groupId;
+
+        return victimGraph.IsConnected(attacker.owner, victim.owner) || GetGroupIdVictimGraph(groupId).IsConnected(attacker.owner, victim.owner);
     }
 
     public void Clear()
     {
-        foreach (Graph<GameObject> graph in victimGraph.Values)
+        victimGraph.Clear();
+
+        foreach (DirectedGraph<GameObject> graph in groupIdVictimGraph.Values)
         {
             graph.Clear();
         }
     }
 
-    private Graph<GameObject> GetGraph(int groupId)
+    private DirectedGraph<GameObject> GetGroupIdVictimGraph(int groupId)
     {
-        Graph<GameObject> graph;
+        DirectedGraph<GameObject> graph;
 
-        if (!victimGraph.TryGetValue(groupId, out graph))
+        if (!groupIdVictimGraph.TryGetValue(groupId, out graph))
         {
-            graph = new Graph<GameObject>();
-            victimGraph.Add(groupId, graph);
+            graph = new DirectedGraph<GameObject>();
+            groupIdVictimGraph.Add(groupId, graph);
         }
 
         return graph;

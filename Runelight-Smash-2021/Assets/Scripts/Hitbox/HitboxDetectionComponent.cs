@@ -21,6 +21,10 @@ public class HitboxDetectionComponent : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!hitboxComponent.IsObjectEnabled)
+        {
+            return;
+        }
         if (!hitboxComponent.hitboxInfo.isHitboxType())
         {
             return;
@@ -51,6 +55,11 @@ public class HitboxDetectionComponent : MonoBehaviour
             return;
         }
 
+        if (!other.IsObjectEnabled)
+        {
+            return;
+        }
+
         if (hitboxComponent.owner == other.owner)
         {
             return;
@@ -59,17 +68,5 @@ public class HitboxDetectionComponent : MonoBehaviour
         HitboxHitResult hit = new HitboxHitResult(hitboxComponent, other);
 
         HitboxResolverComponent.Instance.AddHitResult(hit);
-    }
-
-    void OnDisable()
-    {
-        GameObject owner = hitboxComponent?.owner;
-
-        if (!owner)
-        {
-            return;
-        }
-
-        HitboxResolverComponent.Instance.ResetVictim(hitboxComponent.owner, hitboxComponent.hitboxInfo.groupId);
     }
 }

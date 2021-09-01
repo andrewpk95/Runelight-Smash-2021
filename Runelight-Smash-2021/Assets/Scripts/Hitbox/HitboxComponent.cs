@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HitboxComponent : MonoBehaviour
+public class HitboxComponent : Poolable
 {
     // Required Variables
     public HitboxInfo hitboxInfo;
@@ -13,6 +13,7 @@ public class HitboxComponent : MonoBehaviour
     public Vector2 hitboxSize;
     public CapsuleDirection2D hitboxDirection;
     public float hitboxRotation;
+    public bool isHitboxEnabled;
 
     // Hitbox variables
     public Transform hitboxTransform;
@@ -26,9 +27,11 @@ public class HitboxComponent : MonoBehaviour
     void Start()
     {
         RefreshHitbox();
+        // TODO: Get actual hitbox owner
+        owner = transform.root.gameObject;
     }
 
-    void FixedUpdate()
+    protected override void Tick()
     {
         // TODO: Get actual hitbox owner
         owner = transform.root.gameObject;
@@ -50,7 +53,12 @@ public class HitboxComponent : MonoBehaviour
             return;
         }
 
-        Vector3 currentHitboxPosition = hitboxTransform.position;
+        if (prevHitboxPosition == Vector3.zero)
+        {
+            prevHitboxPosition = hitboxTransform.position;
+        }
+
+        currentHitboxPosition = hitboxTransform.position;
         Vector3 lengthVector = currentHitboxPosition - prevHitboxPosition;
         Vector3 centerPos = (prevHitboxPosition + currentHitboxPosition) / 2;
         float length = lengthVector.magnitude;
@@ -68,7 +76,6 @@ public class HitboxComponent : MonoBehaviour
 
     private void RefreshHitbox()
     {
-        Reset();
         UpdateHitboxShape();
         UpdateHitboxLayer();
     }
@@ -102,6 +109,12 @@ public class HitboxComponent : MonoBehaviour
     private void UpdateHitboxLayer()
     {
         int hitboxLayer = 0;
+
+        if (!IsObjectEnabled)
+        {
+            hitboxCollider.gameObject.layer = LayerMask.NameToLayer("Default");
+            return;
+        }
 
         switch (hitboxInfo.type)
         {
@@ -149,25 +162,15 @@ public class HitboxComponent : MonoBehaviour
     {
         this.hitboxInfo = hitboxInfo;
         RefreshHitbox();
-        prevHitboxPosition = hitboxTransform.position;
     }
 
-    public void Reset()
+    public override void Reset()
     {
         prevHitboxPosition = Vector3.zero;
         hitboxTransform.position = Vector3.zero;
         hitboxCollider.transform.position = Vector3.zero;
         hitboxCollider.transform.localEulerAngles = Vector3.zero;
-    }
-
-    void OnEnable()
-    {
-        prevHitboxPosition = hitboxTransform.position;
-    }
-
-    void OnDisable()
-    {
-        Reset();
+        owner = null;
     }
 
     void OnValidate()
@@ -177,6 +180,11 @@ public class HitboxComponent : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        if (!IsObjectEnabled)
+        {
+            return;
+        }
+
         Color hitboxColor = ColorMap.GetColor(hitboxInfo);
 
         DebugTool.DrawCapsule(hitboxCollider.transform.position, hitboxSize, hitboxDirection, hitboxRotation, hitboxColor);

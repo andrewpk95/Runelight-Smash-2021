@@ -5,7 +5,7 @@ using UnityEngine;
 public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
 {
     private SortedSet<HitboxHitResult> hits = new SortedSet<HitboxHitResult>();
-    private Graph<GameObject> resolvedPairs = new Graph<GameObject>();
+    private DirectedGraph<GameObject> resolvedPairs = new DirectedGraph<GameObject>();
     private HitboxVictimGraph victimGraph = new HitboxVictimGraph();
 
     void FixedUpdate()
@@ -18,15 +18,19 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
     {
         foreach (HitboxHitResult hit in hits)
         {
-            // Debug.Log($"{hit.Attacker.name}'s {hit.AttackerHitbox.name} (id: {hit.AttackerHitboxInfo.id}, groupId: {hit.AttackerHitboxInfo.groupId}) hit {hit.Victim.name}'s {hit.VictimHitbox.name}");
+            // Debug.Log($"{hit.Attacker.name}'s {hit.AttackerHitbox.name} (id: {hit.AttackerHitboxInfo.id}, groupId: {hit.AttackerHitboxInfo.groupId}) hit {hit.Victim.name}'s {hit.VictimHitbox.name} (id: {hit.VictimHitboxInfo.id}, groupId: {hit.VictimHitboxInfo.groupId})");
         }
         foreach (HitboxHitResult hit in hits)
         {
+            if (hit.Attacker == null || hit.Victim == null)
+            {
+                Debug.Log($"[ERROR] {hit.AttackerHitbox.name} (id: {hit.AttackerHitboxInfo.id}, groupId: {hit.AttackerHitboxInfo.groupId}) {hit.VictimHitbox.name} (id: {hit.VictimHitboxInfo.id}, groupId: {hit.VictimHitboxInfo.groupId}");
+            }
             if (resolvedPairs.IsConnected(hit.Attacker, hit.Victim))
             {
                 continue;
             }
-            if (victimGraph.IsConnected(hit.Attacker, hit.Victim, hit.AttackerHitboxInfo.groupId))
+            if (victimGraph.IsConnected(hit.AttackerHitbox, hit.VictimHitbox))
             {
                 continue;
             }
@@ -34,7 +38,7 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
 
             // TODO: If resolve returns false (ex. An attack out-prioritizes the other and must hit the other's hitbox), do not add edge
             resolvedPairs.AddEdge(hit.Attacker, hit.Victim);
-            victimGraph.AddEdge(hit.Attacker, hit.Victim, hit.AttackerHitboxInfo.groupId);
+            victimGraph.AddEdge(hit.AttackerHitbox, hit.VictimHitbox);
         }
     }
 
@@ -55,6 +59,7 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
             case (HitboxType.Attack, HitboxType.Projectile):
             case (HitboxType.Projectile, HitboxType.Projectile):
                 Debug.Log($"[Attack Clash Event] {hit.Attacker.name} (id: {hit.AttackerHitboxInfo.id}, groupId: {hit.AttackerHitboxInfo.groupId}) clashed with {hit.Victim.name} (id: {hit.VictimHitboxInfo.id}, groupId: {hit.VictimHitboxInfo.groupId}), one may out-prioritize the other");
+                victimGraph.AddEdge(hit.VictimHitbox, hit.AttackerHitbox);
                 break;
             case (HitboxType.Attack, HitboxType.Shield):
             case (HitboxType.Projectile, HitboxType.Shield):
@@ -96,8 +101,8 @@ public class HitboxResolverComponent : Singleton<HitboxResolverComponent>
         hits.Add(hit);
     }
 
-    public void ResetVictim(GameObject attacker, int groupId)
+    public void ResetVictimList(GameObject attacker)
     {
-        victimGraph.RemoveNode(attacker, groupId);
+        victimGraph.RemoveAllEdges(attacker);
     }
 }

@@ -4,10 +4,5 @@ using UnityEngine;
 
 public class HitboxFactory : ObjectPool<HitboxComponent>
 {
-    protected override void ResetObject(HitboxComponent obj)
-    {
-        base.ResetObject(obj);
 
-        obj.Reset();
-    }
 }
