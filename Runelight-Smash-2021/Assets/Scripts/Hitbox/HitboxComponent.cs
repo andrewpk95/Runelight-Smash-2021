@@ -2,158 +2,191 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CapsuleCollider2D))]
-
-public class HitboxComponent : MonoBehaviour
+public class HitboxComponent : Poolable
 {
     // Required Variables
+    public HitboxInfo hitboxInfo;
+
+    // Public Hitbox States
+    public GameObject owner;
+    public Vector2 hitboxPosition;
+    public Vector2 hitboxSize;
+    public CapsuleDirection2D hitboxDirection;
+    public float hitboxRotation;
+    public bool isHitboxEnabled;
+
+    // Hitbox variables
+    public Transform hitboxTransform;
+    public CapsuleCollider2D hitboxCollider;
+
+    // Hitbox Interpolation variables
     [SerializeField]
-    private HitboxInfo hitboxInfo;
-
-    // Public Hitbox Collision States
-    public HashSet<GameObject> hitObjects = new HashSet<GameObject>();
-    public HashSet<GameObject> victims = new HashSet<GameObject>();
-
-    // Hitbox Collision variables
-    private GameObject attacker;
-    private CapsuleCollider2D hitboxCollider;
-    private ContactFilter2D contactFilter = new ContactFilter2D();
-    private Collider2D[] colliders = new Collider2D[100];
+    private Vector3 prevHitboxPosition;
+    private Vector3 currentHitboxPosition;
 
     void Start()
     {
+        RefreshHitbox();
         // TODO: Get actual hitbox owner
-        attacker = transform.root.gameObject;
-
-        hitboxCollider = GetComponent<CapsuleCollider2D>();
-        contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
-        contactFilter.useTriggers = true;
-
-        UpdateHitboxLayer();
+        owner = transform.root.gameObject;
     }
 
-    void FixedUpdate()
+    protected override void Tick()
     {
+        // TODO: Get actual hitbox owner
+        owner = transform.root.gameObject;
+
+        UpdateHitboxShape();
+
         if (!hitboxInfo.isHitboxType())
         {
             return;
         }
-        CheckHurtboxCollision();
-        SendCollisionResults();
+
+        InterpolateHitbox();
     }
 
-    private void CheckHurtboxCollision()
+    private void InterpolateHitbox()
     {
-        int count = Physics2D.OverlapCollider(hitboxCollider, contactFilter, colliders);
-
-        for (int i = 0; i < count; i++)
+        if (hitboxInfo.isCapsule)
         {
-            Collider2D col = colliders[i];
-            GameObject hitObject = col.gameObject;
-
-            hitObjects.Add(hitObject);
+            return;
         }
+
+        if (prevHitboxPosition == Vector3.zero)
+        {
+            prevHitboxPosition = hitboxTransform.position;
+        }
+
+        currentHitboxPosition = hitboxTransform.position;
+        Vector3 lengthVector = currentHitboxPosition - prevHitboxPosition;
+        Vector3 centerPos = (prevHitboxPosition + currentHitboxPosition) / 2;
+        float length = lengthVector.magnitude;
+        float thickness = hitboxInfo.radius * 2.0f;
+
+        hitboxPosition = centerPos;
+        hitboxRotation = Vector2.SignedAngle(Vector2.up, lengthVector);
+        hitboxSize = new Vector2(thickness, thickness + length);
+        hitboxCollider.transform.position = hitboxPosition;
+        hitboxCollider.transform.eulerAngles = Vector3.forward * hitboxRotation;
+        hitboxCollider.size = hitboxSize;
+
+        prevHitboxPosition = currentHitboxPosition;
     }
 
-    private void SendCollisionResults()
+    private void RefreshHitbox()
     {
-        foreach (GameObject hitObject in hitObjects)
+        UpdateHitboxShape();
+        UpdateHitboxLayer();
+    }
+
+    private void UpdateHitboxShape()
+    {
+        float thickness = hitboxInfo.radius * 2.0f;
+
+        hitboxTransform.localPosition = (Vector3)hitboxInfo.position;
+        hitboxPosition = hitboxTransform.position;
+        hitboxRotation = hitboxTransform.eulerAngles.z;
+        hitboxSize = new Vector2(thickness, thickness + hitboxInfo.length);
+        hitboxCollider.transform.position = hitboxPosition;
+        hitboxCollider.transform.eulerAngles = Vector3.forward * hitboxRotation;
+        hitboxCollider.size = hitboxSize;
+
+        if (hitboxInfo.isCapsule)
         {
-            // TODO: Get actual hitbox/hurtbox owner
-            GameObject owner = hitObject.transform.root.gameObject;
-
-            if (attacker == owner || victims.Contains(owner))
-            {
-                continue;
-            }
-
-            HitboxComponent hitboxComponent = hitObject.GetComponent<HitboxComponent>();
-
-            if (!hitboxComponent)
-            {
-                continue;
-            }
-
-            HitboxHitResult hit = new HitboxHitResult(attacker, owner, hitboxInfo, hitboxComponent.hitboxInfo);
-
-            HitboxResolverComponent.Instance.AddHitResult(hit);
-            victims.Add(owner);
+            hitboxDirection = hitboxInfo.direction;
+            hitboxSize = hitboxInfo.direction == CapsuleDirection2D.Vertical ? new Vector2(thickness, thickness + hitboxInfo.length) : new Vector2(thickness + hitboxInfo.length, thickness);
+            hitboxCollider.direction = hitboxDirection;
+            hitboxCollider.size = hitboxSize;
+        }
+        else
+        {
+            hitboxSize = Vector2.one * thickness;
+            hitboxCollider.size = hitboxSize;
         }
     }
 
     private void UpdateHitboxLayer()
     {
+        int hitboxLayer = 0;
+
+        if (!IsObjectEnabled)
+        {
+            hitboxCollider.gameObject.layer = LayerMask.NameToLayer("Default");
+            return;
+        }
+
         switch (hitboxInfo.type)
         {
             case HitboxType.Attack:
-                gameObject.layer = LayerMask.NameToLayer("AttackHitbox");
+                hitboxLayer = LayerMask.NameToLayer("AttackHitbox");
                 break;
             case HitboxType.Projectile:
-                gameObject.layer = LayerMask.NameToLayer("ProjectileHitbox");
+                hitboxLayer = LayerMask.NameToLayer("ProjectileHitbox");
                 break;
             case HitboxType.Grab:
-                gameObject.layer = LayerMask.NameToLayer("GrabHitbox");
+                hitboxLayer = LayerMask.NameToLayer("GrabHitbox");
                 break;
             case HitboxType.Collision:
-                gameObject.layer = LayerMask.NameToLayer("CollisionHitbox");
+                hitboxLayer = LayerMask.NameToLayer("CollisionHitbox");
                 break;
             case HitboxType.Wind:
-                gameObject.layer = LayerMask.NameToLayer("WindHitbox");
+                hitboxLayer = LayerMask.NameToLayer("WindHitbox");
                 break;
             case HitboxType.Damageable:
-                gameObject.layer = LayerMask.NameToLayer("DamageableHitbox");
+                hitboxLayer = LayerMask.NameToLayer("DamageableHitbox");
                 break;
             case HitboxType.Invincible:
-                gameObject.layer = LayerMask.NameToLayer("InvincibleHitbox");
+                hitboxLayer = LayerMask.NameToLayer("InvincibleHitbox");
                 break;
             case HitboxType.Intangible:
-                gameObject.layer = LayerMask.NameToLayer("IntangibleHitbox");
+                hitboxLayer = LayerMask.NameToLayer("IntangibleHitbox");
                 break;
             case HitboxType.Reflective:
-                gameObject.layer = LayerMask.NameToLayer("ReflectiveHitbox");
+                hitboxLayer = LayerMask.NameToLayer("ReflectiveHitbox");
                 break;
             case HitboxType.Shield:
-                gameObject.layer = LayerMask.NameToLayer("ShieldHitbox");
+                hitboxLayer = LayerMask.NameToLayer("ShieldHitbox");
                 break;
             case HitboxType.Absorbing:
-                gameObject.layer = LayerMask.NameToLayer("AbsorbingHitbox");
+                hitboxLayer = LayerMask.NameToLayer("AbsorbingHitbox");
                 break;
             default:
                 break;
         }
+
+        hitboxCollider.gameObject.layer = hitboxLayer;
     }
 
     public void SetHitboxInfo(HitboxInfo hitboxInfo)
     {
         this.hitboxInfo = hitboxInfo;
-        UpdateHitboxLayer();
+        RefreshHitbox();
     }
 
-    public void Reset()
+    public override void Reset()
     {
-        hitObjects.Clear();
-        victims.Clear();
-    }
-
-    void OnDisable()
-    {
-        Reset();
+        prevHitboxPosition = Vector3.zero;
+        hitboxTransform.position = Vector3.zero;
+        hitboxCollider.transform.position = Vector3.zero;
+        hitboxCollider.transform.localEulerAngles = Vector3.zero;
+        owner = null;
     }
 
     void OnValidate()
     {
-        UpdateHitboxLayer();
+        RefreshHitbox();
     }
 
     void OnDrawGizmos()
     {
-        if (!hitboxCollider)
+        if (!IsObjectEnabled)
         {
-            hitboxCollider = GetComponent<CapsuleCollider2D>();
+            return;
         }
-        CapsuleCollider2D capsule = hitboxCollider;
-        Color hitboxColor = ColorMap.GetColor(hitboxInfo.type);
 
-        DebugTool.DrawCapsule(capsule, hitboxColor);
+        Color hitboxColor = ColorMap.GetColor(hitboxInfo);
+
+        DebugTool.DrawCapsule(hitboxCollider.transform.position, hitboxSize, hitboxDirection, hitboxRotation, hitboxColor);
     }
 }

@@ -6,12 +6,13 @@ public class MockHitboxBehaviour : MonoBehaviour
 {
     public int hitRateFrame = 60;
     public int hitboxDurationFrame = 5;
-    public HitboxInfo hitboxInfo;
+    public int rotationRate = 2500;
+    public List<HitboxInfo> hitboxInfos = new List<HitboxInfo>();
 
     private int hitRateLeft;
     private int hitboxDurationLeft;
 
-    private HitboxComponent hitbox;
+    private List<HitboxComponent> hitboxes = new List<HitboxComponent>();
 
     void Start()
     {
@@ -25,10 +26,17 @@ public class MockHitboxBehaviour : MonoBehaviour
 
         if (hitRateLeft == 0)
         {
-            hitbox = HitboxFactory.Instance.GetObject();
-            hitbox.gameObject.transform.SetParent(this.gameObject.transform);
-            hitbox.gameObject.transform.localPosition = Vector3.zero;
-            hitbox.SetHitboxInfo(hitboxInfo);
+            foreach (HitboxInfo hitboxInfo in hitboxInfos)
+            {
+                HitboxComponent hitbox = HitboxFactory.Instance.GetObject();
+
+                hitbox.gameObject.transform.SetParent(this.gameObject.transform);
+                hitbox.gameObject.transform.localPosition = Vector3.zero;
+                hitbox.SetHitboxInfo(hitboxInfo);
+
+                hitboxes.Add(hitbox);
+            }
+
         }
         else if (hitRateLeft < 0)
         {
@@ -36,11 +44,19 @@ public class MockHitboxBehaviour : MonoBehaviour
 
             if (hitboxDurationLeft <= 0)
             {
-                HitboxFactory.Instance.ReturnObject(hitbox);
-                hitbox = null;
+                HitboxResolverComponent.Instance.ResetVictimList(transform.root.gameObject);
+
+                foreach (HitboxComponent hitbox in hitboxes)
+                {
+                    HitboxFactory.Instance.ReturnObject(hitbox);
+                }
+                hitboxes.Clear();
+
                 hitRateLeft += hitRateFrame;
                 hitboxDurationLeft += hitboxDurationFrame;
             }
         }
+
+        transform.Rotate(Vector3.forward * rotationRate * Time.fixedDeltaTime);
     }
 }

@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<T> : Singleton<ObjectPool<T>> where T : MonoBehaviour
+public class ObjectPool<T> : Singleton<ObjectPool<T>> where T : Poolable
 {
+    public static int id = 0;
+
     [SerializeField]
     protected GameObject poolingObject;
 
@@ -33,21 +35,27 @@ public class ObjectPool<T> : Singleton<ObjectPool<T>> where T : MonoBehaviour
     {
         T obj = Instantiate(poolingObject).GetComponent<T>();
 
+        obj.name = $"{id}";
+        id++;
         ResetObject(obj);
         return obj;
     }
 
     protected virtual void ResetObject(T obj)
     {
-        obj.gameObject.SetActive(false);
+        obj.SetEnabled(false);
+        obj.Reset();
         obj.transform.SetParent(this.transform);
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localEulerAngles = Vector3.zero;
+        obj.transform.localScale = Vector3.one;
     }
 
     public T GetObject()
     {
         T obj = objectPool.Count > 0 ? objectPool.Dequeue() : CreateObject();
 
-        obj.gameObject.SetActive(true);
+        obj.SetEnabled(true);
         obj.transform.SetParent(null);
 
         return obj;

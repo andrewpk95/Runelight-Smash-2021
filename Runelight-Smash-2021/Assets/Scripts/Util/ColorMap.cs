@@ -21,18 +21,18 @@ public static class ColorMap
     public static Color yellowHurtbox = new Color(0.8f, 0.8f, 0.0f, ALPHA);
     public static Color cyanHurtbox = new Color(0.3f, 0.75f, 1.0f, ALPHA);
 
-    public static Color GetColor(HitboxType type)
+    public static Color GetColor(HitboxInfo info)
     {
-        switch (type)
+        switch (info.type)
         {
             case HitboxType.Attack:
-                return redHitbox;
+                return redHitbox * (5 - info.id) / 5;
             case HitboxType.Grab:
                 return purpleHitbox;
             case HitboxType.Projectile:
-                return orangeHitbox;
+                return orangeHitbox * (5 - info.id) / 5;
             case HitboxType.Wind:
-                return blueHitbox;
+                return blueHitbox * (5 - info.id) / 5;
             case HitboxType.Collision:
                 return grayHitbox;
             case HitboxType.Damageable:

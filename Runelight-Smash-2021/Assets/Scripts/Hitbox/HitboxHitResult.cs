@@ -3,32 +3,100 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct HitboxHitResult : IEquatable<HitboxHitResult>
+public struct HitboxHitResult : IComparable<HitboxHitResult>
 {
-    public GameObject attacker1;
-    public GameObject attacker2;
+    public GameObject Attacker { get { return attacker.owner; } }
+    public GameObject Victim { get { return victim.owner; } }
+    public HitboxComponent AttackerHitbox { get { return attacker; } }
+    public HitboxComponent VictimHitbox { get { return victim; } }
+    public HitboxInfo AttackerHitboxInfo { get { return attacker.hitboxInfo; } }
+    public HitboxInfo VictimHitboxInfo { get { return victim.hitboxInfo; } }
 
-    public HitboxInfo hitbox1;
-    public HitboxInfo hitbox2;
+    private HitboxComponent attacker;
+    private HitboxComponent victim;
 
-    public HitboxHitResult(GameObject attacker1, GameObject attacker2, HitboxInfo hitbox1, HitboxInfo hitbox2)
+    public HitboxHitResult(HitboxComponent attacker, HitboxComponent victim)
     {
-        this.attacker1 = attacker1;
-        this.attacker2 = attacker2;
-        this.hitbox1 = hitbox1;
-        this.hitbox2 = hitbox2;
+        // Sorts attacker and victim in a way so that 
+        // attacker with hitbox type comes before attacker with hurtbox type
+        // If both hitbox types are equal (ex. Attack vs Attack should clash)
+        // sort attacker with lower hashcode so that GetHashCode() returns consistently with same value
+        int result = attacker.hitboxInfo.CompareTo(victim.hitboxInfo);
+
+        if (result < 0)
+        {
+            this.attacker = attacker;
+            this.victim = victim;
+        }
+        else if (result > 0)
+        {
+            this.attacker = victim;
+            this.victim = attacker;
+        }
+        else
+        {
+            if (attacker.owner.GetHashCode() < victim.owner.GetHashCode())
+            {
+                this.attacker = attacker;
+                this.victim = victim;
+            }
+            else
+            {
+                this.attacker = victim;
+                this.victim = attacker;
+            }
+        }
     }
 
-    public bool Equals(HitboxHitResult other)
+    public int CompareTo(HitboxHitResult other)
     {
-        bool areAttackersEqual = (this.attacker1 == other.attacker1 && this.attacker2 == other.attacker2) || (this.attacker1 == other.attacker2 && this.attacker2 == other.attacker1);
-        bool areHitboxInfosEqual = (this.hitbox1.GetHashCode() == other.hitbox1.GetHashCode() && this.hitbox2.GetHashCode() == other.hitbox2.GetHashCode()) || (this.hitbox1.GetHashCode() == other.hitbox2.GetHashCode() && this.hitbox2.GetHashCode() == other.hitbox1.GetHashCode());
+        int result = this.VictimHitboxInfo.CompareTo(other.VictimHitboxInfo);
 
-        return areAttackersEqual && areHitboxInfosEqual;
+        if (result != 0)
+        {
+            return result;
+        }
+
+        result = this.AttackerHitboxInfo.CompareTo(other.AttackerHitboxInfo);
+
+        if (result != 0)
+        {
+            return result;
+        }
+
+        result = other.Attacker.GetHashCode() - this.Attacker.GetHashCode();
+
+        if (result != 0)
+        {
+            return result;
+        }
+
+        result = other.Victim.GetHashCode() - this.Victim.GetHashCode();
+
+        if (result != 0)
+        {
+            return result;
+        }
+
+        result = other.AttackerHitbox.GetHashCode() - this.AttackerHitbox.GetHashCode();
+
+        if (result != 0)
+        {
+            return result;
+        }
+
+        result = other.VictimHitbox.GetHashCode() - this.VictimHitbox.GetHashCode();
+
+        if (result != 0)
+        {
+            return result;
+        }
+
+        return 0;
     }
 
     public override int GetHashCode()
     {
-        return this.attacker1.GetHashCode() * this.attacker2.GetHashCode() + this.hitbox1.GetHashCode() * this.hitbox2.GetHashCode();
+        return (17 * this.Attacker.GetHashCode() + 23 * this.Victim.GetHashCode()) - (17 * this.AttackerHitbox.GetHashCode() + 23 * this.VictimHitbox.GetHashCode());
     }
 }
