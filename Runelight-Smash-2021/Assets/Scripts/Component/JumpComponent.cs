@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(AirMovementComponent))]
 [RequireComponent(typeof(SlopeComponent))]
-[RequireComponent(typeof(JoystickComponent))]
+[RequireComponent(typeof(InputComponent))]
 [RequireComponent(typeof(VelocityComponent))]
 [RequireComponent(typeof(GravityComponent))]
 
@@ -22,7 +22,7 @@ public class JumpComponent : MonoBehaviour
     // Required Components
     private AirMovementComponent airMovementComponent;
     private SlopeComponent slopeComponent;
-    private JoystickComponent joystickComponent;
+    private InputComponent inputComponent;
     private VelocityComponent velocityComponent;
     private GravityComponent gravityComponent;
 
@@ -31,7 +31,6 @@ public class JumpComponent : MonoBehaviour
     public bool isJumping;
 
     // Jump Variables
-    private JumpEventType jumpEventType = JumpEventType.None;
     private int doubleJumpLeft;
 
     // Events
@@ -42,7 +41,7 @@ public class JumpComponent : MonoBehaviour
         airMovementComponent = GetComponent<AirMovementComponent>();
         gravityComponent = GetComponent<GravityComponent>();
         slopeComponent = GetComponent<SlopeComponent>();
-        joystickComponent = GetComponent<JoystickComponent>();
+        inputComponent = GetComponent<InputComponent>();
         velocityComponent = GetComponent<VelocityComponent>();
 
         slopeComponent.onLandEvent.AddListener(OnLand);
@@ -56,34 +55,38 @@ public class JumpComponent : MonoBehaviour
 
     private void ApplyJumpMovement()
     {
-        switch (jumpEventType)
+        if (inputComponent.actionInput.type != ActionType.Jump)
         {
-            case JumpEventType.Start:
-                isJumpSquatting = true;
+            return;
+        }
+
+        switch (inputComponent.actionInput.strength)
+        {
+            case ActionStrength.None:
+                if (!slopeComponent.isGrounded)
+                {
+                    DoubleJump();
+                }
+                else
+                {
+                    isJumpSquatting = true;
+                }
                 break;
-            case JumpEventType.ShortHop:
+            case ActionStrength.Weak:
                 if (!slopeComponent.isGrounded)
                 {
                     break;
                 }
                 ShortHop();
                 break;
-            case JumpEventType.FullHop:
+            case ActionStrength.Strong:
                 if (!slopeComponent.isGrounded)
                 {
                     break;
                 }
                 FullHop();
                 break;
-            case JumpEventType.DoubleJump:
-                if (slopeComponent.isGrounded)
-                {
-                    break;
-                }
-                DoubleJump();
-                break;
         }
-        jumpEventType = JumpEventType.None;
     }
 
     private void ShortHop()
@@ -108,7 +111,7 @@ public class JumpComponent : MonoBehaviour
 
     private void Jump(float jumpHeight)
     {
-        float targetJumpSpeed = joystickComponent.joystick.x > 0 ? Mathf.Max(joystickComponent.joystick.x * airMovementComponent.maxAirSpeed, velocityComponent.velocity.x) : Mathf.Min(joystickComponent.joystick.x * airMovementComponent.maxAirSpeed, velocityComponent.velocity.x);
+        float targetJumpSpeed = inputComponent.joystick.x > 0 ? Mathf.Max(inputComponent.joystick.x * airMovementComponent.maxAirSpeed, velocityComponent.velocity.x) : Mathf.Min(inputComponent.joystick.x * airMovementComponent.maxAirSpeed, velocityComponent.velocity.x);
         float jumpSpeed = canJumpChangeDirection ? targetJumpSpeed : velocityComponent.velocity.x;
         Vector2 jumpVelocity = new Vector2(jumpSpeed, Mathf.Sqrt(2.0f * gravityComponent.gravity * jumpHeight));
         float jumpAngle = Vector2.Angle(Vector2.right, jumpVelocity);
@@ -144,10 +147,5 @@ public class JumpComponent : MonoBehaviour
     {
         doubleJumpLeft = maxDoubleJumpCount;
         isJumping = false;
-    }
-
-    public void SetJumpInput(JumpEventType input)
-    {
-        jumpEventType = input;
     }
 }

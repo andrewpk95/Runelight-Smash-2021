@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(AirMovementComponent))]
 [RequireComponent(typeof(GravityComponent))]
-[RequireComponent(typeof(JoystickComponent))]
+[RequireComponent(typeof(InputComponent))]
 [RequireComponent(typeof(JumpComponent))]
 [RequireComponent(typeof(SlopeComponent))]
 [RequireComponent(typeof(VelocityComponent))]
@@ -19,7 +19,7 @@ public class SlopeStickComponent : MonoBehaviour
     private Rigidbody2D unitRigidbody;
     private AirMovementComponent airMovementComponent;
     private GravityComponent gravityComponent;
-    private JoystickComponent joystickComponent;
+    private InputComponent inputComponent;
     private JumpComponent jumpComponent;
     private SlopeComponent slopeComponent;
     private VelocityComponent velocityComponent;
@@ -34,7 +34,7 @@ public class SlopeStickComponent : MonoBehaviour
         unitRigidbody = GetComponent<Rigidbody2D>();
         airMovementComponent = GetComponent<AirMovementComponent>();
         gravityComponent = GetComponent<GravityComponent>();
-        joystickComponent = GetComponent<JoystickComponent>();
+        inputComponent = GetComponent<InputComponent>();
         jumpComponent = GetComponent<JumpComponent>();
         slopeComponent = GetComponent<SlopeComponent>();
         velocityComponent = GetComponent<VelocityComponent>();

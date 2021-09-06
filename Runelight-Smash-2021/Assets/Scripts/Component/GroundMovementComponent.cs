@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SlopeComponent))]
-[RequireComponent(typeof(JoystickComponent))]
+[RequireComponent(typeof(InputComponent))]
 [RequireComponent(typeof(VelocityComponent))]
 
 public class GroundMovementComponent : MonoBehaviour
@@ -18,7 +18,7 @@ public class GroundMovementComponent : MonoBehaviour
 
     // Required Components
     private SlopeComponent slopeComponent;
-    private JoystickComponent joystickComponent;
+    private InputComponent inputComponent;
     private VelocityComponent velocityComponent;
 
     // Public Ground Movement State
@@ -26,21 +26,37 @@ public class GroundMovementComponent : MonoBehaviour
 
     // Ground Movement Variables
     public bool isDashStarted = false;
-    private float groundSpeed { get { return isDashing ? maxDashSpeed : Mathf.Abs(joystickComponent.joystick.x) * maxWalkSpeed; } }
+    private float groundSpeed { get { return isDashing ? maxDashSpeed : Mathf.Abs(inputComponent.joystick.x) * maxWalkSpeed; } }
     private float groundAccelerationRate { get { return isDashing ? dashAccelerationRate : walkAccelerationRate; } }
 
     void Start()
     {
         slopeComponent = GetComponent<SlopeComponent>();
-        joystickComponent = GetComponent<JoystickComponent>();
+        inputComponent = GetComponent<InputComponent>();
         velocityComponent = GetComponent<VelocityComponent>();
     }
 
     void FixedUpdate()
     {
+        ProcessInput();
         if (slopeComponent.isGrounded && slopeComponent.canWalkOnSlope)
         {
             ApplyGroundMovement();
+        }
+    }
+
+    private void ProcessInput()
+    {
+        if (inputComponent.isDashStarted())
+        {
+            Debug.Log("Dash!");
+            isDashing = true;
+        }
+        else if (inputComponent.isDashCanceled())
+        {
+            Debug.Log("Dash Stop");
+            isDashing = false;
+            isDashStarted = false;
         }
     }
 
@@ -48,16 +64,16 @@ public class GroundMovementComponent : MonoBehaviour
     {
         if (isDashing && !isDashStarted)
         {
-            Vector2 normalized = velocityComponent.velocity.normalized;
+            Vector2 normalized = inputComponent.joystick.normalized;
 
-            velocityComponent.velocity.x = initialDashSpeed * (joystickComponent.joystick.x > 0 ? Mathf.Abs(normalized.x) : -Mathf.Abs(normalized.x));
+            velocityComponent.velocity.x = initialDashSpeed * (inputComponent.joystick.x > 0 ? Mathf.Abs(normalized.x) : -Mathf.Abs(normalized.x));
             velocityComponent.velocity.y = initialDashSpeed * normalized.y;
 
             isDashStarted = true;
         }
 
-        float speed = Mathf.Sign(joystickComponent.joystick.x) * groundSpeed;
-        float acceleration = Mathf.Abs(joystickComponent.joystick.x) > 0 ? groundAccelerationRate : groundDecelerationRate;
+        float speed = Mathf.Sign(inputComponent.joystick.x) * groundSpeed;
+        float acceleration = Mathf.Abs(inputComponent.joystick.x) > 0 ? groundAccelerationRate : groundDecelerationRate;
 
         if (slopeComponent.isOnSlope)
         {
@@ -81,35 +97,6 @@ public class GroundMovementComponent : MonoBehaviour
         {
             velocityComponent.velocity = Vector2.zero;
             return;
-        }
-    }
-
-    public void SetDashInput(float direction)
-    {
-        if (direction < 0)
-        {
-            if (!isDashing)
-            {
-                Debug.Log("Dash Left");
-            }
-            isDashing = true;
-        }
-        else if (direction > 0)
-        {
-            if (!isDashing)
-            {
-                Debug.Log("Dash Right");
-            }
-            isDashing = true;
-        }
-        else
-        {
-            if (isDashing)
-            {
-                Debug.Log("Stop");
-                isDashing = false;
-                isDashStarted = false;
-            }
         }
     }
 }

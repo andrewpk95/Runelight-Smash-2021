@@ -7,7 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(AirMovementComponent))]
 [RequireComponent(typeof(GravityComponent))]
 [RequireComponent(typeof(GroundMovementComponent))]
-[RequireComponent(typeof(JoystickComponent))]
 [RequireComponent(typeof(JumpComponent))]
 [RequireComponent(typeof(SlopeComponent))]
 [RequireComponent(typeof(SlopeStickComponent))]
