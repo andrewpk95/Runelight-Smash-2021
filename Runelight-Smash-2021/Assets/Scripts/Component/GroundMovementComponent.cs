@@ -49,12 +49,12 @@ public class GroundMovementComponent : MonoBehaviour
     {
         if (inputComponent.isDashStarted())
         {
-            Debug.Log("Dash!");
+            // Debug.Log("Dash!");
             isDashing = true;
         }
         else if (inputComponent.isDashCanceled())
         {
-            Debug.Log("Dash Stop");
+            // Debug.Log("Dash Stop");
             isDashing = false;
             isDashStarted = false;
         }

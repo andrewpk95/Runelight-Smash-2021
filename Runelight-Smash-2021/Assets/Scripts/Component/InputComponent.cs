@@ -8,6 +8,10 @@ public class InputComponent : MonoBehaviour
 
     // Public Continuous Input State
     public Vector2 joystick;
+    public bool isShieldKeyDown;
+    public bool isAttackKeyDown;
+    public bool isSpecialKeyDown;
+    public bool isJumpKeyDown;
 
     // Public Action Input State
     public FighterInputAction actionInput;

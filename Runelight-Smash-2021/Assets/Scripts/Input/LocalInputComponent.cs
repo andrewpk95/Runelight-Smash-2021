@@ -50,6 +50,16 @@ public class LocalInputComponent : MonoBehaviour
         }
     }
 
+    public void HandleJumpHold(InputAction.CallbackContext input)
+    {
+        bool isJumpKeyDown = input.control.IsActuated();
+
+        if (input.performed || input.canceled)
+        {
+            inputComponent.isJumpKeyDown = isJumpKeyDown;
+        }
+    }
+
     public void HandleGroundMovement(InputAction.CallbackContext input)
     {
         if (input.performed)
@@ -102,11 +112,48 @@ public class LocalInputComponent : MonoBehaviour
     {
         if (input.performed)
         {
-            actionQueue.Enqueue(new FighterInputAction(ActionType.Shield, ActionStrength.Weak, true));
+            inputComponent.isShieldKeyDown = true;
         }
         if (input.canceled)
         {
-            actionQueue.Enqueue(new FighterInputAction(ActionType.Shield, ActionStrength.Weak, false));
+            inputComponent.isShieldKeyDown = false;
+        }
+    }
+
+    public void HandleAttack(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            AttackInputStruct value = input.ReadValue<AttackInputStruct>();
+            Debug.Log($"Attack Performed {value.joystick} {value.button}");
+        }
+    }
+
+    public void HandleSmash(InputAction.CallbackContext input)
+    {
+        AttackInputStruct value = input.ReadValue<AttackInputStruct>();
+
+        if (input.started)
+        {
+            Debug.Log($"Charging {value.joystick} {value.button}");
+        }
+        if (input.performed)
+        {
+            Debug.Log($"Release Smash Attack {value.joystick} {value.button}");
+        }
+    }
+
+    public void HandleRightJoystick(InputAction.CallbackContext input)
+    {
+        Vector2 direction = input.ReadValue<Vector2>();
+
+        if (input.performed)
+        {
+            Debug.Log($"Right Joystick performed: {direction}");
+        }
+        if (input.canceled)
+        {
+            Debug.Log($"Right Joystick canceled");
         }
     }
 
