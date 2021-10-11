@@ -129,6 +129,18 @@ public class LocalInputComponent : MonoBehaviour
         }
     }
 
+    public void HandleAttackHold(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            inputComponent.isAttackKeyDown = true;
+        }
+        if (input.canceled)
+        {
+            inputComponent.isAttackKeyDown = false;
+        }
+    }
+
     public void HandleSmash(InputAction.CallbackContext input)
     {
         AttackInputStruct value = input.ReadValue<AttackInputStruct>();
@@ -149,6 +161,18 @@ public class LocalInputComponent : MonoBehaviour
         {
             AttackInputStruct value = input.ReadValue<AttackInputStruct>();
             Debug.Log($"Special Performed {value.joystick} {value.button}");
+        }
+    }
+
+    public void HandleSpecialHold(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            inputComponent.isSpecialKeyDown = true;
+        }
+        if (input.canceled)
+        {
+            inputComponent.isSpecialKeyDown = false;
         }
     }
 

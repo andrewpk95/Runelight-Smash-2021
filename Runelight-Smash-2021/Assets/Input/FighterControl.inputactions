@@ -102,7 +102,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Attack(Button)",
+                    "name": "Attack Hold",
                     "type": "Button",
                     "id": "8e7cbbcd-77c0-4e86-9590-226ddc380786",
                     "expectedControlType": "Button",
@@ -110,7 +110,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Special(Button)",
+                    "name": "Special Hold",
                     "type": "Button",
                     "id": "ce88b1c8-f9a8-4cd8-ab00-5eb771b22210",
                     "expectedControlType": "Button",
@@ -382,22 +382,44 @@
                 {
                     "name": "",
                     "id": "339ac88d-11b6-478c-ae75-6aa55a1bc54b",
-                    "path": "<XInputController>/buttonEast",
-                    "interactions": "Press",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
                     "processors": "",
                     "groups": "XBox",
-                    "action": "Attack(Button)",
+                    "action": "Attack Hold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3998ecd1-63bb-4a19-be66-07a65cfbeb03",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Attack Hold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "d9f6fa90-5944-4b81-9969-f0b7694dbab4",
-                    "path": "<XInputController>/buttonSouth",
-                    "interactions": "Press",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
                     "processors": "",
                     "groups": "XBox",
-                    "action": "Special(Button)",
+                    "action": "Special Hold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "802c3687-0403-406f-8635-fbca33e6d2ba",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Special Hold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
