@@ -6,6 +6,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(VelocityComponent))]
+[RequireComponent(typeof(InputComponent))]
 
 public class SlopeComponent : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class SlopeComponent : MonoBehaviour
     private CapsuleCollider2D capsule;
     private Rigidbody2D unitRigidbody;
     private VelocityComponent velocityComponent;
+    private InputComponent inputComponent;
 
     // Public Slope States 
     // TODO: Change to property getter for variables that need to be protected
@@ -56,12 +58,14 @@ public class SlopeComponent : MonoBehaviour
         unitRigidbody = GetComponent<Rigidbody2D>();
         capsule = GetComponent<CapsuleCollider2D>();
         velocityComponent = GetComponent<VelocityComponent>();
+        inputComponent = GetComponent<InputComponent>();
 
         StopFallThrough();
     }
 
     void FixedUpdate()
     {
+        ProcessInput();
         if (fallThroughTimeleft > 0)
         {
             fallThroughTimeleft--;
@@ -76,6 +80,14 @@ public class SlopeComponent : MonoBehaviour
             CheckPlatform();
             CheckGround();
             ClearCollisionVariables();
+        }
+    }
+
+    private void ProcessInput()
+    {
+        if (inputComponent.actionInput.type == ActionType.FallThrough)
+        {
+            FallThrough();
         }
     }
 

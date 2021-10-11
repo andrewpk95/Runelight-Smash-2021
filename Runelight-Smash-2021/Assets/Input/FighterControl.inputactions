@@ -14,6 +14,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "JumpHold",
+                    "type": "Button",
+                    "id": "537c977c-0d90-4da6-a5e7-0471da35e3d5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Movement",
                     "type": "Value",
                     "id": "60f8cacf-117c-45a1-9e7f-7f0814709625",
@@ -51,7 +59,7 @@
                     "id": "9c3a1a97-c4c9-4da7-8045-ee124a8fcc32",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "DoubleTapButton"
+                    "interactions": ""
                 },
                 {
                     "name": "Shield",
@@ -94,7 +102,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Attack(Button)",
+                    "name": "Attack Hold",
                     "type": "Button",
                     "id": "8e7cbbcd-77c0-4e86-9590-226ddc380786",
                     "expectedControlType": "Button",
@@ -102,7 +110,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Special(Button)",
+                    "name": "Special Hold",
                     "type": "Button",
                     "id": "ce88b1c8-f9a8-4cd8-ab00-5eb771b22210",
                     "expectedControlType": "Button",
@@ -110,9 +118,41 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Attack",
+                    "type": "Value",
+                    "id": "03278759-b763-4037-941c-fc85befdd1e1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Smash",
                     "type": "Value",
                     "id": "a3970728-888c-4896-942b-e48ecc10a096",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Special",
+                    "type": "Value",
+                    "id": "ffacc37c-0ed8-41f2-b2c8-f41c1c2bb640",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Special Smash",
+                    "type": "Value",
+                    "id": "ec89e42b-8817-4352-ab59-6af3321fa5d6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RightJoystick",
+                    "type": "Value",
+                    "id": "696f186f-8894-44b0-8bb5-ad93385c3a15",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
@@ -342,33 +382,44 @@
                 {
                     "name": "",
                     "id": "339ac88d-11b6-478c-ae75-6aa55a1bc54b",
-                    "path": "<XInputController>/buttonEast",
-                    "interactions": "Press",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
                     "processors": "",
                     "groups": "XBox",
-                    "action": "Attack(Button)",
+                    "action": "Attack Hold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3998ecd1-63bb-4a19-be66-07a65cfbeb03",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Attack Hold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "d9f6fa90-5944-4b81-9969-f0b7694dbab4",
-                    "path": "<XInputController>/buttonSouth",
-                    "interactions": "Press",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
                     "processors": "",
                     "groups": "XBox",
-                    "action": "Special(Button)",
+                    "action": "Special Hold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "ad8601d3-e464-404a-b51d-630a1f7474af",
-                    "path": "<Gamepad>/rightStick",
+                    "id": "802c3687-0403-406f-8635-fbca33e6d2ba",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "XBox",
-                    "action": "Smash",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Special Hold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -420,12 +471,188 @@
                     "name": "",
                     "id": "5a81929b-5ad7-4aaa-8247-6039e0f87464",
                     "path": "<Keyboard>/s",
-                    "interactions": "",
+                    "interactions": "DoubleTapButton",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
                     "action": "FallThrough",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "742ded93-abbd-497e-9bfe-3a0cba15cc5b",
+                    "path": "<XInputController>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "JumpHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f72d6b7f-91c8-4393-abb6-dc9bd6f5dcf6",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "JumpHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6a235ebb-f433-4aae-82b3-5527102e3862",
+                    "path": "<XInputController>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "JumpHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Gamepad Attack",
+                    "id": "d8ea66cb-eaed-40c2-9506-04c6fcda60d4",
+                    "path": "GamepadAttack",
+                    "interactions": "GamepadAttack(maxTapDuration=0.3)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "joystick",
+                    "id": "ea0e7619-da81-4775-9ca0-88b797a84f73",
+                    "path": "<XInputController>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "81a9ec52-a37c-42bb-8ea6-7c32cae2ceff",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Gamepad Attack",
+                    "id": "f09d7222-afae-4668-a28f-c164776ce1bb",
+                    "path": "GamepadAttack",
+                    "interactions": "GamepadAttack",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Special",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "joystick",
+                    "id": "6eab556d-7b52-421c-aec4-608649392e37",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Special",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "0e94d01c-24b5-4632-b467-0889331d9e19",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Special",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Tap Input",
+                    "id": "f1c88edb-b210-4b49-8742-aae7a42697f8",
+                    "path": "GamepadAttack",
+                    "interactions": "GamepadSmash",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Smash",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "joystick",
+                    "id": "0e00842b-3519-41b1-be60-d9cfd7eeaca8",
+                    "path": "<XInputController>/leftStick",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "XBox",
+                    "action": "Smash",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "fa339b75-b938-467b-a140-78dd8657b22d",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Smash",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "6fa5669a-764e-4c5e-a66e-b3fce8fe443a",
+                    "path": "<XInputController>/rightStick",
+                    "interactions": "GamepadFlick",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "RightJoystick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Tap Input",
+                    "id": "6cac8251-65c1-4528-9a51-9d05bc4908bd",
+                    "path": "GamepadAttack",
+                    "interactions": "GamepadSmash",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Special Smash",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "joystick",
+                    "id": "df7fc175-e7a3-4a30-95d6-6aeb55d93d6c",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Special Smash",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "bc21fade-39af-4c55-81f2-c7dcd96dbdc4",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Special Smash",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

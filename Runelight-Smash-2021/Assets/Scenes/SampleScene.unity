@@ -6119,23 +6119,21 @@ GameObject:
   m_Component:
   - component: {fileID: 2025968842}
   - component: {fileID: 2025968843}
-  - component: {fileID: 2025968841}
+  - component: {fileID: 2025968847}
   - component: {fileID: 2025968844}
   - component: {fileID: 2025968846}
-  - component: {fileID: 2025968847}
-  - component: {fileID: 2025968854}
   - component: {fileID: 2025968855}
   - component: {fileID: 2025968856}
   - component: {fileID: 2025968857}
   - component: {fileID: 2025968858}
   - component: {fileID: 2025968859}
-  - component: {fileID: 2025968848}
   - component: {fileID: 2025968852}
   - component: {fileID: 2025968853}
   - component: {fileID: 2025968845}
   - component: {fileID: 2025968850}
   - component: {fileID: 2025968849}
   - component: {fileID: 2025968851}
+  - component: {fileID: 2025968841}
   m_Layer: 8
   m_Name: DummyFighter
   m_TagString: Untagged
@@ -6152,10 +6150,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2025968840}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1100c5662317f34ebbf7286879c1b76, type: 3}
+  m_Script: {fileID: 11500000, guid: bc77c59d50c3e8b4a80ec445e4a0e6f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isShielding: 0
+  joystick: {x: 0, y: 0}
+  isShieldKeyDown: 0
+  isAttackKeyDown: 0
+  isSpecialKeyDown: 0
+  isJumpKeyDown: 0
+  actionInput:
+    type: 0
+    input: {x: 0, y: 0}
+    strength: 0
 --- !u!4 &2025968842
 Transform:
   m_ObjectHideFlags: 0
@@ -6201,8 +6207,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968848}
-        m_TargetAssemblyTypeName: FighterActionHandler, Assembly-CSharp
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
         m_MethodName: HandleJump
         m_Mode: 0
         m_Arguments:
@@ -6217,8 +6223,8 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968848}
-        m_TargetAssemblyTypeName: FighterActionHandler, Assembly-CSharp
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
         m_MethodName: HandleGroundMovement
         m_Mode: 0
         m_Arguments:
@@ -6233,7 +6239,7 @@ MonoBehaviour:
     m_ActionName: Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2025968840}
         m_TargetAssemblyTypeName: KeyboardGroundActionHandler, Assembly-CSharp
         m_MethodName: 
         m_Mode: 1
@@ -6249,7 +6255,7 @@ MonoBehaviour:
     m_ActionName: Player/Crouch[/Keyboard/s]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968844}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
         m_MethodName: HandleDoubleJump
         m_Mode: 0
@@ -6265,7 +6271,7 @@ MonoBehaviour:
     m_ActionName: Airborne/DoubleJump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968844}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
         m_MethodName: HandleAirMovement
         m_Mode: 0
@@ -6281,7 +6287,7 @@ MonoBehaviour:
     m_ActionName: Airborne/Movement[/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968844}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
         m_MethodName: HandleFastFall
         m_Mode: 0
@@ -6297,8 +6303,8 @@ MonoBehaviour:
     m_ActionName: Airborne/FastFall[/Keyboard/s]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968848}
-        m_TargetAssemblyTypeName: FighterActionHandler, Assembly-CSharp
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
         m_MethodName: HandleShield
         m_Mode: 0
         m_Arguments:
@@ -6313,7 +6319,7 @@ MonoBehaviour:
     m_ActionName: Grounded/Shield[/Keyboard/shift]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968844}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
         m_MethodName: HandleAirDodge
         m_Mode: 0
@@ -6329,8 +6335,8 @@ MonoBehaviour:
     m_ActionName: Airborne/AirDodge[/Keyboard/shift]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968848}
-        m_TargetAssemblyTypeName: FighterActionHandler, Assembly-CSharp
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
         m_MethodName: HandleGrab
         m_Mode: 0
         m_Arguments:
@@ -6345,7 +6351,7 @@ MonoBehaviour:
     m_ActionName: Grounded/Grab[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968844}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
         m_MethodName: HandleZAir
         m_Mode: 0
@@ -6409,7 +6415,7 @@ MonoBehaviour:
     m_ActionName: Grounded/Attack[/Mouse/delta]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968847}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
         m_MethodName: HandleJumpGetup
         m_Mode: 0
@@ -6425,7 +6431,7 @@ MonoBehaviour:
     m_ActionName: EdgeGrab/JumpGetup[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968847}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
         m_MethodName: HandleMovement
         m_Mode: 0
@@ -6441,7 +6447,7 @@ MonoBehaviour:
     m_ActionName: EdgeGrab/Movement[/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968847}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
         m_MethodName: HandleLetGo
         m_Mode: 0
@@ -6457,7 +6463,7 @@ MonoBehaviour:
     m_ActionName: EdgeGrab/LetGo[/Keyboard/s]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968847}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
         m_MethodName: HandleRollGetup
         m_Mode: 0
@@ -6473,7 +6479,7 @@ MonoBehaviour:
     m_ActionName: EdgeGrab/RollGetup[/Keyboard/shift]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968847}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: KeyboardEdgeActionHandler, Assembly-CSharp
         m_MethodName: HandleAttackGetup
         m_Mode: 0
@@ -6489,7 +6495,7 @@ MonoBehaviour:
     m_ActionName: EdgeGrab/AttackGetup[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968844}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: KeyboardAirborneActionHandler, Assembly-CSharp
         m_MethodName: HandleEdgeGrab
         m_Mode: 0
@@ -6512,13 +6518,25 @@ MonoBehaviour:
     m_ActionId: ce88b1c8-f9a8-4cd8-ab00-5eb771b22210
     m_ActionName: Grounded/Special(Button)[/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
+        m_MethodName: HandleSmash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: a3970728-888c-4896-942b-e48ecc10a096
     m_ActionName: Grounded/Smash[/XInputControllerWindows/rightStick]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968848}
-        m_TargetAssemblyTypeName: FighterActionHandler, Assembly-CSharp
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
         m_MethodName: HandleDashKeyboard
         m_Mode: 0
         m_Arguments:
@@ -6533,8 +6551,8 @@ MonoBehaviour:
     m_ActionName: Grounded/New action
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968848}
-        m_TargetAssemblyTypeName: FighterActionHandler, Assembly-CSharp
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
         m_MethodName: HandleDashXBox
         m_Mode: 0
         m_Arguments:
@@ -6549,8 +6567,8 @@ MonoBehaviour:
     m_ActionName: Grounded/Snap
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2025968848}
-        m_TargetAssemblyTypeName: FighterActionHandler, Assembly-CSharp
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
         m_MethodName: HandleFallThrough
         m_Mode: 0
         m_Arguments:
@@ -6563,6 +6581,86 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9c3a1a97-c4c9-4da7-8045-ee124a8fcc32
     m_ActionName: Grounded/FallThrough[/Keyboard/s]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
+        m_MethodName: HandleJumpHold
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 537c977c-0d90-4da6-a5e7-0471da35e3d5
+    m_ActionName: Grounded/JumpHold[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
+        m_MethodName: HandleAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 03278759-b763-4037-941c-fc85befdd1e1
+    m_ActionName: Grounded/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
+        m_MethodName: HandleSpecial
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ffacc37c-0ed8-41f2-b2c8-f41c1c2bb640
+    m_ActionName: Grounded/Special[/XInputControllerWindows/leftStick,/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
+        m_MethodName: HandleRightJoystick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 696f186f-8894-44b0-8bb5-ad93385c3a15
+    m_ActionName: Grounded/RightJoystick[/XInputControllerWindows/rightStick]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
+        m_MethodName: HandleSpecialSmash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ec89e42b-8817-4352-ab59-6af3321fa5d6
+    m_ActionName: Grounded/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard & Mouse
   m_DefaultActionMap: Grounded
@@ -6577,9 +6675,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2025968840}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4cb1090aa47ead459d86f0210e82e4a, type: 3}
+  m_Script: {fileID: 11500000, guid: bc77c59d50c3e8b4a80ec445e4a0e6f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  joystick: {x: 0, y: 0}
+  isShieldKeyDown: 0
+  isAttackKeyDown: 0
+  isSpecialKeyDown: 0
+  isJumpKeyDown: 0
+  actionInput:
+    type: 0
+    input: {x: 0, y: 0}
+    strength: 0
 --- !u!114 &2025968845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6638,19 +6745,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2025968840}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c555e6e26ee784daf30ffbc7a9bd11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2025968848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2025968840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d49d2c1e66e19db41a6cfd8389a24bde, type: 3}
+  m_Script: {fileID: 11500000, guid: ae037dbc4f2d04a4fafd1860755b1384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!50 &2025968849
@@ -6729,19 +6824,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: 20
   maxFallSpeed: 5
---- !u!114 &2025968854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2025968840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a6eb7800b90f184d9bf7d8dacc6ca8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  joystick: {x: 0, y: 0}
 --- !u!114 &2025968855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6754,9 +6836,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73a4b183b76d7a438da8d332bbc668f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxWalkSpeed: 15
-  walkAccelerationRate: 100
-  groundDecelerationRate: 2
+  maxWalkSpeed: 5
+  walkAccelerationRate: 25
+  groundDecelerationRate: 40
   initialDashSpeed: 6
   dashAccelerationRate: 40
   maxDashSpeed: 12

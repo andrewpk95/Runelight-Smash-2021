@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(JoystickComponent))]
+[RequireComponent(typeof(InputComponent))]
 [RequireComponent(typeof(SlopeComponent))]
 [RequireComponent(typeof(VelocityComponent))]
 
@@ -14,14 +14,14 @@ public class AirMovementComponent : MonoBehaviour
     public float airDecelerationRate = 10.0f;
 
     // Required Components
-    private JoystickComponent joystickComponent;
+    private InputComponent inputComponent;
     private SlopeComponent slopeComponent;
     private VelocityComponent velocityComponent;
 
     void Start()
     {
         slopeComponent = GetComponent<SlopeComponent>();
-        joystickComponent = GetComponent<JoystickComponent>();
+        inputComponent = GetComponent<InputComponent>();
         velocityComponent = GetComponent<VelocityComponent>();
     }
 
@@ -35,9 +35,9 @@ public class AirMovementComponent : MonoBehaviour
 
     private void ApplyAirMovement()
     {
-        if (Mathf.Abs(joystickComponent.joystick.x) > 0)
+        if (Mathf.Abs(inputComponent.joystick.x) > 0)
         {
-            velocityComponent.velocity.x = Velocity.GetNewVelocity(velocityComponent.velocity.x, joystickComponent.joystick.x * maxAirSpeed, airAccelerationRate);
+            velocityComponent.velocity.x = Velocity.GetNewVelocity(velocityComponent.velocity.x, inputComponent.joystick.x * maxAirSpeed, airAccelerationRate);
         }
         else
         {
