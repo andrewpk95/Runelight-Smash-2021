@@ -143,6 +143,29 @@ public class LocalInputComponent : MonoBehaviour
         }
     }
 
+    public void HandleSpecial(InputAction.CallbackContext input)
+    {
+        if (input.performed)
+        {
+            AttackInputStruct value = input.ReadValue<AttackInputStruct>();
+            Debug.Log($"Special Performed {value.joystick} {value.button}");
+        }
+    }
+
+    public void HandleSpecialSmash(InputAction.CallbackContext input)
+    {
+        AttackInputStruct value = input.ReadValue<AttackInputStruct>();
+
+        if (input.started)
+        {
+            Debug.Log($"Charging {value.joystick} {value.button}");
+        }
+        if (input.performed)
+        {
+            Debug.Log($"Release Special {value.joystick} {value.button}");
+        }
+    }
+
     public void HandleRightJoystick(InputAction.CallbackContext input)
     {
         Vector2 direction = input.ReadValue<Vector2>();

@@ -142,6 +142,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Special Smash",
+                    "type": "Value",
+                    "id": "ec89e42b-8817-4352-ab59-6af3321fa5d6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "RightJoystick",
                     "type": "Value",
                     "id": "696f186f-8894-44b0-8bb5-ad93385c3a15",
@@ -590,6 +598,39 @@
                     "action": "RightJoystick",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Tap Input",
+                    "id": "6cac8251-65c1-4528-9a51-9d05bc4908bd",
+                    "path": "GamepadAttack",
+                    "interactions": "GamepadSmash",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Special Smash",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "joystick",
+                    "id": "df7fc175-e7a3-4a30-95d6-6aeb55d93d6c",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Special Smash",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "bc21fade-39af-4c55-81f2-c7dcd96dbdc4",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Special Smash",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

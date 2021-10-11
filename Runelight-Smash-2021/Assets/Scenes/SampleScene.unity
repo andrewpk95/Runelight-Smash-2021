@@ -6614,7 +6614,19 @@ MonoBehaviour:
     m_ActionId: 03278759-b763-4037-941c-fc85befdd1e1
     m_ActionName: Grounded/New action
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
+        m_MethodName: HandleSpecial
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: ffacc37c-0ed8-41f2-b2c8-f41c1c2bb640
     m_ActionName: Grounded/Special[/XInputControllerWindows/leftStick,/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
@@ -6633,6 +6645,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 696f186f-8894-44b0-8bb5-ad93385c3a15
     m_ActionName: Grounded/RightJoystick[/XInputControllerWindows/rightStick]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2025968847}
+        m_TargetAssemblyTypeName: LocalInputComponent, Assembly-CSharp
+        m_MethodName: HandleSpecialSmash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ec89e42b-8817-4352-ab59-6af3321fa5d6
+    m_ActionName: Grounded/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard & Mouse
   m_DefaultActionMap: Grounded
