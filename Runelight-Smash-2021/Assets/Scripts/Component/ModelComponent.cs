@@ -3,37 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.U2D.Animation;
 
-[System.Serializable]
-public class FlipableSpriteRecord
-{
-    public string category;
-    public SpriteResolver resolver;
-}
-
 public class ModelComponent : MonoBehaviour
 {
+    private bool isFacingRight = true;
+
     [SerializeField]
-    public List<FlipableSpriteRecord> flipableSprites;
+    private List<SpriteResolver> flipableSprites;
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateSpriteDirection(bool isFacingRight)
     {
-        UpdateSpriteDirection();
-    }
-
-    void OnValidate()
-    {
-        UpdateSpriteDirection();
-    }
-
-    void UpdateSpriteDirection()
-    {
-        foreach (FlipableSpriteRecord record in flipableSprites)
+        if (this.isFacingRight == isFacingRight)
         {
-            SpriteResolver resolver = record.resolver;
-            string label = resolver.transform.lossyScale.x > 0 ? "Right" : "Left";
+            return;
+        }
+        Debug.Log(isFacingRight);
+        this.isFacingRight = isFacingRight;
+        transform.localScale = new Vector3(isFacingRight ? 1 : -1, 1, 1);
 
-            resolver.SetCategoryAndLabel(record.category, label);
+        foreach (SpriteResolver resolver in flipableSprites)
+        {
+            if (resolver == null)
+            {
+                continue;
+            }
+            string label = isFacingRight ? "Right" : "Left";
+
+            resolver.SetCategoryAndLabel(resolver.GetCategory(), label);
             resolver.ResolveSpriteToSpriteRenderer();
         }
     }

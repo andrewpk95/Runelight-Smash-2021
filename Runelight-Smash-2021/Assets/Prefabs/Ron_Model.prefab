@@ -318,36 +318,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57da332de28f49345bedac81fb455357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  list:
-  - category: RightUpperLeg
-    resolver: {fileID: 1632481731297604341}
---- !u!114 &8570137841734829539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7177492324600923558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 097b551f2844b054290f18a39bf892e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Solvers:
-  - {fileID: 828701317941917736}
-  - {fileID: 3167021344634907465}
-  - {fileID: 938461084642331898}
-  - {fileID: 5012728976855826906}
-  m_Weight: 1
-  m_SolverEditorData:
-  - color: {r: 0, g: 1, b: 0, a: 1}
-    showGizmo: 1
-  - color: {r: 0, g: 1, b: 0, a: 1}
-    showGizmo: 1
-  - color: {r: 0, g: 1, b: 0, a: 1}
-    showGizmo: 1
-  - color: {r: 0, g: 1, b: 0, a: 1}
-    showGizmo: 1
+  flipableSprites:
+  - {fileID: 1632481731297604341}
 --- !u!1001 &4487231865863917252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1524,6 +1496,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -2459446267590614182, guid: a94419b0ff66731468b52d5be96eac24, type: 3}
   m_PrefabInstance: {fileID: 4487231866674849532}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2149437882724890417 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -6660384293214088755, guid: a94419b0ff66731468b52d5be96eac24, type: 3}
+  m_PrefabInstance: {fileID: 4487231866674849532}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1632481731297604341 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2946028053810729993, guid: a94419b0ff66731468b52d5be96eac24, type: 3}
@@ -1590,16 +1567,38 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -1459624529521770830, guid: a94419b0ff66731468b52d5be96eac24, type: 3}
   m_PrefabInstance: {fileID: 4487231866674849532}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &2149437882724890417 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -6660384293214088755, guid: a94419b0ff66731468b52d5be96eac24, type: 3}
-  m_PrefabInstance: {fileID: 4487231866674849532}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6000052053001566951 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1368621398859883493, guid: a94419b0ff66731468b52d5be96eac24, type: 3}
   m_PrefabInstance: {fileID: 4487231866674849532}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8570137841734829539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7177492324600923558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 097b551f2844b054290f18a39bf892e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Solvers:
+  - {fileID: 828701317941917736}
+  - {fileID: 3167021344634907465}
+  - {fileID: 938461084642331898}
+  - {fileID: 5012728976855826906}
+  m_Weight: 1
+  m_SolverEditorData:
+  - color: {r: 0, g: 1, b: 0, a: 1}
+    showGizmo: 1
+  - color: {r: 0, g: 1, b: 0, a: 1}
+    showGizmo: 1
+  - color: {r: 0, g: 1, b: 0, a: 1}
+    showGizmo: 1
+  - color: {r: 0, g: 1, b: 0, a: 1}
+    showGizmo: 1
 --- !u!1001 &4487231867677386506
 PrefabInstance:
   m_ObjectHideFlags: 0
