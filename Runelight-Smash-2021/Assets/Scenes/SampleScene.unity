@@ -6032,6 +6032,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1996227120 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4466218027961348429, guid: 7d40c17ed3ff74649a9d7a2ac2b22dbd, type: 3}
+  m_PrefabInstance: {fileID: 4487231867280688947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2025968840
 GameObject:
   m_ObjectHideFlags: 0
@@ -6044,6 +6049,7 @@ GameObject:
   - component: {fileID: 2025968843}
   - component: {fileID: 2025968847}
   - component: {fileID: 2025968844}
+  - component: {fileID: 2025968854}
   - component: {fileID: 2025968848}
   - component: {fileID: 2025968846}
   - component: {fileID: 2025968855}
@@ -6783,6 +6789,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: 20
   maxFallSpeed: 5
+--- !u!114 &2025968854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025968840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276d8979dae665f4f9fac465e82a71ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1996227120}
+  currentState: 
 --- !u!114 &2025968855
 MonoBehaviour:
   m_ObjectHideFlags: 0
